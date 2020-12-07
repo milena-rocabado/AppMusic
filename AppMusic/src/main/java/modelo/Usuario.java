@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Usuario {
-	private int codigo;
+	private int id;
 	private String usuario;
-	private String clave;
+	private String password;
 	private String email;
 	private String nombre;
 	private String apellidos;
@@ -17,23 +17,23 @@ public class Usuario {
 	private Descuento descuento;
 	private List<ListaCanciones> listas;
 
-	public Usuario(String usuario, String clave, String email, String nombre, String apellidos, LocalDate fecha) {
+	public Usuario(String usuario, String clave, String email, String nombre, String apellidos, String fecha) {
 		this.usuario = usuario;
-		this.clave = clave;
+		this.password = clave;
 		this.email = email;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
-		this.fecha = fecha;
+		this.fecha = LocalDate.parse(fecha);
 		this.premium = false;
 		this.listas = new LinkedList<>();
 	}
 
-	public int getCodigo() {
-		return codigo;
+	public int getId() {
+		return id;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setId(int codigo) {
+		this.id = codigo;
 	}
 
 	public String getNombre() {
@@ -68,12 +68,12 @@ public class Usuario {
 		this.usuario = usuario;
 	}
 	
-	public String getClave() {
-		return clave;
+	public String getPassword() {
+		return password;
 	}
 	
-	public void setClave(String password) {
-		this.clave = password;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public boolean isPremium() {
@@ -84,11 +84,15 @@ public class Usuario {
 		this.premium = premium;
 	}
 	
-	public LocalDate getFecha() {
+	public LocalDate getFechaNacimiento() {
 		return fecha;
 	}
 	
-	public void setFecha(LocalDate fecha) {
+	public String getFechaNacimientoStr() {
+		return fecha.toString();
+	}
+	
+	public void setFechaNacimiento(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 	
@@ -101,7 +105,7 @@ public class Usuario {
 	}
 
 	public boolean login(String clave) {
-		return this.clave.equals(clave);
+		return this.password.equals(clave);
 	}
 	
 	public void realizarPago() {}

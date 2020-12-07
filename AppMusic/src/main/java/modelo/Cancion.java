@@ -1,26 +1,29 @@
 package modelo;
 
 public final class Cancion {
-	private int codigo;
+	private int id;
 	private final String titulo;
 	private final String interprete;
 	private int numReproducciones;
-	private EstiloMusical estilo;
+	private String estilo;
 	
-	public Cancion(String titulo, String interprete, EstiloMusical estilo) {
-		this.codigo = 0;
+	public Cancion(String titulo, String interprete, String estilo, int nreproducciones) {
 		this.titulo = titulo;
 		this.interprete = interprete;
-		this.numReproducciones = 0;
+		this.numReproducciones = nreproducciones;
 		this.estilo = estilo;
 	}
 	
-	public int getCodigo() {
-		return codigo;
+	public Cancion(String titulo, String interprete, String estilo, String nreproducciones) {
+		this(titulo, interprete, estilo, Integer.parseInt(nreproducciones));
+	}
+	
+	public int getId() {
+		return id;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitulo() {
@@ -38,12 +41,16 @@ public final class Cancion {
 	public int getNumReproducciones() {
 		return numReproducciones;
 	}
+	
+	public String getNumReproduccionesStr() {
+		return Integer.toString(numReproducciones);
+	}
 
-	public EstiloMusical getEstilo() {
+	public String getEstilo() {
 		return estilo;
 	}
 
-	public void setEstilo(EstiloMusical estilo) {
+	public void setEstilo(String estilo) {
 		this.estilo = estilo;
 	}
 
@@ -55,7 +62,7 @@ public final class Cancion {
 		return this.interprete.equals(nombre);
 	}
 	
-	public boolean esEstiloMusical(EstiloMusical estilo) {
+	public boolean esEstiloMusical(String estilo) {
 		return this.estilo.equals(estilo);
 	}
 }

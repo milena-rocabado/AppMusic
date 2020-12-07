@@ -9,6 +9,6 @@ public interface UsuarioDAO {
 	public void create(Usuario usuario);
 	public void delete(Usuario usuario);
 	public void update(Usuario usuario);
-	public Usuario get(int codigo);
+	public Usuario get(int id);
 	List<Usuario> getAll();
 }

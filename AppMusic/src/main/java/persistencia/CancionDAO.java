@@ -8,6 +8,6 @@ public interface CancionDAO {
 
 	void create(Cancion cancion);
 	void delete(Cancion cancion);
-	Cancion get(int codigo);
+	Cancion get(int id);
 	List<Cancion> getAll();
 }

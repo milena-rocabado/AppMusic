@@ -22,7 +22,7 @@ public class CatalogoCanciones {
 	
 	public Cancion getCancion(int codigo) {
 		for (Cancion c : canciones.values()) {
-			if (c.getCodigo() == codigo) return c;
+			if (c.getId() == codigo) return c;
 		}
 		return null;
 	}
@@ -51,7 +51,7 @@ public class CatalogoCanciones {
 		return lista;
 	}
 	
-	public List<Cancion> getCancionEstilo(EstiloMusical estilo) {
+	public List<Cancion> getCancionEstilo(String estilo) {
 		List<Cancion> canciones = new LinkedList<>();
 		for (Cancion c : this.canciones.values()) {
 			if (c.esEstiloMusical(estilo)) canciones.add(c);
@@ -60,10 +60,10 @@ public class CatalogoCanciones {
 	}
 	
 	public void addCancion(Cancion cancion) {
-		canciones.put(cancion.getCodigo(), cancion);
+		canciones.put(cancion.getId(), cancion);
 	}
 	
 	public void removeCancion(Cancion cancion) {
-		canciones.remove(cancion.getCodigo());
+		canciones.remove(cancion.getId());
 	}
 }
