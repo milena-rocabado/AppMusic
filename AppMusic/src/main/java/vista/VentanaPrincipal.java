@@ -21,6 +21,8 @@ import java.awt.Dimension;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 public class VentanaPrincipal {
 
@@ -34,10 +36,13 @@ public class VentanaPrincipal {
 	private JButton nlistaBtn;
 	private JButton recienteBtn;
 	private JButton listaBtn;
-	private JPanel emptyPanel;
 	private JPanel mainPanel;
 	private PanelExplora panelExplora;
 	private PanelNuevaLista panelNLista;
+	private PanelMisListas panelListas;
+	private PanelMisListas panelReciente;
+	private JList listas;
+	private JScrollPane listaScrollPane;
 	
 	/*
 	 * SACAR DESPUES
@@ -108,11 +113,28 @@ public class VentanaPrincipal {
 		frame.getContentPane().add(sidebarPanel, BorderLayout.WEST);
 		GridBagLayout gbl_sidebarPanel = new GridBagLayout();
 		gbl_sidebarPanel.columnWidths = new int[]{20, 0, 20, 0};
-		gbl_sidebarPanel.rowHeights = new int[]{20, 0, 0, 0, 0, 20, 0};
+		gbl_sidebarPanel.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 20, 0};
 		gbl_sidebarPanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_sidebarPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_sidebarPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		sidebarPanel.setLayout(gbl_sidebarPanel);
 		
+		initBotonesSidebar();
+		
+		addBotonesSidebar();
+		addListasSidebar();
+		listaScrollPane.setVisible(false);
+		
+		panelReciente = new PanelMisListas(null);
+		panelReciente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		mainPanel = panelReciente;
+		
+		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+		frame.setBounds(100, 100, 654, 395);
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	private void initBotonesSidebar() {
 		descubreBtn = new JButton("Descubre");
 		descubreBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -123,21 +145,13 @@ public class VentanaPrincipal {
 				mainPanel = panelExplora;
 				frame.getContentPane().add(panelExplora, BorderLayout.CENTER);
 				
-				frame.getContentPane().revalidate();
-				frame.getContentPane().repaint();
-				frame.getContentPane().validate();
+				actualizarVentana();
 				
 				// Si se le da al boton cuando ya está visible el panel explora pasa algo raro
 				// comprobar si el panel visible actualmente es explora(?
 			}
 		});
 		descubreBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/antenna3d-32.png")));
-		GridBagConstraints gbc_descubreBtn = new GridBagConstraints();
-		gbc_descubreBtn.fill = GridBagConstraints.HORIZONTAL;
-		gbc_descubreBtn.insets = new Insets(0, 0, 5, 5);
-		gbc_descubreBtn.gridx = 1;
-		gbc_descubreBtn.gridy = 1;
-		sidebarPanel.add(descubreBtn, gbc_descubreBtn);
 		
 		nlistaBtn = new JButton("Nueva Lista");
 		nlistaBtn.addActionListener(new ActionListener() {
@@ -147,13 +161,47 @@ public class VentanaPrincipal {
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelNLista;
 				frame.getContentPane().add(panelNLista, BorderLayout.CENTER);
-				
-				frame.getContentPane().revalidate();
-				frame.getContentPane().repaint();
-				frame.getContentPane().validate();
+				actualizarVentana();
 			}
 		});
 		nlistaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/link-32.png")));
+		
+		recienteBtn = new JButton("Reciente");
+		recienteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frame.getContentPane().remove(mainPanel);
+				mainPanel = panelReciente;
+				frame.getContentPane().add(panelReciente, BorderLayout.CENTER);
+				actualizarVentana();
+			}
+		});
+		recienteBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/headphones-32.png")));
+		
+		listaBtn = new JButton("Mis Listas");
+		listaBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listaScrollPane.setVisible(true);
+				panelListas = new PanelMisListas(null);
+				panelListas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				frame.getContentPane().remove(mainPanel);
+				mainPanel = panelListas;
+				frame.getContentPane().add(panelListas, BorderLayout.CENTER);
+				actualizarVentana();
+			}
+		});
+		listaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/papers-32.png")));
+	}
+	
+	private void addBotonesSidebar() {
+		GridBagConstraints gbc_descubreBtn = new GridBagConstraints();
+		gbc_descubreBtn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_descubreBtn.insets = new Insets(0, 0, 5, 5);
+		gbc_descubreBtn.gridx = 1;
+		gbc_descubreBtn.gridy = 1;
+		sidebarPanel.add(descubreBtn, gbc_descubreBtn);
+		
+		
 		GridBagConstraints gbc_nlistaBtn = new GridBagConstraints();
 		gbc_nlistaBtn.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nlistaBtn.insets = new Insets(0, 0, 5, 5);
@@ -161,8 +209,7 @@ public class VentanaPrincipal {
 		gbc_nlistaBtn.gridy = 2;
 		sidebarPanel.add(nlistaBtn, gbc_nlistaBtn);
 		
-		recienteBtn = new JButton("Reciente");
-		recienteBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/headphones-32.png")));
+		
 		GridBagConstraints gbc_recienteBtn = new GridBagConstraints();
 		gbc_recienteBtn.fill = GridBagConstraints.HORIZONTAL;
 		gbc_recienteBtn.insets = new Insets(0, 0, 5, 5);
@@ -170,24 +217,32 @@ public class VentanaPrincipal {
 		gbc_recienteBtn.gridy = 3;
 		sidebarPanel.add(recienteBtn, gbc_recienteBtn);
 		
-		listaBtn = new JButton("Mis Listas");
-		listaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/papers-32.png")));
 		GridBagConstraints gbc_listaBtn = new GridBagConstraints();
 		gbc_listaBtn.insets = new Insets(0, 0, 5, 5);
 		gbc_listaBtn.fill = GridBagConstraints.HORIZONTAL;
 		gbc_listaBtn.gridx = 1;
 		gbc_listaBtn.gridy = 4;
 		sidebarPanel.add(listaBtn, gbc_listaBtn);
-		
-		emptyPanel = new JPanel();
-		emptyPanel.setBackground(new Color(240, 255, 255));
-		emptyPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		mainPanel = emptyPanel;
-		
-		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-		frame.setBounds(100, 100, 654, 395);
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	
+	private void addListasSidebar() {
+		listaScrollPane = new JScrollPane();
+		GridBagConstraints gbc_listaScrollPane = new GridBagConstraints();
+		gbc_listaScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_listaScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_listaScrollPane.gridx = 1;
+		gbc_listaScrollPane.gridy = 5;
+		sidebarPanel.add(listaScrollPane, gbc_listaScrollPane);
+		
+		listas = new JList();
+		listaScrollPane.setViewportView(listas);
+		frame.pack();
+	}
+	
+	private void actualizarVentana() {
+		frame.getContentPane().revalidate();
+		frame.getContentPane().repaint();
+		frame.getContentPane().validate();
+	}
 }
+

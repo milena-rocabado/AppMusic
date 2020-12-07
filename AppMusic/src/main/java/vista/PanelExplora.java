@@ -31,6 +31,7 @@ public class PanelExplora extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelExplora() {
+		setPreferredSize(new Dimension(450, 300));
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 0, 0, 15, 0, 0, 15, 15, 0, 15, 0};
@@ -98,7 +99,7 @@ public class PanelExplora extends JPanel {
 				table.setPreferredSize(new Dimension(200, 200));
 				// ^ establecer en función del n de canciones que coincidan con la busqueda
 				table.setVisible(true);
-				mostrarBotones();
+				btnPanel.setVisible(true);
 				actualizarPanel();
 			}
 		});
@@ -120,7 +121,7 @@ public class PanelExplora extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		scrollPane.setVisible(false);
 		
-		btnPanel = new JPanel();
+		btnPanel = new PanelBotonera();
 		btnPanel.setBackground(new Color(240, 255, 255));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -129,37 +130,7 @@ public class PanelExplora extends JPanel {
 		gbc_panel.gridx = 2;
 		gbc_panel.gridy = 5;
 		add(btnPanel, gbc_panel);
-		
-		prevBtn = new JButton("prev");
-		prevBtn.setPreferredSize(new Dimension(61, 23));
-		btnPanel.add(prevBtn);
-		
-		playBtn = new JButton("play");
-		playBtn.setPreferredSize(new Dimension(61, 23));
-		btnPanel.add(playBtn);
-		
-		pauseBtn = new JButton("pause");
-		btnPanel.add(pauseBtn);
-		
-		nxtBtn = new JButton("nxt");
-		nxtBtn.setPreferredSize(new Dimension(61, 23));
-		btnPanel.add(nxtBtn);
-		
-		ocultarBotones();
-	}
-	
-	private void ocultarBotones() {
-		prevBtn.setVisible(false);
-		playBtn.setVisible(false);
-		pauseBtn.setVisible(false);
-		nxtBtn.setVisible(false);
-	}
-
-	private void mostrarBotones() {
-		prevBtn.setVisible(true);
-		playBtn.setVisible(true);
-		pauseBtn.setVisible(true);
-		nxtBtn.setVisible(true);
+		btnPanel.setVisible(false);
 	}
 	
 	private void actualizarPanel() {
