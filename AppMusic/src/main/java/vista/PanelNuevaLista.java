@@ -52,8 +52,6 @@ public class PanelNuevaLista extends JPanel {
 					
 					if (opt == JOptionPane.YES_OPTION) {
 						panelCLista = new PanelCreacionLista(nombre);
-						
-						panelCLista.setBackground(new Color(240, 255, 255));
 						GridBagConstraints gbc_panel = new GridBagConstraints();
 						gbc_panel.gridwidth = 3;
 						gbc_panel.insets = new Insets(0, 0, 5, 5);

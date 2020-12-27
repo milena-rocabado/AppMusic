@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JTable;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,10 +15,11 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
+import modelo.Cancion;
 import modelo.ListaCanciones;
 
 @SuppressWarnings("serial")
-public class PanelCreacionLista extends JPanel {
+public class PanelCreacionLista extends JPanel implements BusquedaListener {
 	private JTable busqueda;
 	private JTextField tituloField;
 	private JTextField interpField;
@@ -31,6 +34,9 @@ public class PanelCreacionLista extends JPanel {
 		inicializarPanel();
 	}
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public PanelCreacionLista(String nombre) {
 		lista = new ListaCanciones(nombre);
 		inicializarPanel();
@@ -45,8 +51,12 @@ public class PanelCreacionLista extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JPanel busquedaPanel = new JPanel();
-		busquedaPanel.setBackground(new Color(240, 255, 255));
+		
+		// no sale :((((
+		// pero en el panel explora funciona bien
+		//panel de búsqueda
+		JPanel busquedaPanel = new JPanel();//PanelBusqueda(this);
+		busquedaPanel.setBackground(new Color(255, 0, 0));
 		GridBagConstraints gbc_busquedaPanel = new GridBagConstraints();
 		gbc_busquedaPanel.gridwidth = 3;
 		gbc_busquedaPanel.insets = new Insets(0, 0, 5, 0);
@@ -54,24 +64,12 @@ public class PanelCreacionLista extends JPanel {
 		gbc_busquedaPanel.gridx = 0;
 		gbc_busquedaPanel.gridy = 0;
 		add(busquedaPanel, gbc_busquedaPanel);
+		//panel de búsqueda fin
 		
-		tituloField = new JTextField();
-		tituloField.setPreferredSize(new Dimension(100, 20));
-		busquedaPanel.add(tituloField);
-		tituloField.setColumns(10);
-		
-		interpField = new JTextField();
-		interpField.setPreferredSize(new Dimension(100, 20));
-		busquedaPanel.add(interpField);
-		interpField.setColumns(10);
-		
-		
-		JComboBox estiloCBox = new JComboBox();
-		estiloCBox.setPreferredSize(new Dimension(100, 22));
-		busquedaPanel.add(estiloCBox);
-		
-		JButton buscarBtn = new JButton("Buscar");
-		busquedaPanel.add(buscarBtn);
+
+		revalidate();
+		repaint();
+		validate();
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -130,6 +128,11 @@ public class PanelCreacionLista extends JPanel {
 		
 		JButton aceptar = new JButton("Aceptar");
 		confirmarPanel.add(aceptar);
+	}
+
+	@Override
+	public void handleBusqueda(List<Cancion> busqueda) {
+		// mostrar lista de canciones a la izq
 	}
 
 }

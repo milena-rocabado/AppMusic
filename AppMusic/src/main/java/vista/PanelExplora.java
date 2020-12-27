@@ -22,13 +22,11 @@ import controlador.AppMusic;
 import modelo.Cancion;
 
 @SuppressWarnings("serial")
-public class PanelExplora extends JPanel {
-	private JTextField interpField;
-	private JTextField tituloField;
+public class PanelExplora extends JPanel implements BusquedaListener {
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JPanel btnPanel;
-	JComboBox<String> estiloCBox;
+	private JPanel busquedaPanel;
 	
 	/**
 	 * Create the panel.
@@ -37,105 +35,24 @@ public class PanelExplora extends JPanel {
 		setPreferredSize(new Dimension(450, 300));
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{15, 0, 0, 15, 0, 0, 15, 15, 0, 15, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 0, 15, 0, 0, 15, 0};
+		gridBagLayout.columnWidths = new int[]{10, 0, 0, 15, 0, 0, 15, 15, 0, 10, 0};
+		gridBagLayout.rowHeights = new int[]{10, 0, 15, 0, 0, 15, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		interpField = new JTextField();
-		interpField.setToolTipText("Intérprete");
-		GridBagConstraints gbc_interpField = new GridBagConstraints();
-		gbc_interpField.gridwidth = 2;
-		gbc_interpField.insets = new Insets(0, 0, 5, 5);
-		gbc_interpField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_interpField.gridx = 1;
-		gbc_interpField.gridy = 1;
-		add(interpField, gbc_interpField);
-		interpField.setColumns(10);
-		
-		tituloField = new JTextField();
-		tituloField.setToolTipText("Título");
-		GridBagConstraints gbc_tituloField = new GridBagConstraints();
-		gbc_tituloField.gridwidth = 2;
-		gbc_tituloField.insets = new Insets(0, 0, 5, 5);
-		gbc_tituloField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tituloField.gridx = 4;
-		gbc_tituloField.gridy = 1;
-		add(tituloField, gbc_tituloField);
-		tituloField.setColumns(10);
-		
-		estiloCBox = new JComboBox<>();
-		estiloCBox.setPreferredSize(new Dimension(100, 22));
-		GridBagConstraints gbc_estiloCBox = new GridBagConstraints();
-		gbc_estiloCBox.gridwidth = 2;
-		gbc_estiloCBox.insets = new Insets(0, 0, 5, 5);
-		gbc_estiloCBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_estiloCBox.gridx = 7;
-		gbc_estiloCBox.gridy = 1;
 		
 		List<String> estilos = AppMusic.getInstancia().getEstilos();
 		//
-		estilos.add("Metal");
-		estilos.add("Rock");
-		estilos.add("Indie");
-		estilos.add("Pop");
-		//
-		estiloCBox.addItem("Estilo");
-		for (String e : estilos) {
-			estiloCBox.addItem(e);
-		}
-		add(estiloCBox, gbc_estiloCBox);
+		busquedaPanel = new PanelBusqueda(this);
+		GridBagConstraints gbc_busquedaPanel = new GridBagConstraints();
+		gbc_busquedaPanel.gridwidth = 8;
+		gbc_busquedaPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_busquedaPanel.fill = GridBagConstraints.BOTH;
+		gbc_busquedaPanel.gridx = 1;
+		gbc_busquedaPanel.gridy = 1;
+		add(busquedaPanel, gbc_busquedaPanel);
 		
-		JButton cancelarBtn = new JButton("Cancelar");
-		cancelarBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// borrar la lista de canciones (?
-				scrollPane.setVisible(false);
-			}
-		});
-		GridBagConstraints gbc_cancelarBtn = new GridBagConstraints();
-		gbc_cancelarBtn.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cancelarBtn.gridwidth = 4;
-		gbc_cancelarBtn.insets = new Insets(0, 0, 5, 5);
-		gbc_cancelarBtn.gridx = 1;
-		gbc_cancelarBtn.gridy = 2;
-		add(cancelarBtn, gbc_cancelarBtn);
-		
-		JButton buscarBtn = new JButton("Buscar");
-		buscarBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String interprete = interpField.getText();
-				String titulo = tituloField.getText();
-				String estilo = (String) estiloCBox.getSelectedItem();
-				if (estilo.equals("Estilo")) estilo = "";
-				List<Cancion> lista = AppMusic.getInstancia().buscarCanciones(interprete, titulo, estilo);
-				
-				//
-				lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal", 24230842));
-				lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
-				//
-				
-				scrollPane.setVisible(true);
-				table = new JTable();
-				
-				table.setModel(modeloTabla(lista));
-				scrollPane.setViewportView(table);
-				table.setPreferredSize(new Dimension(200, 15*(lista.size()+1)));
-				// ^ establecer en función del n de canciones que coincidan con la busqueda (? o 200
-				table.setVisible(true);
-				btnPanel.setVisible(true);
-				actualizarPanel();
-			}
-		});
-		GridBagConstraints gbc_buscarBtn = new GridBagConstraints();
-		gbc_buscarBtn.fill = GridBagConstraints.HORIZONTAL;
-		gbc_buscarBtn.gridwidth = 4;
-		gbc_buscarBtn.insets = new Insets(0, 0, 5, 5);
-		gbc_buscarBtn.gridx = 5;
-		gbc_buscarBtn.gridy = 2;
-		add(buscarBtn, gbc_buscarBtn);
+		//panel de búsqueda fin
 		
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -143,7 +60,7 @@ public class PanelExplora extends JPanel {
 		gbc_scrollPane.gridwidth = 6;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.gridx = 2;
-		gbc_scrollPane.gridy = 4;
+		gbc_scrollPane.gridy = 3;
 		add(scrollPane, gbc_scrollPane);
 		scrollPane.setVisible(false);
 		
@@ -154,7 +71,7 @@ public class PanelExplora extends JPanel {
 		gbc_panel.gridwidth = 6;
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 5;
+		gbc_panel.gridy = 4;
 		add(btnPanel, gbc_panel);
 		btnPanel.setVisible(false);
 	}
@@ -174,5 +91,19 @@ public class PanelExplora extends JPanel {
 			modelo.addRow(contenido);
 		}
 		return modelo;
+	}
+	
+	@Override
+	public void handleBusqueda(List<Cancion> busqueda) {
+		scrollPane.setVisible(true);
+		table = new JTable();
+		
+		table.setModel(modeloTabla(busqueda));
+		scrollPane.setViewportView(table);
+		table.setPreferredSize(new Dimension(200, 15*(busqueda.size()+1)));
+		// ^ establecer en función del n de canciones que coincidan con la busqueda (? o 200
+		table.setVisible(true);
+		btnPanel.setVisible(true);
+		actualizarPanel();
 	}
 }
