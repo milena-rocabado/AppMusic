@@ -9,18 +9,26 @@ import modelo.CatalogoCanciones;
 import modelo.CatalogoUsuarios;
 import modelo.ListaCanciones;
 import modelo.Usuario;
+import persistencia.CancionDAO;
+import persistencia.DAOException;
+import persistencia.FactoriaDAO;
+import persistencia.UsuarioDAO;
 
 public class AppMusic {
 
 	private static AppMusic unicaInstancia = null;
+	
 	private CatalogoCanciones cCanciones;
 	private CatalogoUsuarios cUsuarios;
+	
+	private CancionDAO cancionDAO;
+	private UsuarioDAO usuarioDAO;
+	
 	private Usuario usuarioActual;
 	
 	private AppMusic() {
-		cCanciones = CatalogoCanciones.getInstancia();
-		cUsuarios = CatalogoUsuarios.getInstancia();
-		
+		inicializarAdaptadores();
+		inicializarCatalogos();
 		//para que no falle por ahora
 		usuarioActual = new Usuario("milena", "1234", "", "Milena", "asfdsa", "2020-05-06");
 	}
@@ -28,6 +36,22 @@ public class AppMusic {
 	public static AppMusic getInstancia() {
 		if (unicaInstancia == null) unicaInstancia = new AppMusic();
 		return unicaInstancia;
+	}
+	
+	private void inicializarCatalogos() {
+		cCanciones = CatalogoCanciones.getInstancia();
+		cUsuarios = CatalogoUsuarios.getInstancia();
+	}
+	
+	private void inicializarAdaptadores() {
+		FactoriaDAO factoria = null;
+		try {
+			factoria = FactoriaDAO.getInstancia();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		cancionDAO = factoria.getCancionDAO();
+		usuarioDAO = factoria.getUsuarioDAO();
 	}
 	
 	public Usuario getUsuarioActual() {
@@ -49,6 +73,7 @@ public class AppMusic {
 	public boolean registrarUsuario(String usuario, String clave, String nombre, String apellidos, String email, LocalDate fecha) {
 		Usuario u = new Usuario(usuario, clave, nombre, apellidos, email, fecha);
 		cUsuarios.addUsuario(u);
+		usuarioDAO.create(u);
 		usuarioActual = u;
 		return true;
 	}

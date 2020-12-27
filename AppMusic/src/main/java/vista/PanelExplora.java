@@ -91,6 +91,7 @@ public class PanelExplora extends JPanel {
 		cancelarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// borrar la lista de canciones (?
+				scrollPane.setVisible(false);
 			}
 		});
 		GridBagConstraints gbc_cancelarBtn = new GridBagConstraints();
@@ -116,7 +117,6 @@ public class PanelExplora extends JPanel {
 				lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
 				//
 				
-				// crear tabla con los contenios obtenidos
 				scrollPane.setVisible(true);
 				table = new JTable();
 				

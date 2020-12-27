@@ -11,10 +11,6 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public class PanelNuevaLista extends JPanel {
@@ -48,14 +44,14 @@ public class PanelNuevaLista extends JPanel {
 		crearBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = nombreField.getText();
-				boolean ok = true;
+				boolean existe = false;
 				// ^ comprobar si hay algun otro playlist con el mismo nombre
 				
-				if (ok) {					
+				if (existe) {					
 					int opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas crear una nueva lista?", "Nueva Lista", JOptionPane.YES_NO_OPTION);
 					
 					if (opt == JOptionPane.YES_OPTION) {
-						panelCLista = new PanelCreacionLista();
+						panelCLista = new PanelCreacionLista(nombre);
 						
 						panelCLista.setBackground(new Color(240, 255, 255));
 						GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -72,7 +68,11 @@ public class PanelNuevaLista extends JPanel {
 						// no hacer nada
 					}
 				} else {
-					JOptionPane.showMessageDialog(crearBtn, "Ya existe una lista con ese nombre.", "Lista existente", JOptionPane.WARNING_MESSAGE);
+					int opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas crear editar la lista "+nombre+"?", "Nueva Lista", JOptionPane.YES_NO_OPTION);
+					
+					if (opt == JOptionPane.YES_OPTION) {
+						
+					}
 				}
 			}
 		});
