@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -74,7 +77,7 @@ public class VentanaSignIn {
 		frame = new JFrame();
 		frame.setTitle("Registro AppMusic");
 		frame.setBounds(100, 100, 499, 341);
-		controlador = AppMusic.getUnicaInstancia();
+		controlador = AppMusic.getInstancia();
 		
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -251,8 +254,13 @@ public class VentanaSignIn {
 			public void actionPerformed(ActionEvent e) {
 				boolean ok = checkFields();
 				if (ok) {
-					boolean registrado = controlador.registrarUsuario(usuarioField.getText(), new String(contrField.getPassword()), 
-							nombreField.getText(), apellidosField.getText(), emailField.getText(), null);
+					boolean registrado = controlador.registrarUsuario(
+							usuarioField.getText(),
+							new String(contrField.getPassword()), 
+							nombreField.getText(),
+							apellidosField.getText(),
+							emailField.getText(),
+							toLocalDate(dateChooser.getDate()));
 					if (registrado) {
 						frame.dispose();
 						invocante.dispose();
@@ -303,6 +311,10 @@ public class VentanaSignIn {
 		
 		ocultarMensajesError();
 	}
+	
+	private LocalDate toLocalDate(Date date) {
+		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	}
 
 	private void ocultarMensajesError() {
 		usuarioErrorLabel.setVisible(false);
@@ -333,12 +345,11 @@ public class VentanaSignIn {
 			apellidosLabel.setForeground(Color.RED);
 			ok = false;
 		}
-		/*
-		if (dateChooser.getFecha()) {
+		if (dateChooser.getDate() == null) {
 			camposErrorLabel.setVisible(true);
 			fechaLabel.setForeground(Color.RED);
 			ok = false;
-		}*/
+		}
 		if (emailField.getText().isBlank()) {
 			camposErrorLabel.setVisible(true);
 			emailLabel.setForeground(Color.RED);

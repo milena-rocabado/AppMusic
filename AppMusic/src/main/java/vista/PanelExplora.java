@@ -12,8 +12,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+
+import controlador.AppMusic;
+import modelo.Cancion;
 
 @SuppressWarnings("serial")
 public class PanelExplora extends JPanel {
@@ -22,11 +28,8 @@ public class PanelExplora extends JPanel {
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JPanel btnPanel;
-	private JButton prevBtn;
-	private JButton playBtn;
-	private JButton pauseBtn;
-	private JButton nxtBtn;
-
+	JComboBox<String> estiloCBox;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -41,6 +44,7 @@ public class PanelExplora extends JPanel {
 		setLayout(gridBagLayout);
 		
 		interpField = new JTextField();
+		interpField.setToolTipText("Intérprete");
 		GridBagConstraints gbc_interpField = new GridBagConstraints();
 		gbc_interpField.gridwidth = 2;
 		gbc_interpField.insets = new Insets(0, 0, 5, 5);
@@ -51,6 +55,7 @@ public class PanelExplora extends JPanel {
 		interpField.setColumns(10);
 		
 		tituloField = new JTextField();
+		tituloField.setToolTipText("Título");
 		GridBagConstraints gbc_tituloField = new GridBagConstraints();
 		gbc_tituloField.gridwidth = 2;
 		gbc_tituloField.insets = new Insets(0, 0, 5, 5);
@@ -60,8 +65,7 @@ public class PanelExplora extends JPanel {
 		add(tituloField, gbc_tituloField);
 		tituloField.setColumns(10);
 		
-		// habria que llamar al controlador para llenar esto
-		JComboBox estiloCBox = new JComboBox();
+		estiloCBox = new JComboBox<>();
 		estiloCBox.setPreferredSize(new Dimension(100, 22));
 		GridBagConstraints gbc_estiloCBox = new GridBagConstraints();
 		gbc_estiloCBox.gridwidth = 2;
@@ -69,9 +73,26 @@ public class PanelExplora extends JPanel {
 		gbc_estiloCBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_estiloCBox.gridx = 7;
 		gbc_estiloCBox.gridy = 1;
+		
+		List<String> estilos = AppMusic.getInstancia().getEstilos();
+		//
+		estilos.add("Metal");
+		estilos.add("Rock");
+		estilos.add("Indie");
+		estilos.add("Pop");
+		//
+		estiloCBox.addItem("Estilo");
+		for (String e : estilos) {
+			estiloCBox.addItem(e);
+		}
 		add(estiloCBox, gbc_estiloCBox);
 		
 		JButton cancelarBtn = new JButton("Cancelar");
+		cancelarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// borrar la lista de canciones (?
+			}
+		});
 		GridBagConstraints gbc_cancelarBtn = new GridBagConstraints();
 		gbc_cancelarBtn.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cancelarBtn.gridwidth = 4;
@@ -83,21 +104,26 @@ public class PanelExplora extends JPanel {
 		JButton buscarBtn = new JButton("Buscar");
 		buscarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// leer lo que haya en los campos
-				// llamar al controlador etc
+				
+				String interprete = interpField.getText();
+				String titulo = tituloField.getText();
+				String estilo = (String) estiloCBox.getSelectedItem();
+				if (estilo.equals("Estilo")) estilo = "";
+				List<Cancion> lista = AppMusic.getInstancia().buscarCanciones(interprete, titulo, estilo);
+				
+				//
+				lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal", 24230842));
+				lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
+				//
+				
 				// crear tabla con los contenios obtenidos
 				scrollPane.setVisible(true);
 				table = new JTable();
-				table.setModel(new DefaultTableModel(
-					new Object[][] {
-					},
-					new String[] {
-						"Título", "Intérprete"
-					}
-				));
+				
+				table.setModel(modeloTabla(lista));
 				scrollPane.setViewportView(table);
-				table.setPreferredSize(new Dimension(200, 200));
-				// ^ establecer en función del n de canciones que coincidan con la busqueda
+				table.setPreferredSize(new Dimension(200, 15*(lista.size()+1)));
+				// ^ establecer en función del n de canciones que coincidan con la busqueda (? o 200
 				table.setVisible(true);
 				btnPanel.setVisible(true);
 				actualizarPanel();
@@ -136,5 +162,17 @@ public class PanelExplora extends JPanel {
 	private void actualizarPanel() {
 		this.revalidate();
 		this.repaint();
+	}
+	
+	private DefaultTableModel modeloTabla(List<Cancion> lista) {
+		String[] titulos = {"Intérprete", "Título"};
+		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+		String[] contenido = new String[2];
+		for (Cancion c : lista) {
+			contenido[0] = c.getInterprete();
+			contenido[1] = c.getTitulo();
+			modelo.addRow(contenido);
+		}
+		return modelo;
 	}
 }

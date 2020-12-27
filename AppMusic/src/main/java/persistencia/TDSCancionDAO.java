@@ -13,6 +13,7 @@ import tds.driver.ServicioPersistencia;
 
 public final class TDSCancionDAO implements CancionDAO {
 
+	private static TDSCancionDAO unicaInstancia;
 	private ServicioPersistencia sPersistencia;
 
 	private static final String CANCION = "cancion";
@@ -21,8 +22,13 @@ public final class TDSCancionDAO implements CancionDAO {
 	private static final String ESTILO = "estilo";
 	private static final String NREPRODUCCIONES = "nreproducciones";
 	
-	public TDSCancionDAO() {
+	private TDSCancionDAO() {
 		sPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
+	}
+	
+	public static TDSCancionDAO getInstancia() {
+		if (unicaInstancia == null) unicaInstancia = new TDSCancionDAO();
+		return unicaInstancia;
 	}
 	
 	private Cancion entidadToCancion(Entidad eCancion) {

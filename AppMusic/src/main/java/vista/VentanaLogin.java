@@ -66,7 +66,7 @@ public class VentanaLogin {
 		frame.getContentPane().setBackground(new Color(0, 0, 51));
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		controlador = AppMusic.getUnicaInstancia();
+		controlador = AppMusic.getInstancia();
 		
 		titlePanel = new JPanel();
 		titlePanel.setBackground(new Color(240, 255, 255));
@@ -152,7 +152,9 @@ public class VentanaLogin {
 				
 				boolean loginSuccess = controlador.login(usuario, clave);
 				if (loginSuccess) {
-					// ventana principal
+					VentanaPrincipal vp = new VentanaPrincipal();
+					vp.mostrarVentana();
+					frame.setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(logInButton, "Usuario o contraseña incorrectos.", "Error", JOptionPane.ERROR_MESSAGE);
 				}

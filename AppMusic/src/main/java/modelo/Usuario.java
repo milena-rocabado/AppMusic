@@ -27,6 +27,10 @@ public class Usuario {
 		this.premium = false;
 		this.listas = new LinkedList<>();
 	}
+	
+	public Usuario(String usuario, String clave, String email, String nombre, String apellidos, LocalDate fecha) {
+		this(usuario, clave, email, nombre, apellidos, fecha.toString());
+	}
 
 	public int getId() {
 		return id;

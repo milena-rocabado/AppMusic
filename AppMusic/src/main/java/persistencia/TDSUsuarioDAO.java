@@ -13,6 +13,7 @@ import tds.driver.ServicioPersistencia;
 
 public final class TDSUsuarioDAO implements UsuarioDAO {
 
+	private static TDSUsuarioDAO unicaInstancia;
 	private ServicioPersistencia sPersistencia;
 	
 	private static final String USUARIO = "usuario";
@@ -24,8 +25,13 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 	// falta persistir las listas de canciones
 	
-	public TDSUsuarioDAO() {
+	private TDSUsuarioDAO() {
 		sPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
+	}
+	
+	public static TDSUsuarioDAO getInstancia() {
+		if (unicaInstancia == null) unicaInstancia = new TDSUsuarioDAO();
+		return unicaInstancia;
 	}
 	
 	private Usuario entidadToUsuario(Entidad eUsuario) {
@@ -58,7 +64,21 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
 	@Override
 	public void create(Usuario usuario) {
-		Entidad eUsuario = usuarioToEntidad(usuario);
+		Entidad eUsuario = null;
+		boolean existe = true;
+		
+		try {
+			eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
+		} catch (NullPointerException e) {
+			existe = false;
+		} if (existe || eUsuario != null) return;
+		
+		// registrar canciones en playlists
+		
+		// crear entidad usuario 
+		eUsuario = usuarioToEntidad(usuario);
+		
+		// registar entidad usuario
 		eUsuario = sPersistencia.registrarEntidad(eUsuario);
 		usuario.setId(eUsuario.getId());
 	}

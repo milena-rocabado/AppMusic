@@ -19,6 +19,9 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
 import javax.swing.border.EtchedBorder;
+
+import controlador.AppMusic;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
@@ -93,7 +96,8 @@ public class VentanaPrincipal {
 		frame.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		headerPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 20));
 		
-		holaLabel = new JLabel("Hola, ");
+		String nombre = AppMusic.getInstancia().getUsuarioActual().getNombre();
+		holaLabel = new JLabel("Hola, "+nombre);
 		holaLabel.setForeground(new Color(128, 128, 128));
 		holaLabel.setIcon(null);
 		holaLabel.setFont(new Font("Cooper Black", Font.PLAIN, 19));
@@ -118,7 +122,7 @@ public class VentanaPrincipal {
 		gbl_sidebarPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		sidebarPanel.setLayout(gbl_sidebarPanel);
 		
-		initBotonesSidebar();
+		creaBotonesSidebar();
 		
 		addBotonesSidebar();
 		addListasSidebar();
@@ -134,7 +138,7 @@ public class VentanaPrincipal {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	private void initBotonesSidebar() {
+	private void creaBotonesSidebar() {
 		descubreBtn = new JButton("Descubre");
 		descubreBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -146,12 +150,9 @@ public class VentanaPrincipal {
 				frame.getContentPane().add(panelExplora, BorderLayout.CENTER);
 				
 				actualizarVentana();
-				
-				// Si se le da al boton cuando ya está visible el panel explora pasa algo raro
-				// comprobar si el panel visible actualmente es explora(?
 			}
 		});
-		descubreBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/antenna3d-32.png")));
+		descubreBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/imagenes/antenna3d-32.png")));
 		
 		nlistaBtn = new JButton("Nueva Lista");
 		nlistaBtn.addActionListener(new ActionListener() {
@@ -164,7 +165,7 @@ public class VentanaPrincipal {
 				actualizarVentana();
 			}
 		});
-		nlistaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/link-32.png")));
+		nlistaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/imagenes/link-32.png")));
 		
 		recienteBtn = new JButton("Reciente");
 		recienteBtn.addActionListener(new ActionListener() {
@@ -176,7 +177,7 @@ public class VentanaPrincipal {
 				actualizarVentana();
 			}
 		});
-		recienteBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/headphones-32.png")));
+		recienteBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/imagenes/headphones-32.png")));
 		
 		listaBtn = new JButton("Mis Listas");
 		listaBtn.addActionListener(new ActionListener() {
@@ -190,7 +191,7 @@ public class VentanaPrincipal {
 				actualizarVentana();
 			}
 		});
-		listaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/images/papers-32.png")));
+		listaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/imagenes/papers-32.png")));
 	}
 	
 	private void addBotonesSidebar() {
