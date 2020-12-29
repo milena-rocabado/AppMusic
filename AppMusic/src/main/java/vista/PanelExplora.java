@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.AppMusic;
 import modelo.Cancion;
+import modelo.Estilo;
 
 @SuppressWarnings("serial")
 public class PanelExplora extends JPanel implements BusquedaListener {
@@ -41,7 +42,7 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		List<String> estilos = AppMusic.getInstancia().getEstilos();
+		List<Estilo> estilos = AppMusic.getInstancia().getEstilos();
 		//
 		busquedaPanel = new PanelBusqueda(this);
 		GridBagConstraints gbc_busquedaPanel = new GridBagConstraints();
@@ -86,7 +87,7 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 		String[] contenido = new String[2];
 		for (Cancion c : lista) {
-			contenido[0] = c.getInterprete();
+			contenido[0] = c.getInterprete().getNombre();//Esto no se si es asi
 			contenido[1] = c.getTitulo();
 			modelo.addRow(contenido);
 		}

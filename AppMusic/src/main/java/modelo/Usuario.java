@@ -18,6 +18,7 @@ public class Usuario {
 	private List<ListaCanciones> listas;
 
 	public Usuario(String usuario, String clave, String email, String nombre, String apellidos, String fecha) {
+		this.id = -1;
 		this.usuario = usuario;
 		this.password = clave;
 		this.email = email;
@@ -106,6 +107,11 @@ public class Usuario {
 
 	public List<ListaCanciones> getListas() {
 		return Collections.unmodifiableList(listas);
+	}
+	
+
+	public void setListas(List<ListaCanciones> listas) {
+		this.listas = listas;
 	}
 
 	public boolean login(String clave) {

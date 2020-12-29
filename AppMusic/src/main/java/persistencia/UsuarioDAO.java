@@ -6,9 +6,9 @@ import modelo.Usuario;
 
 public interface UsuarioDAO {
 
-	public void create(Usuario usuario);
-	public void delete(Usuario usuario);
-	public void update(Usuario usuario);
-	public Usuario get(int id);
-	List<Usuario> getAll();
+	public void registrarUsuario(Usuario usuario);
+	public void borrarUsuario(Usuario usuario);
+	public void modificarUsuario(Usuario usuario);
+	public Usuario recuperarUsuario(int id);
+	List<Usuario> recuperarTodosUsuarios();
 }

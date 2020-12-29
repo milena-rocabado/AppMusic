@@ -20,8 +20,12 @@ public class CatalogoUsuarios {
 		usuariosLogIn = new HashMap<>();
 		try {
 			factoria = FactoriaDAO.getInstancia();
-			List<Usuario> usuarios = factoria.getUsuarioDAO().getAll();
+			List<Usuario> usuarios = factoria.getUsuarioDAO().recuperarTodosUsuarios();
+			System.out.println("El tamaño de usuarios es: "+usuarios.size());
 			for (Usuario u : usuarios) {
+				System.out.println("El id del usuario 1 es "+ u.getId());
+				System.out.println("El usuario del usuario 1 es "+ u.getUsuario());
+				System.out.println("El password del usuario 1 es "+ u.getPassword());
 				usuariosID.put(u.getId(), u);
 				usuariosLogIn.put(u.getUsuario(), u);
 			}
@@ -50,6 +54,8 @@ public class CatalogoUsuarios {
 	public void addUsuario(Usuario usuario) {
 		usuariosID.put(usuario.getId(), usuario);
 		usuariosLogIn.put(usuario.getUsuario(), usuario);
+		List<Usuario> usuarios = factoria.getUsuarioDAO().recuperarTodosUsuarios();
+		System.out.println("El tamaño de usuarios es: "+usuarios.size());
 	}
 	
 	public void removeUsuario(Usuario usuario) {

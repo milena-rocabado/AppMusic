@@ -7,6 +7,7 @@ import java.util.List;
 import modelo.Cancion;
 import modelo.CatalogoCanciones;
 import modelo.CatalogoUsuarios;
+import modelo.Estilo;
 import modelo.ListaCanciones;
 import modelo.Usuario;
 import persistencia.CancionDAO;
@@ -64,16 +65,22 @@ public class AppMusic {
 	
 	public boolean login(String usuario, String clave) {
 		Usuario u = cUsuarios.getUsuario(usuario);
-		if (u != null && u.getPassword() == clave) {
+		System.out.println("El usuario devuelto del catalogo es: "+ u.getUsuario() );
+		System.out.println("La clave es: "+ u.getPassword() );
+		if (u != null && u.getPassword().equals(clave)) {
+			System.out.println("Ahora si entra");
 			usuarioActual = u;
 			return true;
-		} return false;
+		}
+		System.out.println("No entra");
+		return false;
 	}
 	
 	public boolean registrarUsuario(String usuario, String clave, String nombre, String apellidos, String email, LocalDate fecha) {
 		Usuario u = new Usuario(usuario, clave, nombre, apellidos, email, fecha);
+		usuarioDAO.registrarUsuario(u);
 		cUsuarios.addUsuario(u);
-		usuarioDAO.create(u);
+		
 		usuarioActual = u;
 		return true;
 	}
@@ -104,7 +111,7 @@ public class AppMusic {
 		return lista;
 	}
 	
-	public List<String> getEstilos() {
+	public List<Estilo> getEstilos() {
 		return cCanciones.getAllEstilos();
 	}
 }

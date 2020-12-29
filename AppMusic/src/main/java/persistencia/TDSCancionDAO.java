@@ -8,6 +8,8 @@ import java.util.List;
 import beans.Entidad;
 import beans.Propiedad;
 import modelo.Cancion;
+import modelo.Estilo;
+import modelo.Interprete;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
@@ -33,9 +35,21 @@ public final class TDSCancionDAO implements CancionDAO {
 	
 	private Cancion entidadToCancion(Entidad eCancion) {
 		String titulo = sPersistencia.recuperarPropiedadEntidad(eCancion, TITULO);
-		String interprete = sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE);
-		String estilo = sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO);
+		//String interprete = sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE);
+		//String estilo = sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO);
 		String nreproducciones = sPersistencia.recuperarPropiedadEntidad(eCancion, NREPRODUCCIONES);
+		
+		Interprete interprete;
+		Estilo estilo;
+		// Para recuperar el producto se lo solicita al adaptador producto
+		TDSInterpreteDAO adaptadorInterprete = TDSInterpreteDAO.getInstancia();
+		TDSEstiloDAO adaptadorEstilo = TDSEstiloDAO.getInstancia();
+		interprete = adaptadorInterprete.recuperarInterprete(
+				Integer.parseInt(sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE)));
+		
+		estilo = adaptadorEstilo.recuperarEstilo(
+				Integer.parseInt(sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO)));
+		
 		
 		Cancion cancion = new Cancion(titulo, interprete, estilo, nreproducciones);
 		cancion.setId(eCancion.getId());
@@ -48,34 +62,36 @@ public final class TDSCancionDAO implements CancionDAO {
 		
 		eCancion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
 				new Propiedad(TITULO, cancion.getTitulo()),
-				new Propiedad(INTERPRETE, cancion.getInterprete()),
-				new Propiedad(ESTILO, cancion.getEstilo()),
+				//new Propiedad(INTERPRETE, cancion.getInterprete().getNombre()),
+				//new Propiedad(ESTILO, cancion.getEstilo().getNombre()),
+				new Propiedad(INTERPRETE, String.valueOf(cancion.getInterprete().getCodigo())),
+				new Propiedad(ESTILO, String.valueOf(cancion.getEstilo().getCodigo())),
 				new Propiedad(NREPRODUCCIONES, cancion.getNumReproduccionesStr())
 				)));
 		return eCancion;
 	}
 	
 	@Override
-	public void create(Cancion cancion) {
+	public void registrarCancion(Cancion cancion) {
 		Entidad eCancion = cancionToEntidad(cancion); 
 		eCancion = sPersistencia.registrarEntidad(eCancion);
 		cancion.setId(eCancion.getId());
 	}
 
 	@Override
-	public void delete(Cancion cancion) {
+	public void borrarCancion(Cancion cancion) {
 		Entidad eCancion = sPersistencia.recuperarEntidad(cancion.getId());
 		sPersistencia.borrarEntidad(eCancion);
 	}
 
 	@Override
-	public Cancion get(int id) {
+	public Cancion recuperarCancion(int id) {
 		Entidad eCancion = sPersistencia.recuperarEntidad(id);
 		return entidadToCancion(eCancion);
 	}
 
 	@Override
-	public List<Cancion> getAll() {
+	public List<Cancion> recuperarTodasCanciones() {
 		List<Entidad> entidades = sPersistencia.recuperarEntidades(CANCION);
 		
 		List<Cancion> canciones = new LinkedList<>();
@@ -84,5 +100,5 @@ public final class TDSCancionDAO implements CancionDAO {
 		
 		return canciones;
 	}
-
+	
 }

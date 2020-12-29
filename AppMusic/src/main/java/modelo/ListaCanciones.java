@@ -6,6 +6,7 @@ import java.util.List;
 
 public class ListaCanciones {
 
+	private int codigo;
 	private String nombre;
 	private List<Cancion> canciones;
 	
@@ -26,6 +27,10 @@ public class ListaCanciones {
 		return Collections.unmodifiableList(canciones);
 	}
 	
+	public void setCanciones(List<Cancion> canciones) {
+		this.canciones = canciones;
+	}
+
 	public void addCancion(Cancion cancion) {
 		canciones.add(cancion);
 	}
@@ -33,5 +38,14 @@ public class ListaCanciones {
 	public void removeCancion(Cancion cancion) {
 		canciones.remove(cancion);
 	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+	
 	
 }

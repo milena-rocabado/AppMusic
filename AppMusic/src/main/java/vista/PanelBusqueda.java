@@ -8,11 +8,14 @@ import javax.swing.JTextField;
 
 import controlador.AppMusic;
 import modelo.Cancion;
+import modelo.Estilo;
+import modelo.Interprete;
 
 import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -43,16 +46,25 @@ public class PanelBusqueda extends JPanel {
 		
 		estiloCBox = new JComboBox<>();
 		estiloCBox.setPreferredSize(new Dimension(100, 22));
-		List<String> estilos = AppMusic.getInstancia().getEstilos();
+		List<Estilo> estilos = AppMusic.getInstancia().getEstilos();
 		//
-		estilos.add("Metal");
-		estilos.add("Rock");
-		estilos.add("Indie");
-		estilos.add("Pop");
+		Estilo estilo1= new Estilo("Metal");
+		Estilo estilo2= new Estilo("Rock");
+		Estilo estilo3= new Estilo("Indie");
+		Estilo estilo4= new Estilo("Pop");
+		
+		estilos.add(estilo1);
+		estilos.add(estilo2);
+		estilos.add(estilo3);
+		estilos.add(estilo4);
+		//estilos.add("Metal");
+		//estilos.add("Rock");
+		//estilos.add("Indie");
+		//estilos.add("Pop");
 		//
 		estiloCBox.addItem("Estilo");
-		for (String e : estilos) {
-			estiloCBox.addItem(e);
+		for (Estilo e : estilos) {
+			estiloCBox.addItem(e.getNombre());
 		}
 		add(estiloCBox);
 		
@@ -66,9 +78,16 @@ public class PanelBusqueda extends JPanel {
 				if (estilo.equals("Estilo")) estilo = "";
 				List<Cancion> lista = AppMusic.getInstancia().buscarCanciones(interprete, titulo, estilo);
 				
+				Interprete interprete1 = new Interprete("Judas Priest");
+				Interprete interprete2 = new Interprete("KAI");
+				
+				Estilo estilo1= new Estilo("Metal");
+				Estilo estilo4= new Estilo("Pop");
 				//
-				lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal", 24230842));
-				lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
+				lista.add(new Cancion("Hell Patrol", interprete1, estilo1, 24230842));
+				lista.add(new Cancion("Amnesia", interprete2, estilo4, 25330842));
+				//lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal", 24230842));
+				//lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
 				//
 				
 				listener.handleBusqueda(lista);

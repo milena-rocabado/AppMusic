@@ -22,7 +22,7 @@ public class CatalogoCanciones {
 		try {
 			factoria = FactoriaDAO.getInstancia();
 			
-			List<Cancion> lCanciones = factoria.getCancionDAO().getAll();
+			List<Cancion> lCanciones = factoria.getCancionDAO().recuperarTodasCanciones();
 			for (Cancion c : lCanciones)
 				canciones.put(c.getId(), c);
 			
@@ -85,8 +85,8 @@ public class CatalogoCanciones {
 		canciones.remove(cancion.getId());
 	}
 
-	public List<String> getAllEstilos() {
-		Set<String> estilos = new HashSet<>();
+	public List<Estilo> getAllEstilos() {
+		Set<Estilo> estilos = new HashSet<>();
 		// añadir estilos sin repetir
 		for (Cancion c : canciones.values())
 			estilos.add(c.getEstilo());
