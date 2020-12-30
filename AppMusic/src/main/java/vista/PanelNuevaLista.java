@@ -54,30 +54,23 @@ public class PanelNuevaLista extends JPanel {
 				}
 				ListaCanciones lc = AppMusic.getInstancia().getListaCanciones(nombre);
 				boolean existe = (lc != null);
-				// ^ comprobar si hay algun otro playlist con el mismo nombre
-				
+				int opt;
 				if (existe) {					
-					int opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas editar la lista "+nombre+"?", "Lista Existente", JOptionPane.YES_NO_OPTION);
-					
-					if (opt == JOptionPane.YES_OPTION) {
-						
-					}
+					opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas editar la lista "+nombre+"?", "Lista Existente", JOptionPane.YES_NO_OPTION);
 				} else {
-					int opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas crear una nueva lista?", "Nueva Lista", JOptionPane.YES_NO_OPTION);
-					
-					if (opt == JOptionPane.YES_OPTION) {
-						lc = AppMusic.getInstancia().crearLista(nombre);
-						panelCLista = new PanelCreacionLista(lc);
-						GridBagConstraints gbc_panel = new GridBagConstraints();
-						gbc_panel.gridwidth = 3;
-						gbc_panel.insets = new Insets(0, 0, 5, 5);
-						gbc_panel.fill = GridBagConstraints.BOTH;
-						gbc_panel.gridx = 1;
-						gbc_panel.gridy = 2;
-						add(panelCLista, gbc_panel);
-						actualizarPanel();
-						// manejo de creacion de playlist (llamando al controlador) lo hace el panelClista
-					}
+					opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas crear una nueva lista?", "Nueva Lista", JOptionPane.YES_NO_OPTION);
+				}
+				if (opt == JOptionPane.YES_OPTION) {
+					if (!existe) lc = AppMusic.getInstancia().crearLista(nombre);
+					panelCLista = new PanelCreacionLista(lc);
+					GridBagConstraints gbc_panel = new GridBagConstraints();
+					gbc_panel.gridwidth = 3;
+					gbc_panel.insets = new Insets(0, 0, 5, 5);
+					gbc_panel.fill = GridBagConstraints.BOTH;
+					gbc_panel.gridx = 1;
+					gbc_panel.gridy = 2;
+					add(panelCLista, gbc_panel);
+					actualizarPanel();
 				}
 			}
 		});

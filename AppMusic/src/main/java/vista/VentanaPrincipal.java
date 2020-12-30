@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
+
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
 import javax.swing.border.EtchedBorder;
@@ -27,6 +29,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class VentanaPrincipal {
 
@@ -43,9 +47,9 @@ public class VentanaPrincipal {
 	private JPanel mainPanel;
 	private PanelExplora panelExplora;
 	private PanelNuevaLista panelNLista;
-	private PanelMisListas panelListas;
+	private PanelMisListas panelMListas;
 	private PanelMisListas panelReciente;
-	private JList<ListaCanciones> listas;
+	private JList<String> listas;
 	private JScrollPane listaScrollPane;
 	
 	/*
@@ -129,7 +133,8 @@ public class VentanaPrincipal {
 		addListasSidebar();
 		listaScrollPane.setVisible(false);
 		
-		panelReciente = new PanelMisListas(null);
+		panelMListas = new PanelMisListas();
+		panelReciente = new PanelMisListas();
 		panelReciente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		mainPanel = panelReciente;
 		
@@ -137,6 +142,7 @@ public class VentanaPrincipal {
 		frame.setBounds(100, 100, 669, 406);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
 	}
 	
 	private void creaBotonesSidebar() {
@@ -150,6 +156,7 @@ public class VentanaPrincipal {
 				mainPanel = panelExplora;
 				frame.getContentPane().add(panelExplora, BorderLayout.CENTER);
 				frame.pack();
+				listaScrollPane.setVisible(false);
 				actualizarVentana();
 			}
 		});
@@ -163,7 +170,8 @@ public class VentanaPrincipal {
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelNLista;
 				frame.getContentPane().add(panelNLista, BorderLayout.CENTER);
-				frame.setSize(900, 600);
+				frame.setSize(900, 500);
+				listaScrollPane.setVisible(false);
 				actualizarVentana();
 			}
 		});
@@ -177,6 +185,7 @@ public class VentanaPrincipal {
 				mainPanel = panelReciente;
 				frame.getContentPane().add(panelReciente, BorderLayout.CENTER);
 				frame.pack();
+				listaScrollPane.setVisible(false);
 				actualizarVentana();
 			}
 		});
@@ -185,14 +194,10 @@ public class VentanaPrincipal {
 		listaBtn = new JButton("Mis Listas");
 		listaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				actualizarListasSidebar();
+				listas.setSelectedIndex(0);
 				listaScrollPane.setVisible(true);
-				panelListas = new PanelMisListas(null);
-				panelListas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-				frame.getContentPane().remove(mainPanel);
-				mainPanel = panelListas;
-				frame.getContentPane().add(panelListas, BorderLayout.CENTER);
 				frame.pack();
-				actualizarVentana();
 			}
 		});
 		listaBtn.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/imagenes/papers-32.png")));
@@ -240,8 +245,28 @@ public class VentanaPrincipal {
 		sidebarPanel.add(listaScrollPane, gbc_listaScrollPane);
 		
 		listas = new JList<>();
+		listas.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				ListaCanciones lc = AppMusic.getInstancia().getListaCanciones(listas.getSelectedValue());
+				if (lc !=null) panelMListas.setModeloTabla(lc);
+				panelMListas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				frame.getContentPane().remove(mainPanel);
+				mainPanel = panelMListas;
+				frame.getContentPane().add(panelMListas, BorderLayout.CENTER);
+				frame.pack();
+				actualizarVentana();
+			}
+		});
 		listaScrollPane.setViewportView(listas);
 		frame.pack();
+	}
+	
+	private void actualizarListasSidebar() {
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+		for (ListaCanciones lc : AppMusic.getInstancia().getUsuarioActual().getListas()) {
+			modelo.addElement(lc.getNombre());
+		}
+		listas.setModel(modelo);
 	}
 	
 	private void actualizarVentana() {

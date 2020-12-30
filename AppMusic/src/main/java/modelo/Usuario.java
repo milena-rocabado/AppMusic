@@ -122,6 +122,7 @@ public class Usuario {
 	
 	public ListaCanciones crearLista(String nombre) {
 		ListaCanciones lista = new ListaCanciones(nombre);
+		System.out.println("lista creada: " + nombre);
 		listas.add(lista);
 		return lista;
 	}

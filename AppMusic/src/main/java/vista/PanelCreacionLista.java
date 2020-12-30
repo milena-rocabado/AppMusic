@@ -9,7 +9,6 @@ import java.awt.Insets;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
@@ -97,6 +96,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 					Cancion c = bc.get(index);
 					lc.addCancion(c);
 					modeloTablaLC.addRow(new String[]{c.getInterprete().getNombre(), c.getTitulo()});
+					busqueda.clearSelection();
 				}
 			}
 		});
@@ -114,6 +114,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 					Cancion c = lc.getCanciones().get(index);
 					lc.removeCancion(c);
 					modeloTablaLC.removeRow(tablaLC.getSelectedRow());
+					busqueda.clearSelection();
 				}
 			}
 		});

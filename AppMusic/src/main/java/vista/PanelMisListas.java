@@ -5,13 +5,16 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
+import modelo.Cancion;
 import modelo.ListaCanciones;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
 
+@SuppressWarnings("serial")
 public class PanelMisListas extends JPanel {
 	private JTable table;
 	private ListaCanciones lista;
@@ -19,7 +22,7 @@ public class PanelMisListas extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelMisListas(ListaCanciones lista) {
+	public PanelMisListas() {
 		setPreferredSize(new Dimension(450, 300));
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -45,5 +48,21 @@ public class PanelMisListas extends JPanel {
 		gbc_botonera.gridy = 2;
 		add(botonera, gbc_botonera);
 	}
-
+	
+	private DefaultTableModel actualizarTabla() {
+		String[] titulos = {"Intérprete", "Título"};
+		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+		String[] contenido = new String[2];
+		for (Cancion c : lista.getCanciones()) {
+			contenido[0] = c.getInterprete().getNombre();
+			contenido[1] = c.getTitulo();
+			modelo.addRow(contenido);
+		}
+		return modelo;
+	}
+	
+	public void setModeloTabla(ListaCanciones lista) {
+		this.lista = lista;
+		table.setModel(actualizarTabla());
+	}
 }
