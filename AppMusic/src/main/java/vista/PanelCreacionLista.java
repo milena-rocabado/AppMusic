@@ -6,39 +6,35 @@ import java.awt.GridBagLayout;
 import javax.swing.JTable;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import modelo.Cancion;
 import modelo.ListaCanciones;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
 public class PanelCreacionLista extends JPanel implements BusquedaListener {
 	private JTable busqueda;
-	private JTextField tituloField;
-	private JTextField interpField;
-	private JTable canciones;
-	private ListaCanciones lista;
+	private JTable tablaLC;
+	private DefaultTableModel modeloTablaLC;
+	private ListaCanciones lc;
+	private List<Cancion> bc;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelCreacionLista(ListaCanciones listaCanciones) {
-		lista = listaCanciones;
-		inicializarPanel();
-	}
-	
-	/**
-	 * @wbp.parser.constructor
-	 */
-	public PanelCreacionLista(String nombre) {
-		lista = new ListaCanciones(nombre);
+		lc = listaCanciones;
 		inicializarPanel();
 	}
 	
@@ -51,12 +47,8 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		
-		// no sale :((((
-		// pero en el panel explora funciona bien
 		//panel de búsqueda
-		JPanel busquedaPanel = new JPanel();//PanelBusqueda(this);
-		busquedaPanel.setBackground(new Color(255, 0, 0));
+		JPanel busquedaPanel = new PanelBusqueda(this);
 		GridBagConstraints gbc_busquedaPanel = new GridBagConstraints();
 		gbc_busquedaPanel.gridwidth = 3;
 		gbc_busquedaPanel.insets = new Insets(0, 0, 5, 0);
@@ -66,40 +58,48 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		add(busquedaPanel, gbc_busquedaPanel);
 		//panel de búsqueda fin
 		
-
-		revalidate();
-		repaint();
-		validate();
-		
-		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridheight = 4;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 2;
-		add(scrollPane, gbc_scrollPane);
+		JScrollPane scrollPaneBusqueda = new JScrollPane();
+		scrollPaneBusqueda.setBorder(new TitledBorder(null, "B\u00FAsqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		GridBagConstraints gbc_scrollPaneBusqueda = new GridBagConstraints();
+		gbc_scrollPaneBusqueda.fill = GridBagConstraints.BOTH;
+		gbc_scrollPaneBusqueda.gridheight = 4;
+		gbc_scrollPaneBusqueda.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPaneBusqueda.gridx = 0;
+		gbc_scrollPaneBusqueda.gridy = 2;
+		add(scrollPaneBusqueda, gbc_scrollPaneBusqueda);
 		
 		busqueda = new JTable();
-		busqueda.setPreferredSize(new Dimension(100, 225));
-		scrollPane.setViewportView(busqueda);
+		busqueda.setModel(inicializarTabla(new LinkedList<Cancion>())); // para que salgan los headers
+		scrollPaneBusqueda.setViewportView(busqueda);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBorder(new TitledBorder(null, "Playlist", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		scrollPane_1.setPreferredSize(new Dimension(100, 225));
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.gridheight = 4;
-		gbc_scrollPane_1.gridx = 2;
-		gbc_scrollPane_1.gridy = 2;
-		add(scrollPane_1, gbc_scrollPane_1);
+		JScrollPane scrollPaneCanciones = new JScrollPane();
+		scrollPaneCanciones.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Lista", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		scrollPaneCanciones.setPreferredSize(new Dimension(100, 225));
+		GridBagConstraints gbc_scrollPaneCanciones = new GridBagConstraints();
+		gbc_scrollPaneCanciones.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPaneCanciones.fill = GridBagConstraints.BOTH;
+		gbc_scrollPaneCanciones.gridheight = 4;
+		gbc_scrollPaneCanciones.gridx = 2;
+		gbc_scrollPaneCanciones.gridy = 2;
+		add(scrollPaneCanciones, gbc_scrollPaneCanciones);
 		
-		canciones = new JTable();
-		canciones.setPreferredSize(new Dimension(100, 225));
-		scrollPane_1.setViewportView(canciones);
+		tablaLC = new JTable();
+		List<Cancion> canciones = lc.getCanciones();
+		modeloTablaLC = inicializarTabla(canciones);
+		tablaLC.setModel(modeloTablaLC);
+		scrollPaneCanciones.setViewportView(tablaLC);
 		
 		JButton addBtn = new JButton(">>");
+		addBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = busqueda.getSelectedRow();
+				if (index > -1) {
+					Cancion c = bc.get(index);
+					lc.addCancion(c);
+					modeloTablaLC.addRow(new String[]{c.getInterprete().getNombre(), c.getTitulo()});
+				}
+			}
+		});
 		GridBagConstraints gbc_addBtn = new GridBagConstraints();
 		gbc_addBtn.insets = new Insets(0, 0, 5, 5);
 		gbc_addBtn.gridx = 1;
@@ -107,6 +107,16 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		add(addBtn, gbc_addBtn);
 		
 		JButton rmvBtn = new JButton("<<");
+		rmvBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = tablaLC.getSelectedRow();
+				if (index > -1) {
+					Cancion c = lc.getCanciones().get(index);
+					lc.removeCancion(c);
+					modeloTablaLC.removeRow(tablaLC.getSelectedRow());
+				}
+			}
+		});
 		GridBagConstraints gbc_rmvBtn = new GridBagConstraints();
 		gbc_rmvBtn.insets = new Insets(0, 0, 5, 5);
 		gbc_rmvBtn.gridx = 1;
@@ -132,7 +142,19 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 
 	@Override
 	public void handleBusqueda(List<Cancion> busqueda) {
-		// mostrar lista de canciones a la izq
+		bc = busqueda;
+		this.busqueda.setModel(inicializarTabla(busqueda));
 	}
-
+	
+	private DefaultTableModel inicializarTabla(List<Cancion> lista) {
+		String[] titulos = {"Intérprete", "Título"};
+		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+		String[] contenido = new String[2];
+		for (Cancion c : lista) {
+			contenido[0] = c.getInterprete().getNombre();
+			contenido[1] = c.getTitulo();
+			modelo.addRow(contenido);
+		}
+		return modelo;
+	}
 }

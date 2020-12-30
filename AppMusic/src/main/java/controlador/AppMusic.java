@@ -13,17 +13,19 @@ import modelo.Usuario;
 import persistencia.CancionDAO;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
+import persistencia.ListaCancionesDAO;
 import persistencia.UsuarioDAO;
 
 public class AppMusic {
 
 	private static AppMusic unicaInstancia = null;
 	
-	private CatalogoCanciones cCanciones;
 	private CatalogoUsuarios cUsuarios;
+	private CatalogoCanciones cCanciones;
 	
-	private CancionDAO cancionDAO;
 	private UsuarioDAO usuarioDAO;
+	private CancionDAO cancionDAO;
+	private ListaCancionesDAO listaCancionesDAO;
 	
 	private Usuario usuarioActual;
 	
@@ -89,7 +91,6 @@ public class AppMusic {
 		cancion.reproducirCancion();
 	}
 	
-	// rfc
 	public ListaCanciones crearLista(String nombre) {
 		return usuarioActual.crearLista(nombre);
 	}
@@ -113,5 +114,12 @@ public class AppMusic {
 	
 	public List<Estilo> getEstilos() {
 		return cCanciones.getAllEstilos();
+	}
+	
+	public ListaCanciones getListaCanciones(String nombre) {
+		for (ListaCanciones lc : usuarioActual.getListas()) {
+			if (lc.getNombre().equals(nombre)) return lc;
+		}
+		return null;
 	}
 }

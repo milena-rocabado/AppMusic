@@ -22,7 +22,7 @@ public class ListaCanciones {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public List<Cancion> getCanciones() {
 		return Collections.unmodifiableList(canciones);
 	}
@@ -33,10 +33,12 @@ public class ListaCanciones {
 
 	public void addCancion(Cancion cancion) {
 		canciones.add(cancion);
+		System.out.println("Canción añadida:   " + cancion.getTitulo() + " - " + cancion.getInterprete().getNombre());
 	}
 	
 	public void removeCancion(Cancion cancion) {
 		canciones.remove(cancion);
+		System.out.println("Canción eliminada: " + cancion.getTitulo() + " - " + cancion.getInterprete().getNombre());
 	}
 
 	public int getCodigo() {

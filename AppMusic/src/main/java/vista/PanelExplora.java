@@ -42,7 +42,6 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		List<Estilo> estilos = AppMusic.getInstancia().getEstilos();
 		//
 		busquedaPanel = new PanelBusqueda(this);
 		GridBagConstraints gbc_busquedaPanel = new GridBagConstraints();
@@ -101,8 +100,6 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		
 		table.setModel(modeloTabla(busqueda));
 		scrollPane.setViewportView(table);
-		table.setPreferredSize(new Dimension(200, 15*(busqueda.size()+1)));
-		// ^ establecer en función del n de canciones que coincidan con la busqueda (? o 200
 		table.setVisible(true);
 		btnPanel.setVisible(true);
 		actualizarPanel();

@@ -86,6 +86,10 @@ public class PanelBusqueda extends JPanel {
 				//
 				lista.add(new Cancion("Hell Patrol", interprete1, estilo1, 24230842));
 				lista.add(new Cancion("Amnesia", interprete2, estilo4, 25330842));
+				lista.add(new Cancion("Monster", new Interprete("EXO"), estilo4, 54542215));
+				lista.add(new Cancion("XS", new Interprete("Rina Sawayama"), estilo1, 54542215));
+				lista.add(new Cancion("Neon Knights", new Interprete("Black Sabbath"), estilo1, 54542215));
+				lista.add(new Cancion("Ride or Die", interprete2, estilo4, 54542215));
 				//lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal", 24230842));
 				//lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
 				//

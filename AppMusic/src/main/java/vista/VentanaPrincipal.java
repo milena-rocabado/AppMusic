@@ -21,6 +21,7 @@ import java.awt.Dimension;
 import javax.swing.border.EtchedBorder;
 
 import controlador.AppMusic;
+import modelo.ListaCanciones;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -44,7 +45,7 @@ public class VentanaPrincipal {
 	private PanelNuevaLista panelNLista;
 	private PanelMisListas panelListas;
 	private PanelMisListas panelReciente;
-	private JList listas;
+	private JList<ListaCanciones> listas;
 	private JScrollPane listaScrollPane;
 	
 	/*
@@ -133,7 +134,7 @@ public class VentanaPrincipal {
 		mainPanel = panelReciente;
 		
 		frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-		frame.setBounds(100, 100, 654, 395);
+		frame.setBounds(100, 100, 669, 406);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -148,7 +149,7 @@ public class VentanaPrincipal {
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelExplora;
 				frame.getContentPane().add(panelExplora, BorderLayout.CENTER);
-				
+				frame.pack();
 				actualizarVentana();
 			}
 		});
@@ -162,6 +163,7 @@ public class VentanaPrincipal {
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelNLista;
 				frame.getContentPane().add(panelNLista, BorderLayout.CENTER);
+				frame.setSize(900, 600);
 				actualizarVentana();
 			}
 		});
@@ -174,6 +176,7 @@ public class VentanaPrincipal {
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelReciente;
 				frame.getContentPane().add(panelReciente, BorderLayout.CENTER);
+				frame.pack();
 				actualizarVentana();
 			}
 		});
@@ -188,6 +191,7 @@ public class VentanaPrincipal {
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelListas;
 				frame.getContentPane().add(panelListas, BorderLayout.CENTER);
+				frame.pack();
 				actualizarVentana();
 			}
 		});
@@ -235,7 +239,7 @@ public class VentanaPrincipal {
 		gbc_listaScrollPane.gridy = 5;
 		sidebarPanel.add(listaScrollPane, gbc_listaScrollPane);
 		
-		listas = new JList();
+		listas = new JList<>();
 		listaScrollPane.setViewportView(listas);
 		frame.pack();
 	}

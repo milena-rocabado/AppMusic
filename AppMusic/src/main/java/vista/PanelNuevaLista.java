@@ -3,6 +3,10 @@ package vista;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
+
+import controlador.AppMusic;
+import modelo.ListaCanciones;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
@@ -44,14 +48,26 @@ public class PanelNuevaLista extends JPanel {
 		crearBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = nombreField.getText();
-				boolean existe = false;
+				if (nombre.isBlank()) {
+					JOptionPane.showMessageDialog(crearBtn, "El nombre de la lista no puede estar vacío.", "Nombre vacío", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				ListaCanciones lc = AppMusic.getInstancia().getListaCanciones(nombre);
+				boolean existe = (lc != null);
 				// ^ comprobar si hay algun otro playlist con el mismo nombre
 				
 				if (existe) {					
+					int opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas editar la lista "+nombre+"?", "Lista Existente", JOptionPane.YES_NO_OPTION);
+					
+					if (opt == JOptionPane.YES_OPTION) {
+						
+					}
+				} else {
 					int opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas crear una nueva lista?", "Nueva Lista", JOptionPane.YES_NO_OPTION);
 					
 					if (opt == JOptionPane.YES_OPTION) {
-						panelCLista = new PanelCreacionLista(nombre);
+						lc = AppMusic.getInstancia().crearLista(nombre);
+						panelCLista = new PanelCreacionLista(lc);
 						GridBagConstraints gbc_panel = new GridBagConstraints();
 						gbc_panel.gridwidth = 3;
 						gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -61,15 +77,6 @@ public class PanelNuevaLista extends JPanel {
 						add(panelCLista, gbc_panel);
 						actualizarPanel();
 						// manejo de creacion de playlist (llamando al controlador) lo hace el panelClista
-						
-					} else {
-						// no hacer nada
-					}
-				} else {
-					int opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas crear editar la lista "+nombre+"?", "Nueva Lista", JOptionPane.YES_NO_OPTION);
-					
-					if (opt == JOptionPane.YES_OPTION) {
-						
 					}
 				}
 			}
