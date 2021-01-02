@@ -54,7 +54,7 @@ public class PanelMisListas extends JPanel {
 		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 		String[] contenido = new String[2];
 		for (Cancion c : lista.getCanciones()) {
-			contenido[0] = c.getInterprete().getNombre();
+			contenido[0] = c.getInterprete();
 			contenido[1] = c.getTitulo();
 			modelo.addRow(contenido);
 		}

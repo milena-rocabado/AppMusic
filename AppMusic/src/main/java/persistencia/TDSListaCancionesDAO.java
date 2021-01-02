@@ -89,7 +89,7 @@ public class TDSListaCancionesDAO implements ListaCancionesDAO{
 	@Override
 	public List<ListaCanciones> recuperarTodasListaCanciones() {
 		List<Entidad> entidades = sPersistencia.recuperarEntidades(LISTACANCIONES);
-		
+		System.out.println("Hay en la base de datos: "+ entidades.size()+" LISTAS de canciones");
 		List<ListaCanciones> listasDeCanciones = new LinkedList<>();
 		for (Entidad eListaCanciones : entidades)
 			listasDeCanciones.add(entidadToListaCanciones(eListaCanciones));

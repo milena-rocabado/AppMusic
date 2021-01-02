@@ -3,20 +3,25 @@ package modelo;
 public final class Cancion {
 	private int id;
 	private final String titulo;
-	private final Interprete interprete;
+	private final String interprete;
 	private int numReproducciones;
-	private Estilo estilo;
+	private String estilo;
 	
-	public Cancion(String titulo, Interprete interprete, Estilo estilo, int nreproducciones) {
+	
+	
+	public Cancion(String titulo, String interprete, String estilo, int nreproducciones) {
 		this.titulo = titulo;
 		this.interprete = interprete;
 		this.numReproducciones = nreproducciones;
 		this.estilo = estilo;
-		interprete.addCancionInterprete(this);
 	}
 	
-	public Cancion(String titulo, Interprete interprete, Estilo estilo, String nreproducciones) {
+	public Cancion(String titulo, String interprete, String estilo, String nreproducciones) {
 		this(titulo, interprete, estilo, Integer.parseInt(nreproducciones));
+	}
+	
+	public Cancion(String titulo, String interprete, String estilo) {
+		this(titulo, interprete, estilo, 0);
 	}
 	
 	public int getId() {
@@ -31,7 +36,7 @@ public final class Cancion {
 		return titulo;
 	}
 	
-	public Interprete getInterprete() {
+	public String getInterprete() {
 		return interprete;
 	}
 
@@ -47,11 +52,11 @@ public final class Cancion {
 		return Integer.toString(numReproducciones);
 	}
 
-	public Estilo getEstilo() {
+	public String getEstilo() {
 		return estilo;
 	}
 
-	public void setEstilo(Estilo estilo) {
+	public void setEstilo(String estilo) {
 		this.estilo = estilo;
 	}
 

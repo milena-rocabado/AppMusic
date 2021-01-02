@@ -35,10 +35,10 @@ public final class TDSCancionDAO implements CancionDAO {
 	
 	private Cancion entidadToCancion(Entidad eCancion) {
 		String titulo = sPersistencia.recuperarPropiedadEntidad(eCancion, TITULO);
-		//String interprete = sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE);
-		//String estilo = sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO);
+		String interprete = sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE);
+		String estilo = sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO);
 		String nreproducciones = sPersistencia.recuperarPropiedadEntidad(eCancion, NREPRODUCCIONES);
-		
+		/*
 		Interprete interprete;
 		Estilo estilo;
 		// Para recuperar el producto se lo solicita al adaptador producto
@@ -49,7 +49,7 @@ public final class TDSCancionDAO implements CancionDAO {
 		
 		estilo = adaptadorEstilo.recuperarEstilo(
 				Integer.parseInt(sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO)));
-		
+		*/
 		
 		Cancion cancion = new Cancion(titulo, interprete, estilo, nreproducciones);
 		cancion.setId(eCancion.getId());
@@ -62,10 +62,10 @@ public final class TDSCancionDAO implements CancionDAO {
 		
 		eCancion.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
 				new Propiedad(TITULO, cancion.getTitulo()),
-				//new Propiedad(INTERPRETE, cancion.getInterprete().getNombre()),
-				//new Propiedad(ESTILO, cancion.getEstilo().getNombre()),
-				new Propiedad(INTERPRETE, String.valueOf(cancion.getInterprete().getCodigo())),
-				new Propiedad(ESTILO, String.valueOf(cancion.getEstilo().getCodigo())),
+				new Propiedad(INTERPRETE, cancion.getInterprete()),
+				new Propiedad(ESTILO, cancion.getEstilo()),
+				//new Propiedad(INTERPRETE, String.valueOf(cancion.getInterprete().getCodigo())),
+				//new Propiedad(ESTILO, String.valueOf(cancion.getEstilo().getCodigo())),
 				new Propiedad(NREPRODUCCIONES, cancion.getNumReproduccionesStr())
 				)));
 		return eCancion;
@@ -95,6 +95,7 @@ public final class TDSCancionDAO implements CancionDAO {
 		List<Entidad> entidades = sPersistencia.recuperarEntidades(CANCION);
 		
 		List<Cancion> canciones = new LinkedList<>();
+		System.out.println("Hay en la base de datos: "+ entidades.size()+" canciones");
 		for (Entidad eCancion : entidades)
 			canciones.add(entidadToCancion(eCancion));
 		

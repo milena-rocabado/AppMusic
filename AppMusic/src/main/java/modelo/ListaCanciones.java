@@ -34,12 +34,12 @@ public class ListaCanciones {
 	public void addCancion(Cancion cancion) {
 		canciones.add(cancion);
 		System.out.println("[" + nombre + "] Canción añadida:   " + 
-					cancion.getTitulo() + " - " + cancion.getInterprete().getNombre());
+					cancion.getTitulo() + " - " + cancion.getInterprete());
 	}
 	
 	public void removeCancion(Cancion cancion) {
 		canciones.remove(cancion);
-		System.out.println("[" + nombre + "] Canción eliminada: " + cancion.getTitulo() + " - " + cancion.getInterprete().getNombre());
+		System.out.println("[" + nombre + "] Canción eliminada: " + cancion.getTitulo() + " - " + cancion.getInterprete());
 	}
 
 	public int getCodigo() {

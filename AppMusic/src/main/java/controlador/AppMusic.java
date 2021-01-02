@@ -1,6 +1,8 @@
 package controlador;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,8 +17,12 @@ import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.ListaCancionesDAO;
 import persistencia.UsuarioDAO;
+import umu.tds.componente.Canciones;
+import umu.tds.componente.ICancionesListener;
+import umu.tds.componente.CancionesEvent;
+import umu.tds.componente.CancionComponente;
 
-public class AppMusic {
+public class AppMusic implements ICancionesListener{
 
 	private static AppMusic unicaInstancia = null;
 	
@@ -26,12 +32,15 @@ public class AppMusic {
 	private UsuarioDAO usuarioDAO;
 	private CancionDAO cancionDAO;
 	private ListaCancionesDAO listaCancionesDAO;
+	private Canciones canciones;
 	
 	private Usuario usuarioActual;
 	
 	private AppMusic() {
 		inicializarAdaptadores();
 		inicializarCatalogos();
+		if (canciones == null) canciones = new Canciones();
+		canciones.addCancionesListener(this);
 		//para que no falle por ahora
 		usuarioActual = new Usuario("milena", "1234", "", "Milena", "asfdsa", "2020-05-06");
 	}
@@ -70,7 +79,6 @@ public class AppMusic {
 		System.out.println("El usuario devuelto del catalogo es: "+ u.getUsuario() );
 		System.out.println("La clave es: "+ u.getPassword() );
 		if (u != null && u.getPassword().equals(clave)) {
-			System.out.println("Ahora si entra");
 			usuarioActual = u;
 			return true;
 		}
@@ -112,7 +120,7 @@ public class AppMusic {
 		return lista;
 	}
 	
-	public List<Estilo> getEstilos() {
+	public List<String> getEstilos() {
 		return cCanciones.getAllEstilos();
 	}
 	
@@ -122,4 +130,31 @@ public class AppMusic {
 		}
 		return null;
 	}
+
+	public void cargarCanciones(File fichero) {
+		//System.out.println(fichero.getAbsolutePath());
+		//System.out.println(canciones);
+		boolean correcto = canciones.setArchivoCanciones(fichero.getAbsolutePath());
+	}
+	
+	@Override
+	public void enteradoCambioCanciones(CancionesEvent event) {
+		List<CancionComponente> canciones = event.getNewValue();
+		List<Cancion> cancionesEnCatalogo= cCanciones.getAllCanciones();
+		for (CancionComponente cancion : canciones) {
+			Cancion nueva = new Cancion(cancion.getTitulo(),cancion.getInterprete(),cancion.getEstilo());
+			if (!cancionesEnCatalogo.contains(nueva)) {
+				registrarCancion(nueva);
+			}
+			
+		}	
+		
+	}
+
+	public void registrarCancion(Cancion cancion) {
+		cancionDAO.registrarCancion(cancion);
+		cCanciones.addCancion(cancion);
+
+	}
+
 }

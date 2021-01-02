@@ -52,7 +52,7 @@ public class CatalogoCanciones {
 	
 	public List<Cancion> getCancionesTitulo(String titulo) {
 		List<Cancion> canciones = new LinkedList<>();
-		if (titulo.isBlank()) return canciones;
+		if (titulo.isEmpty()) return canciones;
 		for (Cancion c : this.canciones.values()) {
 			if (c.getTitulo().contains(titulo)) canciones.add(c);
 		}
@@ -61,7 +61,7 @@ public class CatalogoCanciones {
 	
 	public List<Cancion> getCancionesInterprete(String nombre) {
 		List<Cancion> canciones = new LinkedList<>();
-		if (nombre.isBlank()) return canciones;
+		if (nombre.isEmpty()) return canciones;
 		for (Cancion c : this.canciones.values()) {
 			if (c.esInterpretadaPor(nombre)) canciones.add(c);
 		}
@@ -70,7 +70,7 @@ public class CatalogoCanciones {
 	
 	public List<Cancion> getCancionesEstilo(String estilo) {
 		List<Cancion> canciones = new LinkedList<>();
-		if (estilo.isBlank()) return canciones;
+		if (estilo.isEmpty()) return canciones;
 		for (Cancion c : this.canciones.values()) {
 			if (c.esEstiloMusical(estilo)) canciones.add(c);
 		}
@@ -85,8 +85,8 @@ public class CatalogoCanciones {
 		canciones.remove(cancion.getId());
 	}
 
-	public List<Estilo> getAllEstilos() {
-		Set<Estilo> estilos = new HashSet<>();
+	public List<String> getAllEstilos() {
+		Set<String> estilos = new HashSet<>();
 		// añadir estilos sin repetir
 		for (Cancion c : canciones.values())
 			estilos.add(c.getEstilo());
