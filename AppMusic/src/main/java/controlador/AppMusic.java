@@ -95,14 +95,16 @@ public class AppMusic {
 		return usuarioActual.crearLista(nombre);
 	}
 	
+	/*
 	public void addCancion(ListaCanciones lista, Cancion cancion) {
 		lista.addCancion(cancion);
 	}
 	
 	public void removeCancion(ListaCanciones lista, Cancion cancion) {
 		lista.removeCancion(cancion);
-	}
+	}*/
 	
+	// refactoring
 	public List<Cancion> buscarCanciones(String interprete, String titulo, String estilo) {
 		List<Cancion> lista = new LinkedList<>();
 		List<Cancion> cancInter = cCanciones.getCancionesInterprete(interprete); // el catalogo se encarga de comprobar si los strings estan vacios
@@ -116,6 +118,7 @@ public class AppMusic {
 		return cCanciones.getAllEstilos();
 	}
 	
+	// usar optional
 	public ListaCanciones getListaCanciones(String nombre) {
 		for (ListaCanciones lc : usuarioActual.getListas()) {
 			if (lc.getNombre().equals(nombre)) return lc;
