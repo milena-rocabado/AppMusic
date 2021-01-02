@@ -21,13 +21,17 @@ public class CatalogoUsuarios {
 		try {
 			factoria = FactoriaDAO.getInstancia();
 			List<Usuario> usuarios = factoria.getUsuarioDAO().recuperarTodosUsuarios();
+			System.out.println("------------------------------------Usuarios-----------------------");
 			System.out.println("El tamaño de usuarios es: "+usuarios.size());
+			int i=0;
 			for (Usuario u : usuarios) {
-				System.out.println("El id del usuario 1 es "+ u.getId());
-				System.out.println("El usuario del usuario 1 es "+ u.getUsuario());
-				System.out.println("El password del usuario 1 es "+ u.getPassword());
+				System.out.println("El id del usuario "+i+" es "+ u.getId());
+				System.out.println("El usuario del usuario "+i+" es "+ u.getUsuario());
+				System.out.println("El password del usuario "+i+" es "+ u.getPassword());
+				System.out.println();
 				usuariosID.put(u.getId(), u);
 				usuariosLogIn.put(u.getUsuario(), u);
+				i++;
 			}
 		} catch (DAOException e) {
 			e.printStackTrace();

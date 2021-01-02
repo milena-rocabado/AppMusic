@@ -1,5 +1,9 @@
 package modelo;
 
+import java.util.Objects;
+
+import umu.tds.componente.CancionComponente;
+
 public final class Cancion {
 	private int id;
 	private final String titulo;
@@ -71,4 +75,18 @@ public final class Cancion {
 	public boolean esEstiloMusical(String estilo) {
 		return this.estilo.equals(estilo);
 	}
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cancion other = (Cancion) obj;
+		return Objects.equals(estilo, other.estilo) && Objects.equals(interprete, other.interprete)
+				 && Objects.equals(titulo, other.titulo);
+	}			//&& Objects.equals(url, other.url)
 }

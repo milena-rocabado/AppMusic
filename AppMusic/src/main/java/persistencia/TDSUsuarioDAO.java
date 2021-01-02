@@ -94,7 +94,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		}
 		
 		// registrar canciones en playlists
-		System.out.println("Pasa el if");
 		// crear entidad usuario 
 		eUsuario = usuarioToEntidad(usuario);
 		
@@ -148,7 +147,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		}
 
 		private List<ListaCanciones> obtenerListasDesdeCodigos(String listaCanciones) {
-			System.out.println("Cuanto vale listaCanciones "+listaCanciones+"deberia de haber solo un espacio");
 			if (listaCanciones == null) return null;
 			List<ListaCanciones> listaDeListaCanciones = new LinkedList<ListaCanciones>();
 			StringTokenizer strTok = new StringTokenizer(listaCanciones, " ");
