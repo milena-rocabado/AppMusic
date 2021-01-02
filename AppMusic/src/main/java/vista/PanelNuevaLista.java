@@ -48,7 +48,7 @@ public class PanelNuevaLista extends JPanel {
 		crearBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = nombreField.getText();
-				if (nombre.isBlank()) {
+				if (nombre.isEmpty()) {
 					JOptionPane.showMessageDialog(crearBtn, "El nombre de la lista no puede estar vacío.", "Nombre vacío", JOptionPane.WARNING_MESSAGE);
 					return;
 				}

@@ -95,7 +95,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 				if (index > -1) {
 					Cancion c = bc.get(index);
 					lc.addCancion(c);
-					modeloTablaLC.addRow(new String[]{c.getInterprete().getNombre(), c.getTitulo()});
+					modeloTablaLC.addRow(new String[]{c.getInterprete(), c.getTitulo()});
 					busqueda.clearSelection();
 				}
 			}
@@ -152,7 +152,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 		String[] contenido = new String[2];
 		for (Cancion c : lista) {
-			contenido[0] = c.getInterprete().getNombre();
+			contenido[0] = c.getInterprete();
 			contenido[1] = c.getTitulo();
 			modelo.addRow(contenido);
 		}

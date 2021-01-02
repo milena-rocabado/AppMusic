@@ -86,7 +86,7 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 		String[] contenido = new String[2];
 		for (Cancion c : lista) {
-			contenido[0] = c.getInterprete().getNombre();//Esto no se si es asi
+			contenido[0] = c.getInterprete();//Esto no se si es asi
 			contenido[1] = c.getTitulo();
 			modelo.addRow(contenido);
 		}

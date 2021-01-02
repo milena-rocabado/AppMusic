@@ -335,12 +335,12 @@ public class VentanaSignIn {
 		ocultarMensajesError();
 		boolean ok = true;
 		
-		if (nombreField.getText().isBlank()) {
+		if (nombreField.getText().isEmpty()) {
 			camposErrorLabel.setVisible(true);
 			nombreLabel.setForeground(Color.RED);
 			ok = false;
 		}
-		if (apellidosField.getText().isBlank()) { 
+		if (apellidosField.getText().isEmpty()) { 
 			camposErrorLabel.setVisible(true);
 			apellidosLabel.setForeground(Color.RED);
 			ok = false;
@@ -350,24 +350,24 @@ public class VentanaSignIn {
 			fechaLabel.setForeground(Color.RED);
 			ok = false;
 		}
-		if (emailField.getText().isBlank()) {
+		if (emailField.getText().isEmpty()) {
 			camposErrorLabel.setVisible(true);
 			emailLabel.setForeground(Color.RED);
 			ok = false;
 		}
-		if (usuarioField.getText().isBlank()) {
+		if (usuarioField.getText().isEmpty()) {
 			camposErrorLabel.setVisible(true);
 			usuarioLabel.setForeground(Color.RED);
 			ok = false;
 		}
 		String contr1 = new String(contrField.getPassword());
 		String contr2 = new String(repetirField.getPassword());
-		if (contr1.isBlank()) {
+		if (contr1.isEmpty()) {
 			camposErrorLabel.setVisible(true);
 			contrLabel.setForeground(Color.RED);
 			ok = false;
 		}
-		if (contr2.isBlank()) {
+		if (contr2.isEmpty()) {
 			camposErrorLabel.setVisible(true);
 			repetirLabel.setForeground(Color.RED);
 			ok = false;

@@ -129,7 +129,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	@Override
 	public List<Usuario> recuperarTodosUsuarios() {
 		List<Entidad> entidades = sPersistencia.recuperarEntidades(USUARIO);
-
+		System.out.println("Hay en la base de datos: "+ entidades.size()+" usuarios");
 		List<Usuario> usuarios = new LinkedList<Usuario>();
 		for (Entidad eUsuario : entidades) {
 			usuarios.add(recuperarUsuario(eUsuario.getId()));

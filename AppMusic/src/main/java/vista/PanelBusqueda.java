@@ -46,8 +46,8 @@ public class PanelBusqueda extends JPanel {
 		
 		estiloCBox = new JComboBox<>();
 		estiloCBox.setPreferredSize(new Dimension(100, 22));
-		List<Estilo> estilos = AppMusic.getInstancia().getEstilos();
-		//
+		List<String> estilos = AppMusic.getInstancia().getEstilos();
+		/*
 		Estilo estilo1= new Estilo("Metal");
 		Estilo estilo2= new Estilo("Rock");
 		Estilo estilo3= new Estilo("Indie");
@@ -57,14 +57,15 @@ public class PanelBusqueda extends JPanel {
 		estilos.add(estilo2);
 		estilos.add(estilo3);
 		estilos.add(estilo4);
-		//estilos.add("Metal");
-		//estilos.add("Rock");
-		//estilos.add("Indie");
-		//estilos.add("Pop");
+		*/
+		estilos.add("Metal");
+		estilos.add("Rock");
+		estilos.add("Indie");
+		estilos.add("Pop");
 		//
 		estiloCBox.addItem("Estilo");
-		for (Estilo e : estilos) {
-			estiloCBox.addItem(e.getNombre());
+		for (String e : estilos) {
+			estiloCBox.addItem(e);
 		}
 		add(estiloCBox);
 		
@@ -80,7 +81,7 @@ public class PanelBusqueda extends JPanel {
 				
 				Interprete interprete1 = new Interprete("Judas Priest");
 				Interprete interprete2 = new Interprete("KAI");
-				
+				/*
 				Estilo estilo1= new Estilo("Metal");
 				Estilo estilo4= new Estilo("Pop");
 				//
@@ -90,8 +91,9 @@ public class PanelBusqueda extends JPanel {
 				lista.add(new Cancion("XS", new Interprete("Rina Sawayama"), estilo1, 54542215));
 				lista.add(new Cancion("Neon Knights", new Interprete("Black Sabbath"), estilo1, 54542215));
 				lista.add(new Cancion("Ride or Die", interprete2, estilo4, 54542215));
-				//lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal", 24230842));
-				//lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
+				*/
+				lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal", 24230842));
+				lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
 				//
 				
 				listener.handleBusqueda(lista);
