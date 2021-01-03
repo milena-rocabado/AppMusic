@@ -69,7 +69,7 @@ public final class Cancion {
 	}
 
 	public boolean esInterpretadaPor(String nombre) {
-		return this.interprete.equals(nombre);
+		return this.interprete.contains(nombre);
 	}
 	
 	public boolean esEstiloMusical(String estilo) {

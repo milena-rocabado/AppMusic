@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
@@ -52,10 +53,7 @@ public class CatalogoCanciones {
 	}
 
 	public List<Cancion> getAllCanciones() {
-		List<Cancion> lista = new LinkedList<>(this.canciones.values());
-		// for (Cancion c : this.canciones.values())
-		// lista.add(c);
-		return lista;
+		return new LinkedList<>(this.canciones.values());
 	}
 
 	public List<Cancion> getCancionesTitulo(List<Cancion> lista,String titulo) {
@@ -91,6 +89,13 @@ public class CatalogoCanciones {
 		return listaCopia;
 	}
 
+	public List<Cancion> filtrarCanciones(String interprete, String titulo, String estilo) {
+		return canciones.values().stream().filter(c -> interprete == null || interprete.isBlank() || c.esInterpretadaPor(interprete))
+											.filter(c -> titulo == null || titulo.isBlank() || c.getTitulo().contains(titulo))
+											.filter(c -> estilo == null || estilo.isBlank() || c.esEstiloMusical(estilo))
+											.collect(Collectors.toList());
+	}
+	
 	public void addCancion(Cancion cancion) {
 		canciones.put(cancion.getId(), cancion);
 	}
