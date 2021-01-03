@@ -58,37 +58,39 @@ public class CatalogoCanciones {
 		return lista;
 	}
 
-	public List<Cancion> getCancionesTitulo(String titulo) {
-		List<Cancion> canciones = new LinkedList<>();
+	public List<Cancion> getCancionesTitulo(List<Cancion> lista,String titulo) {
 		if (titulo.isEmpty())
-			return canciones;
-		for (Cancion c : this.canciones.values()) {
-			if (c.getTitulo().contains(titulo))
-				canciones.add(c);
+			return lista;
+		List<Cancion> listaCopia = new LinkedList<>(lista);
+		for (Cancion c : lista) {
+			if (!c.getTitulo().contains(titulo))
+				listaCopia.remove(c);
 		}
-		return canciones;
+		return listaCopia;
 	}
 
-	public List<Cancion> getCancionesInterprete(String nombre) {
-		List<Cancion> canciones = new LinkedList<>();
-		if (nombre.isEmpty())
-			return canciones;
+	public List<Cancion> getCancionesInterprete(List<Cancion> lista,String interprete) {
+		List<Cancion> todasCanciones = new LinkedList<Cancion>(this.canciones.values());
+		if (interprete.isEmpty())
+			return todasCanciones;
 		for (Cancion c : this.canciones.values()) {
-			if (c.esInterpretadaPor(nombre))
-				canciones.add(c);
+			if (c.getInterprete().contains(interprete))
+				lista.add(c);
+			//if (c.esInterpretadaPor(interprete))
+			//	lista.add(c);
 		}
-		return canciones;
+		return lista;
 	}
 
-	public List<Cancion> getCancionesEstilo(String estilo) {
-		List<Cancion> canciones = new LinkedList<>();
+	public List<Cancion> getCancionesEstilo(List<Cancion> lista,String estilo) {
 		if (estilo.isEmpty())
-			return canciones;
-		for (Cancion c : this.canciones.values()) {
-			if (c.esEstiloMusical(estilo))
-				canciones.add(c);
+			return lista;
+		List<Cancion> listaCopia = new LinkedList<>(lista);
+		for (Cancion c : lista) {
+			if (!c.esEstiloMusical(estilo))
+				listaCopia.remove(c);
 		}
-		return canciones;
+		return listaCopia;
 	}
 
 	public void addCancion(Cancion cancion) {

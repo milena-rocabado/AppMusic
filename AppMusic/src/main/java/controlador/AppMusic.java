@@ -113,10 +113,10 @@ public class AppMusic implements ICancionesListener {
 
 	public List<Cancion> buscarCanciones(String interprete, String titulo, String estilo) {
 		List<Cancion> lista = new LinkedList<>();
-		List<Cancion> cancInter = cCanciones.getCancionesInterprete(interprete); // el catalogo se encarga de comprobar
+		lista = cCanciones.getCancionesInterprete(lista,interprete); // el catalogo se encarga de comprobar
 																					// si los strings estan vacios
-		List<Cancion> cancTitulo = cCanciones.getCancionesTitulo(interprete);
-		List<Cancion> cancEstilo = cCanciones.getCancionesEstilo(interprete);
+		lista = cCanciones.getCancionesTitulo(lista,titulo);
+		lista = cCanciones.getCancionesEstilo(lista,estilo);
 		// interseccion de las listas
 		return lista;
 	}

@@ -28,6 +28,7 @@ import modelo.ListaCanciones;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -112,6 +113,16 @@ public class VentanaPrincipal {
 		headerPanel.add(premiumBtn);
 		
 		logoutBtn = new JButton("Log Out");
+		logoutBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int salida = JOptionPane.showConfirmDialog(logoutBtn,"¿Seguro que quiere salir de tu cuenta?","Exit",JOptionPane.YES_NO_OPTION);
+				if (salida==0) {
+					VentanaLogin vs = new VentanaLogin();
+					vs.mostrarVentana();
+					frame.setVisible(false);
+				}
+			}
+		});
 		headerPanel.add(logoutBtn);
 		
 		sidebarPanel = new JPanel();
