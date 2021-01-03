@@ -135,8 +135,6 @@ public class AppMusic implements ICancionesListener {
 	}
 
 	public void cargarCanciones(File fichero) {
-		// System.out.println(fichero.getAbsolutePath());
-		// System.out.println(canciones);
 		boolean correcto = canciones.setArchivoCanciones(fichero.getAbsolutePath());
 	}
 
@@ -162,7 +160,10 @@ public class AppMusic implements ICancionesListener {
 	public void registrarCancion(Cancion cancion) {
 		cancionDAO.registrarCancion(cancion);
 		cCanciones.addCancion(cancion);
-
 	}
-
+	
+	public boolean existeUsuario(String usuario) {
+		Usuario u = cUsuarios.getUsuario(usuario);
+		return (u != null);
+	}
 }

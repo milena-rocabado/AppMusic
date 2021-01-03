@@ -57,7 +57,7 @@ public class CatalogoCanciones {
 	}
 
 	public List<Cancion> getCancionesTitulo(List<Cancion> lista,String titulo) {
-		if (titulo.isBlank())
+		if (titulo.isEmpty())
 			return lista;
 		List<Cancion> listaCopia = new LinkedList<>(lista);
 		for (Cancion c : lista) {
@@ -69,7 +69,7 @@ public class CatalogoCanciones {
 
 	public List<Cancion> getCancionesInterprete(List<Cancion> lista,String interprete) {
 		List<Cancion> todasCanciones = new LinkedList<Cancion>(this.canciones.values());
-		if (interprete.isBlank())
+		if (interprete.isEmpty())
 			return todasCanciones;
 		for (Cancion c : this.canciones.values()) {
 			if (c.esInterpretadaPor(interprete))
@@ -79,7 +79,7 @@ public class CatalogoCanciones {
 	}
 
 	public List<Cancion> getCancionesEstilo(List<Cancion> lista,String estilo) {
-		if (estilo.isBlank())
+		if (estilo.isEmpty())
 			return lista;
 		List<Cancion> listaCopia = new LinkedList<>(lista);
 		for (Cancion c : lista) {
@@ -90,9 +90,9 @@ public class CatalogoCanciones {
 	}
 
 	public List<Cancion> filtrarCanciones(String interprete, String titulo, String estilo) {
-		return canciones.values().stream().filter(c -> interprete == null || interprete.isBlank() || c.esInterpretadaPor(interprete))
-											.filter(c -> titulo == null || titulo.isBlank() || c.getTitulo().contains(titulo))
-											.filter(c -> estilo == null || estilo.isBlank() || c.esEstiloMusical(estilo))
+		return canciones.values().stream().filter(c -> interprete == null || interprete.isEmpty() || c.esInterpretadaPor(interprete))
+											.filter(c -> titulo == null || titulo.isEmpty() || c.getTitulo().contains(titulo))
+											.filter(c -> estilo == null || estilo.isEmpty() || c.esEstiloMusical(estilo))
 											.collect(Collectors.toList());
 	}
 	

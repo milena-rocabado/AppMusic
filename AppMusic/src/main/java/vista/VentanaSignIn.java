@@ -378,13 +378,11 @@ public class VentanaSignIn {
 			repetirLabel.setForeground(Color.RED);
 			ok = false;
 		}
-		/*
-		if (usuario not empty && controlador.existeUsuario(usuario)) {
+		if (!usuarioField.getText().isEmpty() && controlador.existeUsuario(usuarioField.getText())) {
 			usuarioErrorLabel.setVisible(true);
 			usuarioLabel.setForeground(Color.RED);
 			ok = false;
 		}
-		*/
 		return ok;
 	}
 
