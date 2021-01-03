@@ -14,6 +14,11 @@ public class ListaCanciones {
 		this.nombre = nombre;
 		this.canciones = new LinkedList<>();
 	}
+	
+	public ListaCanciones(ListaCanciones listaCanciones) {
+		this.nombre = listaCanciones.getNombre();
+		this.canciones = new LinkedList<>(listaCanciones.getCanciones());
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -48,7 +53,30 @@ public class ListaCanciones {
 
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
+	}	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ListaCanciones other = (ListaCanciones) obj;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
+	}
 }

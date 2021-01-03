@@ -99,13 +99,9 @@ public class AppMusic implements ICancionesListener {
 	public ListaCanciones crearLista(String nombre) {
 		return usuarioActual.crearLista(nombre);
 	}
-
-	public void addCancion(ListaCanciones lista, Cancion cancion) {
-		lista.addCancion(cancion);
-	}
-
-	public void removeCancion(ListaCanciones lista, Cancion cancion) {
-		lista.removeCancion(cancion);
+	
+	public void actualizarListaCanciones(ListaCanciones lista) {
+		usuarioActual.actualizarListaCanciones(lista);
 	}
 
 	public List<Cancion> buscarCanciones(String interprete, String titulo, String estilo) {
@@ -124,11 +120,7 @@ public class AppMusic implements ICancionesListener {
 	}
 
 	public ListaCanciones getListaCanciones(String nombre) {
-		for (ListaCanciones lc : usuarioActual.getListas()) {
-			if (lc.getNombre().equals(nombre))
-				return lc;
-		}
-		return null;
+		return usuarioActual.getListaCanciones(nombre);
 	}
 
 	public void cargarCanciones(File fichero) {

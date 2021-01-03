@@ -126,4 +126,21 @@ public class Usuario {
 		listas.add(lista);
 		return lista;
 	}
+
+	public void addListaCanciones(ListaCanciones lista) {
+		listas.add(lista);
+	}
+	
+	public ListaCanciones getListaCanciones(String nombre) {
+		for (ListaCanciones lc : listas) {
+			if (lc.getNombre().equals(nombre))
+				return lc;
+		}
+		return null;
+	}
+
+	public void actualizarListaCanciones(ListaCanciones lista) {
+		listas.remove(lista);
+		listas.add(lista);
+	}
 }

@@ -21,7 +21,6 @@ public class PanelNuevaLista extends JPanel {
 	private JTextField nombreField;
 	private PanelCreacionLista panelCLista;
 	private JButton crearBtn;
-	private JButton aceptarBtn;
 
 	/**
 	 * Create the panel.
@@ -30,9 +29,9 @@ public class PanelNuevaLista extends JPanel {
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 0, 0, 0, 15, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 15, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 0, 15, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		nombreField = new JTextField();
@@ -62,8 +61,7 @@ public class PanelNuevaLista extends JPanel {
 					opt = JOptionPane.showConfirmDialog(crearBtn, "¿Deseas crear una nueva lista?", "Nueva Lista", JOptionPane.YES_NO_OPTION);
 				}
 				if (opt == JOptionPane.YES_OPTION) {
-					if (!existe) lc = AppMusic.getInstancia().crearLista(nombre);
-					mostrarPanelCreacion(lc);
+					mostrarPanelCreacion(nombre); // panel crecion se encarga de crear o editar la lista cuando se confirme operacion
 				}
 			}
 		});
@@ -73,26 +71,10 @@ public class PanelNuevaLista extends JPanel {
 		gbc_crearBtn.gridx = 3;
 		gbc_crearBtn.gridy = 1;
 		add(crearBtn, gbc_crearBtn);
-		
-		aceptarBtn = new JButton("Aceptar");
-		aceptarBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(aceptarBtn, "Cambios guardados");
-				resetearPanel();
-			}
-		});
-		GridBagConstraints gbc_aceptarBtn = new GridBagConstraints();
-		gbc_aceptarBtn.gridwidth = 3;
-		gbc_aceptarBtn.insets = new Insets(0, 0, 5, 5);
-		gbc_aceptarBtn.gridx = 1;
-		gbc_aceptarBtn.gridy = 3;
-		add(aceptarBtn, gbc_aceptarBtn);
-		aceptarBtn.setVisible(false);
 	}
 
-	private void resetearPanel() {
+	public void resetearPanel() {
 		panelCLista.setVisible(false);
-		aceptarBtn.setVisible(false);
 		nombreField.setText("");
 		crearBtn.setVisible(true);
 		nombreField.setVisible(true);
@@ -103,8 +85,8 @@ public class PanelNuevaLista extends JPanel {
 		this.repaint();
 	}
 
-	private void mostrarPanelCreacion(ListaCanciones lc) {
-		panelCLista = new PanelCreacionLista(lc);
+	private void mostrarPanelCreacion(String nombre) {
+		panelCLista = new PanelCreacionLista(this, nombre);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.gridwidth = 3;
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -115,7 +97,6 @@ public class PanelNuevaLista extends JPanel {
 
 		crearBtn.setVisible(false);
 		nombreField.setVisible(false);
-		aceptarBtn.setVisible(true);
 		actualizarPanel();
 	}
 }

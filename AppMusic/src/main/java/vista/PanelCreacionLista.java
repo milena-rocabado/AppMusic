@@ -10,12 +10,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.AppMusic;
 import modelo.Cancion;
 import modelo.ListaCanciones;
 import java.awt.event.ActionListener;
@@ -25,17 +27,25 @@ import javax.swing.border.EtchedBorder;
 @SuppressWarnings("serial")
 public class PanelCreacionLista extends JPanel implements BusquedaListener {
 
+	private PanelNuevaLista invocador;
 	private JTable busqueda;
 	private JTable tablaLC;
 	private DefaultTableModel modeloTablaLC;
-	private ListaCanciones listaCanciones;
 	private List<Cancion> bc;
+	private String nombre;
+	private ListaCanciones listaAux;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelCreacionLista(ListaCanciones listaCanciones) {
-		this.listaCanciones = listaCanciones;
+	public PanelCreacionLista(PanelNuevaLista invocador, String nombre) {
+		this.invocador = invocador;
+		this.nombre = nombre;
+		
+		ListaCanciones original = AppMusic.getInstancia().getListaCanciones(nombre);
+		if (original == null) this.listaAux = new ListaCanciones(nombre);
+		else this.listaAux = new ListaCanciones(original);
+		
 		inicializarPanel();
 	}
 	
@@ -74,7 +84,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		scrollPaneBusqueda.setViewportView(busqueda);
 		
 		JScrollPane scrollPaneCanciones = new JScrollPane();
-		scrollPaneCanciones.setBorder(new TitledBorder(null, listaCanciones.getNombre(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		scrollPaneCanciones.setBorder(new TitledBorder(null, nombre, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneCanciones.setPreferredSize(new Dimension(100, 225));
 		GridBagConstraints gbc_scrollPaneCanciones = new GridBagConstraints();
 		gbc_scrollPaneCanciones.insets = new Insets(0, 0, 5, 0);
@@ -85,7 +95,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		add(scrollPaneCanciones, gbc_scrollPaneCanciones);
 		
 		tablaLC = new JTable();
-		List<Cancion> canciones = listaCanciones.getCanciones();
+		List<Cancion> canciones = listaAux.getCanciones();
 		modeloTablaLC = inicializarTabla(canciones);
 		tablaLC.setModel(modeloTablaLC);
 		scrollPaneCanciones.setViewportView(tablaLC);
@@ -96,7 +106,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 				int index = busqueda.getSelectedRow();
 				if (index > -1) {
 					Cancion c = bc.get(index);
-					listaCanciones.addCancion(c);
+					listaAux.addCancion(c);
 					modeloTablaLC.addRow(new String[]{c.getInterprete(), c.getTitulo()});
 					busqueda.clearSelection();
 				}
@@ -113,8 +123,8 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 			public void actionPerformed(ActionEvent e) {
 				int index = tablaLC.getSelectedRow();
 				if (index > -1) {
-					Cancion c = listaCanciones.getCanciones().get(index);
-					listaCanciones.removeCancion(c);
+					Cancion c = listaAux.getCanciones().get(index);
+					listaAux.removeCancion(c);
 					modeloTablaLC.removeRow(tablaLC.getSelectedRow());
 					busqueda.clearSelection();
 				}
@@ -125,6 +135,35 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		gbc_rmvBtn.gridx = 1;
 		gbc_rmvBtn.gridy = 4;
 		add(rmvBtn, gbc_rmvBtn);
+		
+		JPanel confirmPanel = new JPanel();
+		confirmPanel.setBackground(new Color(240, 255, 255));
+		GridBagConstraints gbc_confirmPanel = new GridBagConstraints();
+		gbc_confirmPanel.gridwidth = 3;
+		gbc_confirmPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_confirmPanel.fill = GridBagConstraints.BOTH;
+		gbc_confirmPanel.gridx = 0;
+		gbc_confirmPanel.gridy = 6;
+		add(confirmPanel, gbc_confirmPanel);
+		
+		JButton cancelarBtn = new JButton("Cancelar");
+		cancelarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(cancelarBtn, "Cambios descartados");
+				invocador.resetearPanel();
+			}
+		});
+		confirmPanel.add(cancelarBtn);
+		
+		JButton aceptarBtn = new JButton("Aceptar");
+		aceptarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AppMusic.getInstancia().actualizarListaCanciones(listaAux);
+				JOptionPane.showMessageDialog(aceptarBtn, "Cambios guardados");
+				invocador.resetearPanel();
+			}
+		});
+		confirmPanel.add(aceptarBtn);
 	}
 
 	@Override
