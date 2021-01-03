@@ -52,7 +52,7 @@ public class CatalogoUsuarios {
 	}
 	
 	public Usuario getUsuario(Integer id) {
-		return usuariosLogIn.get(id);
+		return usuariosID.get(id);
 	}
 	
 	public void addUsuario(Usuario usuario) {

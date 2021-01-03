@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
+
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -23,17 +24,18 @@ import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
 public class PanelCreacionLista extends JPanel implements BusquedaListener {
+
 	private JTable busqueda;
 	private JTable tablaLC;
 	private DefaultTableModel modeloTablaLC;
-	private ListaCanciones lc;
+	private ListaCanciones listaCanciones;
 	private List<Cancion> bc;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelCreacionLista(ListaCanciones listaCanciones) {
-		lc = listaCanciones;
+		this.listaCanciones = listaCanciones;
 		inicializarPanel();
 	}
 	
@@ -83,7 +85,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		add(scrollPaneCanciones, gbc_scrollPaneCanciones);
 		
 		tablaLC = new JTable();
-		List<Cancion> canciones = lc.getCanciones();
+		List<Cancion> canciones = listaCanciones.getCanciones();
 		modeloTablaLC = inicializarTabla(canciones);
 		tablaLC.setModel(modeloTablaLC);
 		scrollPaneCanciones.setViewportView(tablaLC);
@@ -94,7 +96,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 				int index = busqueda.getSelectedRow();
 				if (index > -1) {
 					Cancion c = bc.get(index);
-					lc.addCancion(c);
+					listaCanciones.addCancion(c);
 					modeloTablaLC.addRow(new String[]{c.getInterprete(), c.getTitulo()});
 					busqueda.clearSelection();
 				}
@@ -111,8 +113,8 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 			public void actionPerformed(ActionEvent e) {
 				int index = tablaLC.getSelectedRow();
 				if (index > -1) {
-					Cancion c = lc.getCanciones().get(index);
-					lc.removeCancion(c);
+					Cancion c = listaCanciones.getCanciones().get(index);
+					listaCanciones.removeCancion(c);
 					modeloTablaLC.removeRow(tablaLC.getSelectedRow());
 					busqueda.clearSelection();
 				}
@@ -123,22 +125,6 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		gbc_rmvBtn.gridx = 1;
 		gbc_rmvBtn.gridy = 4;
 		add(rmvBtn, gbc_rmvBtn);
-		
-		JPanel confirmarPanel = new JPanel();
-		confirmarPanel.setBackground(new Color(240, 255, 255));
-		GridBagConstraints gbc_confirmarPanel = new GridBagConstraints();
-		gbc_confirmarPanel.gridwidth = 3;
-		gbc_confirmarPanel.insets = new Insets(0, 0, 0, 5);
-		gbc_confirmarPanel.fill = GridBagConstraints.BOTH;
-		gbc_confirmarPanel.gridx = 0;
-		gbc_confirmarPanel.gridy = 7;
-		add(confirmarPanel, gbc_confirmarPanel);
-		
-		JButton cancelarBtn = new JButton("Cancelar");
-		confirmarPanel.add(cancelarBtn);
-		
-		JButton aceptar = new JButton("Aceptar");
-		confirmarPanel.add(aceptar);
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import javax.swing.JTextField;
 
 import controlador.AppMusic;
 import modelo.Cancion;
-import modelo.Interprete;
 
 import java.awt.Color;
 import java.awt.Dimension;

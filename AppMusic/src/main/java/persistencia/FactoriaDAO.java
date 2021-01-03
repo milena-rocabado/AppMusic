@@ -4,7 +4,6 @@ public abstract class FactoriaDAO {
 	private static FactoriaDAO unicaInstancia;
 	public static final String DAO_TDS = "persistencia.TDSFactoriaDAO";
 	
-	@SuppressWarnings("deprecation")
 	public static FactoriaDAO getInstancia(String tipo) throws DAOException{
 		if (unicaInstancia == null)
 			try {

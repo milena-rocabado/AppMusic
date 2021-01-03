@@ -2,14 +2,11 @@ package controlador;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.EventObject;
-import java.util.LinkedList;
 import java.util.List;
 
 import modelo.Cancion;
 import modelo.CatalogoCanciones;
 import modelo.CatalogoUsuarios;
-import modelo.Estilo;
 import modelo.ListaCanciones;
 import modelo.Usuario;
 import persistencia.CancionDAO;
@@ -135,7 +132,7 @@ public class AppMusic implements ICancionesListener {
 	}
 
 	public void cargarCanciones(File fichero) {
-		boolean correcto = canciones.setArchivoCanciones(fichero.getAbsolutePath());
+		/*boolean correcto = */canciones.setArchivoCanciones(fichero.getAbsolutePath());
 	}
 
 	@Override

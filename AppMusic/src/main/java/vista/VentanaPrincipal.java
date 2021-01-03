@@ -109,8 +109,10 @@ public class VentanaPrincipal {
 		holaLabel.setFont(new Font("Cooper Black", Font.PLAIN, 19));
 		headerPanel.add(holaLabel);
 		
-		premiumBtn = new JButton("Hazte Premium");
-		headerPanel.add(premiumBtn);
+		if (! AppMusic.getInstancia().getUsuarioActual().isPremium()) {
+			premiumBtn = new JButton("Hazte Premium");
+			headerPanel.add(premiumBtn);
+		}
 		
 		logoutBtn = new JButton("Log Out");
 		logoutBtn.addActionListener(new ActionListener() {
@@ -259,7 +261,7 @@ public class VentanaPrincipal {
 		listas.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				ListaCanciones lc = AppMusic.getInstancia().getListaCanciones(listas.getSelectedValue());
-				if (lc !=null) panelMListas.setModeloTabla(lc);
+				if (lc != null) panelMListas.setModeloTabla(lc);
 				panelMListas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelMListas;

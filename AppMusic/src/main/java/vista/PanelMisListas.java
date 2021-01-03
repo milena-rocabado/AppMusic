@@ -47,6 +47,8 @@ public class PanelMisListas extends JPanel {
 		gbc_botonera.gridx = 1;
 		gbc_botonera.gridy = 2;
 		add(botonera, gbc_botonera);
+		
+		table.setModel(new DefaultTableModel(null, new String[] {"Intérprete", "Título"}));
 	}
 	
 	private DefaultTableModel actualizarTabla() {

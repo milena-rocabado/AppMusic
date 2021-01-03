@@ -3,7 +3,6 @@ package persistencia;
 import java.util.List;
 
 import modelo.Cancion;
-import modelo.Usuario;
 
 public interface CancionDAO {
 

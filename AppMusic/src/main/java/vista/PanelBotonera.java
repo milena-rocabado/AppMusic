@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class PanelBotonera extends JPanel {
 
 	private JButton prevBtn;

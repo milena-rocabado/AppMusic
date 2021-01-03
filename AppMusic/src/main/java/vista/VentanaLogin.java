@@ -23,13 +23,8 @@ import java.awt.BorderLayout;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.eclipse.persistence.internal.core.sessions.CoreAbstractRecord;
-
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.EventObject;
 import java.awt.event.ActionEvent;
 

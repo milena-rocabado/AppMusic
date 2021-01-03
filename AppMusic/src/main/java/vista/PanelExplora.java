@@ -2,25 +2,16 @@ package vista;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JComboBox;
 import java.awt.Dimension;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
-import controlador.AppMusic;
 import modelo.Cancion;
-import modelo.Estilo;
 
 @SuppressWarnings("serial")
 public class PanelExplora extends JPanel implements BusquedaListener {

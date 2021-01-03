@@ -2,7 +2,6 @@ package modelo;
 
 import java.util.Objects;
 
-import umu.tds.componente.CancionComponente;
 
 public final class Cancion {
 	private int id;

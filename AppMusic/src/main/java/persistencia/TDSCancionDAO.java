@@ -8,8 +8,6 @@ import java.util.List;
 import beans.Entidad;
 import beans.Propiedad;
 import modelo.Cancion;
-import modelo.Estilo;
-import modelo.Interprete;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
