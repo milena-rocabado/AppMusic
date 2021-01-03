@@ -2,20 +2,16 @@ package vista;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controlador.AppMusic;
 import modelo.Cancion;
-import modelo.Estilo;
 import modelo.Interprete;
 
-import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -78,23 +74,6 @@ public class PanelBusqueda extends JPanel {
 				System.out.println("Interprete " + interprete);
 				System.out.println("Estilo " + estilo);
 				List<Cancion> lista = AppMusic.getInstancia().buscarCanciones(interprete, titulo, estilo);
-
-				Interprete interprete1 = new Interprete("Judas Priest");
-				Interprete interprete2 = new Interprete("KAI");
-				/*
-				 * Estilo estilo1= new Estilo("Metal"); Estilo estilo4= new Estilo("Pop"); //
-				 * lista.add(new Cancion("Hell Patrol", interprete1, estilo1, 24230842));
-				 * lista.add(new Cancion("Amnesia", interprete2, estilo4, 25330842));
-				 * lista.add(new Cancion("Monster", new Interprete("EXO"), estilo4, 54542215));
-				 * lista.add(new Cancion("XS", new Interprete("Rina Sawayama"), estilo1,
-				 * 54542215)); lista.add(new Cancion("Neon Knights", new
-				 * Interprete("Black Sabbath"), estilo1, 54542215)); lista.add(new
-				 * Cancion("Ride or Die", interprete2, estilo4, 54542215));
-				 */
-				// lista.add(new Cancion("Hell Patrol", "Judas Priest", "Heavy Metal",
-				// 24230842));
-				// lista.add(new Cancion("Amnesia", "KAI", "Pop", 25330842));
-				//
 
 				listener.handleBusqueda(lista);
 			}

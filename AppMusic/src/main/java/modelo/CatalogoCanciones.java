@@ -59,7 +59,7 @@ public class CatalogoCanciones {
 	}
 
 	public List<Cancion> getCancionesTitulo(List<Cancion> lista,String titulo) {
-		if (titulo.isEmpty())
+		if (titulo.isBlank())
 			return lista;
 		List<Cancion> listaCopia = new LinkedList<>(lista);
 		for (Cancion c : lista) {
@@ -71,19 +71,17 @@ public class CatalogoCanciones {
 
 	public List<Cancion> getCancionesInterprete(List<Cancion> lista,String interprete) {
 		List<Cancion> todasCanciones = new LinkedList<Cancion>(this.canciones.values());
-		if (interprete.isEmpty())
+		if (interprete.isBlank())
 			return todasCanciones;
 		for (Cancion c : this.canciones.values()) {
-			if (c.getInterprete().contains(interprete))
-				lista.add(c);
-			//if (c.esInterpretadaPor(interprete))
-			//	lista.add(c);
+			if (c.esInterpretadaPor(interprete))
+				lista.remove(c);
 		}
 		return lista;
 	}
 
 	public List<Cancion> getCancionesEstilo(List<Cancion> lista,String estilo) {
-		if (estilo.isEmpty())
+		if (estilo.isBlank())
 			return lista;
 		List<Cancion> listaCopia = new LinkedList<>(lista);
 		for (Cancion c : lista) {
