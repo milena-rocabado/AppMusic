@@ -53,6 +53,9 @@ public class VentanaPrincipal {
 	private JList<String> listas;
 	private JScrollPane listaScrollPane;
 	
+	private JButton descargaBtn;
+	private JButton estadisticaBtn;
+	
 	/*
 	 * SACAR DESPUES
 	 * */
@@ -109,9 +112,20 @@ public class VentanaPrincipal {
 		holaLabel.setFont(new Font("Cooper Black", Font.PLAIN, 19));
 		headerPanel.add(holaLabel);
 		
+		AppMusic.getInstancia().getUsuarioActual().setPremium(true);
 		if (! AppMusic.getInstancia().getUsuarioActual().isPremium()) {
 			premiumBtn = new JButton("Hazte Premium");
 			headerPanel.add(premiumBtn);
+		} else {
+			descargaBtn = new JButton("Descarga tus Listas");
+			descargaBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					AppMusic.getInstancia().generarPDF();
+				}
+			});
+			estadisticaBtn = new JButton("Estadísticas AppMusic");
+			headerPanel.add(descargaBtn);
+			headerPanel.add(estadisticaBtn);
 		}
 		
 		logoutBtn = new JButton("Log Out");

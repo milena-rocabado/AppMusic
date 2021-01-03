@@ -63,16 +63,7 @@ public class PanelNuevaLista extends JPanel {
 				}
 				if (opt == JOptionPane.YES_OPTION) {
 					if (!existe) lc = AppMusic.getInstancia().crearLista(nombre);
-					panelCLista = new PanelCreacionLista(lc);
-					GridBagConstraints gbc_panel = new GridBagConstraints();
-					gbc_panel.gridwidth = 3;
-					gbc_panel.insets = new Insets(0, 0, 5, 5);
-					gbc_panel.fill = GridBagConstraints.BOTH;
-					gbc_panel.gridx = 1;
-					gbc_panel.gridy = 2;
-					add(panelCLista, gbc_panel);
-					aceptarBtn.setVisible(true);
-					actualizarPanel();
+					mostrarPanelCreacion(lc);
 				}
 			}
 		});
@@ -103,6 +94,8 @@ public class PanelNuevaLista extends JPanel {
 		panelCLista.setVisible(false);
 		aceptarBtn.setVisible(false);
 		nombreField.setText("");
+		crearBtn.setVisible(true);
+		nombreField.setVisible(true);
 	}
 	
 	private void actualizarPanel() {
@@ -110,4 +103,19 @@ public class PanelNuevaLista extends JPanel {
 		this.repaint();
 	}
 
+	private void mostrarPanelCreacion(ListaCanciones lc) {
+		panelCLista = new PanelCreacionLista(lc);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridwidth = 3;
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 2;
+		add(panelCLista, gbc_panel);
+
+		crearBtn.setVisible(false);
+		nombreField.setVisible(false);
+		aceptarBtn.setVisible(true);
+		actualizarPanel();
+	}
 }

@@ -74,7 +74,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		scrollPaneBusqueda.setViewportView(busqueda);
 		
 		JScrollPane scrollPaneCanciones = new JScrollPane();
-		scrollPaneCanciones.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Lista", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		scrollPaneCanciones.setBorder(new TitledBorder(null, listaCanciones.getNombre(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneCanciones.setPreferredSize(new Dimension(100, 225));
 		GridBagConstraints gbc_scrollPaneCanciones = new GridBagConstraints();
 		gbc_scrollPaneCanciones.insets = new Insets(0, 0, 5, 0);

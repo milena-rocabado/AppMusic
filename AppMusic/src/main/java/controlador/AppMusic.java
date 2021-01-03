@@ -163,4 +163,8 @@ public class AppMusic implements ICancionesListener {
 		Usuario u = cUsuarios.getUsuario(usuario);
 		return (u != null);
 	}
+
+	public void generarPDF() {
+		// generar PDF
+	}
 }

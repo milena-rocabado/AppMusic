@@ -13,6 +13,7 @@ import modelo.ListaCanciones;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Dimension;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class PanelMisListas extends JPanel {
@@ -27,28 +28,31 @@ public class PanelMisListas extends JPanel {
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 0, 15, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 0, 15, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 1;
+		add(scrollPane, gbc_scrollPane);
+		
 		table = new JTable();
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.insets = new Insets(0, 0, 5, 5);
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 1;
-		gbc_table.gridy = 1;
-		add(table, gbc_table);
+		scrollPane.setViewportView(table);
+		
+		table.setModel(new DefaultTableModel(null, new String[] {"Intérprete", "Título"}));
 		
 		JPanel botonera = new PanelBotonera();
 		GridBagConstraints gbc_botonera = new GridBagConstraints();
-		gbc_botonera.insets = new Insets(0, 0, 5, 5);
+		gbc_botonera.insets = new Insets(0, 0, 0, 5);
 		gbc_botonera.fill = GridBagConstraints.BOTH;
 		gbc_botonera.gridx = 1;
 		gbc_botonera.gridy = 2;
 		add(botonera, gbc_botonera);
-		
-		table.setModel(new DefaultTableModel(null, new String[] {"Intérprete", "Título"}));
 	}
 	
 	private DefaultTableModel actualizarTabla() {

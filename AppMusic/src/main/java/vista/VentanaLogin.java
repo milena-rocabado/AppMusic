@@ -89,7 +89,7 @@ public class VentanaLogin {
 		frame.getContentPane().add(loginPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_loginPanel = new GridBagLayout();
 		gbl_loginPanel.columnWidths = new int[] { 25, 0, 0, 25, 0 };
-		gbl_loginPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 10, 0 };
+		gbl_loginPanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 25, 0 };
 		gbl_loginPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_loginPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		loginPanel.setLayout(gbl_loginPanel);
