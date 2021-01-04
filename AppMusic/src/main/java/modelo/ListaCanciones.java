@@ -11,11 +11,13 @@ public class ListaCanciones {
 	private List<Cancion> canciones;
 	
 	public ListaCanciones(String nombre) {
+		this.codigo=0;
 		this.nombre = nombre;
 		this.canciones = new LinkedList<>();
 	}
 	
 	public ListaCanciones(ListaCanciones listaCanciones) {
+		this.codigo=listaCanciones.getCodigo();
 		this.nombre = listaCanciones.getNombre();
 		this.canciones = new LinkedList<>(listaCanciones.getCanciones());
 	}

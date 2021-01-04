@@ -48,7 +48,6 @@ public class TDSListaCancionesDAO implements ListaCancionesDAO{
 	private Entidad listaCancionesToEntidad(ListaCanciones listaCanciones) {
 		Entidad eListaCanciones = new Entidad();
 		eListaCanciones.setNombre(LISTACANCIONES);
-		
 		eListaCanciones.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
 				new Propiedad(NOMBRE, listaCanciones.getNombre()),
 				new Propiedad(CANCIONES, obtenerCodigosCanciones(listaCanciones.getCanciones())
@@ -73,6 +72,7 @@ public class TDSListaCancionesDAO implements ListaCancionesDAO{
 	@Override
 	public void modificarListaCanciones(ListaCanciones listaCanciones) {
 		Entidad eListaCanciones = sPersistencia.recuperarEntidad(listaCanciones.getCodigo());
+		
 		sPersistencia.eliminarPropiedadEntidad(eListaCanciones, NOMBRE);
 		sPersistencia.anadirPropiedadEntidad(eListaCanciones, NOMBRE, listaCanciones.getNombre());
 		sPersistencia.eliminarPropiedadEntidad(eListaCanciones, CANCIONES);

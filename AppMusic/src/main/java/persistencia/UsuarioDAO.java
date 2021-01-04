@@ -2,6 +2,7 @@ package persistencia;
 
 import java.util.List;
 
+import modelo.ListaCanciones;
 import modelo.Usuario;
 
 public interface UsuarioDAO {
@@ -11,4 +12,5 @@ public interface UsuarioDAO {
 	public void modificarUsuario(Usuario usuario);
 	public Usuario recuperarUsuario(int id);
 	List<Usuario> recuperarTodosUsuarios();
+	void addListaUsuario(Usuario usuario);
 }

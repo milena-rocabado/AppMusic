@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import persistencia.ListaCancionesDAO;
+
 public class Usuario {
 	private int id;
 	private String usuario;

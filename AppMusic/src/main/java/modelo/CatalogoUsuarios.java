@@ -28,6 +28,10 @@ public class CatalogoUsuarios {
 				System.out.println("El id del usuario "+i+" es "+ u.getId());
 				System.out.println("El usuario del usuario "+i+" es "+ u.getUsuario());
 				System.out.println("El password del usuario "+i+" es "+ u.getPassword());
+				System.out.println("El usuario tiene "+ u.getListas().size()+" listas registradas");
+				for (ListaCanciones lc: u.getListas())
+					System.out.println("modificando lista con nombre "+ lc.getNombre()+" y codigo "
+							+lc.getCodigo()+" y tiene "+lc.getCanciones().size());
 				System.out.println();
 				usuariosID.put(u.getId(), u);
 				usuariosLogIn.put(u.getUsuario(), u);
@@ -58,8 +62,7 @@ public class CatalogoUsuarios {
 	public void addUsuario(Usuario usuario) {
 		usuariosID.put(usuario.getId(), usuario);
 		usuariosLogIn.put(usuario.getUsuario(), usuario);
-		List<Usuario> usuarios = factoria.getUsuarioDAO().recuperarTodosUsuarios();
-		System.out.println("El tamaño de usuarios es: "+usuarios.size());
+		//List<Usuario> usuarios = factoria.getUsuarioDAO().recuperarTodosUsuarios();
 	}
 	
 	public void removeUsuario(Usuario usuario) {

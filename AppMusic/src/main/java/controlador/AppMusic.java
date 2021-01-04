@@ -62,6 +62,7 @@ public class AppMusic implements ICancionesListener {
 			e.printStackTrace();
 		}
 		cancionDAO = factoria.getCancionDAO();
+		listaCancionesDAO = factoria.getListaCancionesDAO();
 		usuarioDAO = factoria.getUsuarioDAO();
 	}
 
@@ -101,7 +102,13 @@ public class AppMusic implements ICancionesListener {
 	}
 	
 	public void actualizarListaCanciones(ListaCanciones lista) {
+		listaCancionesDAO.modificarListaCanciones(lista);
+		cUsuarios.removeUsuario(usuarioActual);
 		usuarioActual.actualizarListaCanciones(lista);
+		cUsuarios.addUsuario(usuarioActual);
+		//usuarioDAO.modificarUsuario(usuarioActual);
+		
+		
 	}
 
 	public List<Cancion> buscarCanciones(String interprete, String titulo, String estilo) {
@@ -158,5 +165,14 @@ public class AppMusic implements ICancionesListener {
 
 	public void generarPDF() {
 		// generar PDF
+	}
+
+	public void crearListaCanciones(ListaCanciones listaAux) {
+		listaCancionesDAO.registrarListaCanciones(listaAux);
+		cUsuarios.removeUsuario(usuarioActual);
+		usuarioActual.addListaCanciones(listaAux);
+		cUsuarios.addUsuario(usuarioActual);
+		usuarioDAO.addListaUsuario(usuarioActual);
+		
 	}
 }
