@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -26,11 +28,16 @@ import controlador.AppMusic;
 import modelo.ListaCanciones;
 
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
+
+import com.itextpdf.text.DocumentException;
+
 import javax.swing.event.ListSelectionEvent;
 
 public class VentanaPrincipal {
@@ -116,17 +123,7 @@ public class VentanaPrincipal {
 		if (! AppMusic.getInstancia().getUsuarioActual().isPremium()) {
 			premiumBtn = new JButton("Hazte Premium");
 			headerPanel.add(premiumBtn);
-		} else {
-			descargaBtn = new JButton("Descarga tus Listas");
-			descargaBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					AppMusic.getInstancia().generarPDF();
-				}
-			});
-			estadisticaBtn = new JButton("Estadísticas AppMusic");
-			headerPanel.add(descargaBtn);
-			headerPanel.add(estadisticaBtn);
-		}
+		} else botonesPremium();
 		
 		logoutBtn = new JButton("Log Out");
 		logoutBtn.addActionListener(new ActionListener() {
@@ -172,6 +169,31 @@ public class VentanaPrincipal {
 		frame.pack();
 	}
 	
+	private void botonesPremium() {
+		descargaBtn = new JButton("Descarga tus Listas");
+		descargaBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int retval = fileChooser.showSaveDialog(descargaBtn);
+				if (retval == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					if (file == null) return;
+					if (! file.getName().endsWith(".pdf"))
+						file = new File(file.getParentFile(), file.getName()+".pdf");
+					try {
+						AppMusic.getInstancia().generarPDF(file);
+					} catch (/*FileNotFoundException |*/ DocumentException | IOException e1) {
+						JOptionPane.showMessageDialog(descargaBtn, "Error creando el fichero pdf", "Error", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}				
+				}
+			}
+		});
+		estadisticaBtn = new JButton("Estadísticas AppMusic");
+		headerPanel.add(descargaBtn);
+		headerPanel.add(estadisticaBtn);
+	}
+
 	private void creaBotonesSidebar() {
 		descubreBtn = new JButton("Descubre");
 		descubreBtn.addActionListener(new ActionListener() {

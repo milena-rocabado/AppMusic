@@ -74,7 +74,6 @@ public final class Cancion {
 	public boolean esEstiloMusical(String estilo) {
 		return this.estilo.equals(estilo);
 	}
-	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -88,4 +87,9 @@ public final class Cancion {
 		return Objects.equals(estilo, other.estilo) && Objects.equals(interprete, other.interprete)
 				 && Objects.equals(titulo, other.titulo);
 	}			//&& Objects.equals(url, other.url)
+	
+	@Override
+	public String toString() {
+		return new String(titulo + " - " + interprete);
+	}
 }

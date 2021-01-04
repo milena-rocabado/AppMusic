@@ -81,4 +81,14 @@ public class ListaCanciones {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(nombre + "\n");
+		for (Cancion c : canciones)
+			sb.append("\t" + c + "\n");
+		sb.append("\n");
+		return sb.toString();
+	}
 }

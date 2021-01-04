@@ -1,8 +1,15 @@
 package controlador;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import modelo.Cancion;
 import modelo.CatalogoCanciones;
@@ -163,8 +170,17 @@ public class AppMusic implements ICancionesListener {
 		return (u != null);
 	}
 
-	public void generarPDF() {
-		// generar PDF
+	public void generarPDF(File file) throws FileNotFoundException, DocumentException {
+		FileOutputStream output = new FileOutputStream(file);
+		Document documento = new Document();
+		PdfWriter.getInstance(documento, output);
+		documento.open();
+		documento.add(new Paragraph("Listas de Canciones de " + usuarioActual.getNombre()
+									+ " (" + usuarioActual.getUsuario() + ")"));
+		for (ListaCanciones lc : usuarioActual.getListas()) {
+			documento.add(new Paragraph(lc.toString()));
+		}
+		documento.close();
 	}
 
 	public void crearListaCanciones(ListaCanciones listaAux) {

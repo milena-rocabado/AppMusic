@@ -22,7 +22,6 @@ import modelo.Cancion;
 import modelo.ListaCanciones;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("serial")
 public class PanelCreacionLista extends JPanel implements BusquedaListener {

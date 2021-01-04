@@ -30,11 +30,13 @@ public class PanelBusqueda extends JPanel {
 		setBackground(new Color(240, 255, 255));
 
 		tituloField = new JTextField();
+		tituloField.setToolTipText("Título");
 		tituloField.setPreferredSize(new Dimension(100, 20));
 		add(tituloField);
 		tituloField.setColumns(10);
 
 		interpField = new JTextField();
+		interpField.setToolTipText("Intérprete");
 		interpField.setPreferredSize(new Dimension(100, 20));
 		add(interpField);
 		interpField.setColumns(10);
