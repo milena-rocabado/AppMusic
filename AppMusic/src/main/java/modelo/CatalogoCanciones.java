@@ -91,7 +91,7 @@ public class CatalogoCanciones {
 
 	public List<Cancion> filtrarCanciones(String interprete, String titulo, String estilo) {
 		return canciones.values().stream().filter(c -> interprete == null || interprete.isEmpty() || c.esInterpretadaPor(interprete))
-											.filter(c -> titulo == null || titulo.isEmpty() || c.getTitulo().contains(titulo))
+											.filter(c -> titulo == null || titulo.isEmpty() || c.tieneTitulo(titulo))
 											.filter(c -> estilo == null || estilo.isEmpty() || c.esEstiloMusical(estilo))
 											.collect(Collectors.toList());
 	}

@@ -68,11 +68,15 @@ public final class Cancion {
 	}
 
 	public boolean esInterpretadaPor(String nombre) {
-		return this.interprete.contains(nombre);
+		return this.interprete.toLowerCase().contains(nombre.toLowerCase());
 	}
 	
 	public boolean esEstiloMusical(String estilo) {
 		return this.estilo.equals(estilo);
+	}
+	
+	public boolean tieneTitulo(String titulo) {
+		return this.titulo.toLowerCase().contains(titulo.toLowerCase());
 	}
 
 	@Override
