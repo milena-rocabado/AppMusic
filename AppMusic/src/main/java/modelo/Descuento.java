@@ -2,5 +2,5 @@ package modelo;
 
 public interface Descuento {
 
-	public void calcularDescuento();
+	public double calcularDescuento(Usuario usuario, double precio);
 }

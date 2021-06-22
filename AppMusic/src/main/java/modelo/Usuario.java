@@ -108,17 +108,22 @@ public class Usuario {
 	public List<ListaCanciones> getListas() {
 		return Collections.unmodifiableList(listas);
 	}
-	
 
 	public void setListas(List<ListaCanciones> listas) {
-		this.listas = listas;
+		this.listas = new LinkedList<>(listas);
 	}
 
 	public boolean login(String clave) {
 		return this.password.equals(clave);
 	}
 	
-	public void realizarPago() {}
+	public double realizarPago(double precio) {
+		double total = (descuento == null) ? precio : descuento.calcularDescuento(this, precio); 
+		// Se hace uso de un servicio externo para realizar el pago
+		// Si se realiza con éxito:
+		this.premium = true;
+		return total;
+	}
 	
 	public ListaCanciones crearLista(String nombre) {
 		ListaCanciones lista = new ListaCanciones(nombre);
