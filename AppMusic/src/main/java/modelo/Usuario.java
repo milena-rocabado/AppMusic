@@ -104,6 +104,10 @@ public class Usuario {
 	public Descuento getDescuento() {
 		return descuento;
 	}
+	
+	public void setDescuento(Descuento descuento) {
+		this.descuento = descuento;
+	}
 
 	public List<ListaCanciones> getListas() {
 		return Collections.unmodifiableList(listas);
