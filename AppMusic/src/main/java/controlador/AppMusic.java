@@ -146,7 +146,7 @@ public class AppMusic implements ICancionesListener {
 		List<CancionComponente> canciones = event.getNewValue();
 		List<Cancion> cancionesEnCatalogo = cCanciones.getAllCanciones();
 		for (CancionComponente cancion : canciones) {
-			Cancion c1 = new Cancion(cancion.getTitulo(), cancion.getInterprete(), cancion.getEstilo());
+			Cancion c1 = new Cancion(cancion.getTitulo(), cancion.getInterprete(), cancion.getEstilo(), cancion.getURL());
 			boolean introducir = true;
 			for (Cancion c2 : cancionesEnCatalogo) {
 				if (c1.equals(c2)) {
