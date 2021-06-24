@@ -20,6 +20,7 @@ public final class TDSCancionDAO implements CancionDAO {
 	private static final String TITULO = "titulo";
 	private static final String INTERPRETE = "interprete";
 	private static final String ESTILO = "estilo";
+	private static final String URL = "url";
 	private static final String NREPRODUCCIONES = "nreproducciones";
 	
 	private TDSCancionDAO() {
@@ -35,6 +36,7 @@ public final class TDSCancionDAO implements CancionDAO {
 		String titulo = sPersistencia.recuperarPropiedadEntidad(eCancion, TITULO);
 		String interprete = sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE);
 		String estilo = sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO);
+		String url = sPersistencia.recuperarPropiedadEntidad(eCancion, URL);
 		String nreproducciones = sPersistencia.recuperarPropiedadEntidad(eCancion, NREPRODUCCIONES);
 		/*
 		Interprete interprete;
@@ -49,7 +51,7 @@ public final class TDSCancionDAO implements CancionDAO {
 				Integer.parseInt(sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO)));
 		*/
 		
-		Cancion cancion = new Cancion(titulo, interprete, estilo, nreproducciones);
+		Cancion cancion = new Cancion(titulo, interprete, estilo, url, nreproducciones);
 		cancion.setId(eCancion.getId());
 		return cancion;
 	}
@@ -62,6 +64,7 @@ public final class TDSCancionDAO implements CancionDAO {
 				new Propiedad(TITULO, cancion.getTitulo()),
 				new Propiedad(INTERPRETE, cancion.getInterprete()),
 				new Propiedad(ESTILO, cancion.getEstilo()),
+				new Propiedad(URL, cancion.getUrl()),
 				//new Propiedad(INTERPRETE, String.valueOf(cancion.getInterprete().getCodigo())),
 				//new Propiedad(ESTILO, String.valueOf(cancion.getEstilo().getCodigo())),
 				new Propiedad(NREPRODUCCIONES, cancion.getNumReproduccionesStr())
