@@ -8,10 +8,12 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Color;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Cancion;
+import modelo.ListaCanciones;
 
 @SuppressWarnings("serial")
 public class PanelExplora extends JPanel implements BusquedaListener {
@@ -19,11 +21,13 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 	private JTable table;
 	private JPanel btnPanel;
 	private JPanel busquedaPanel;
+	private List<Cancion> lista;
 	
 	/**
 	 * Create the panel.
 	 */
 	public PanelExplora() {
+		
 		setPreferredSize(new Dimension(450, 300));
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -55,6 +59,8 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		add(scrollPane, gbc_scrollPane);
 		scrollPane.setVisible(false);
 		
+		this.lista = new LinkedList<Cancion>();
+		table = new JTable();
 		btnPanel = new PanelBotonera();
 		btnPanel.setBackground(new Color(240, 255, 255));
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -86,13 +92,13 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 	
 	@Override
 	public void handleBusqueda(List<Cancion> busqueda) {
-		scrollPane.setVisible(true);
-		table = new JTable();
-		
+		this.lista= busqueda;
+		scrollPane.setVisible(true);		
 		table.setModel(modeloTabla(busqueda));
 		scrollPane.setViewportView(table);
 		table.setVisible(true);
 		btnPanel.setVisible(true);
+		((PanelBotonera) btnPanel).actualizarPanelBotonera(table, busqueda);
 		actualizarPanel();
 	}
 }
