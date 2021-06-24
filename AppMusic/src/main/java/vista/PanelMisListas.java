@@ -12,6 +12,7 @@ import modelo.ListaCanciones;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.LinkedList;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
@@ -19,6 +20,7 @@ import javax.swing.JScrollPane;
 public class PanelMisListas extends JPanel {
 	private JTable table;
 	private ListaCanciones lista;
+	private JPanel botonera;
 
 	/**
 	 * Create the panel.
@@ -45,8 +47,7 @@ public class PanelMisListas extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		table.setModel(new DefaultTableModel(null, new String[] {"Intérprete", "Título"}));
-		
-		JPanel botonera = new PanelBotonera();
+		botonera = new PanelBotonera();
 		GridBagConstraints gbc_botonera = new GridBagConstraints();
 		gbc_botonera.insets = new Insets(0, 0, 5, 5);
 		gbc_botonera.fill = GridBagConstraints.BOTH;
@@ -69,6 +70,7 @@ public class PanelMisListas extends JPanel {
 	
 	public void setModeloTabla(ListaCanciones lista) {
 		this.lista = lista;
+		((PanelBotonera) botonera).actualizarPanelBotonera(table, lista.getCanciones());
 		table.setModel(actualizarTabla());
 	}
 }
