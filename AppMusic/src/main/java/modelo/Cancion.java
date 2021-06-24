@@ -7,24 +7,26 @@ public final class Cancion {
 	private int id;
 	private final String titulo;
 	private final String interprete;
+	private final String url;
 	private int numReproducciones;
 	private String estilo;
 	
 	
 	
-	public Cancion(String titulo, String interprete, String estilo, int nreproducciones) {
+	public Cancion(String titulo, String interprete, String estilo, String url, int nreproducciones) {
 		this.titulo = titulo;
 		this.interprete = interprete;
 		this.numReproducciones = nreproducciones;
+		this.url = url;
 		this.estilo = estilo;
 	}
 	
-	public Cancion(String titulo, String interprete, String estilo, String nreproducciones) {
-		this(titulo, interprete, estilo, Integer.parseInt(nreproducciones));
+	public Cancion(String titulo, String interprete, String estilo, String url, String nreproducciones) {
+		this(titulo, interprete, estilo,url, Integer.parseInt(nreproducciones));
 	}
 	
-	public Cancion(String titulo, String interprete, String estilo) {
-		this(titulo, interprete, estilo, 0);
+	public Cancion(String titulo, String interprete, String estilo, String url) {
+		this(titulo, interprete, estilo, url, 0);
 	}
 	
 	public int getId() {
@@ -44,7 +46,7 @@ public final class Cancion {
 	}
 
 	public String getRutaFichero() {
-		return null; // se construye con estilo, interpretes y titulo
+		return ""+interprete+" - "+titulo+".mp3"; // se construye con estilo, interpretes y titulo
 	}
 
 	public int getNumReproducciones() {
@@ -57,6 +59,12 @@ public final class Cancion {
 
 	public String getEstilo() {
 		return estilo;
+	}
+	
+	
+
+	public String getUrl() {
+		return url;
 	}
 
 	public void setEstilo(String estilo) {
