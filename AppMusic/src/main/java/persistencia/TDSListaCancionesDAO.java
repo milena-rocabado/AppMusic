@@ -60,7 +60,7 @@ public class TDSListaCancionesDAO implements ListaCancionesDAO{
 		Entidad eListaCanciones = listaCancionesToEntidad(listaCanciones); 
 		eListaCanciones = sPersistencia.registrarEntidad(eListaCanciones);
 		listaCanciones.setCodigo(eListaCanciones.getId());
-		
+		System.out.println("Lista de canciones "+listaCanciones.getNombre()+" añadida con codigo:"+ listaCanciones.getCodigo());
 	}
 
 	@Override
