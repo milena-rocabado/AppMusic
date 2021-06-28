@@ -3,14 +3,26 @@ package controlador;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import modelo.Cancion;
 import modelo.CatalogoCanciones;
 import modelo.CatalogoUsuarios;
@@ -32,7 +44,9 @@ public class AppMusic implements ICancionesListener {
 
 	private CatalogoUsuarios cUsuarios;
 	private CatalogoCanciones cCanciones;
-
+	private MediaPlayer mediaPlayer;
+	private String tempPath;
+	private String binPath;
 	private UsuarioDAO usuarioDAO;
 	private CancionDAO cancionDAO;
 	private ListaCancionesDAO listaCancionesDAO;
@@ -41,6 +55,11 @@ public class AppMusic implements ICancionesListener {
 	private Usuario usuarioActual;
 
 	private AppMusic() {
+		binPath = AppMusic.class.getClassLoader().getResource(".").getPath();
+		binPath = binPath.replaceFirst("/", "");
+		// quitar "/" añadida al inicio del path en plataforma Windows
+		tempPath = binPath.replace("/bin", "/temp");
+		
 		inicializarAdaptadores();
 		inicializarCatalogos();
 		if (canciones == null)
@@ -66,7 +85,7 @@ public class AppMusic implements ICancionesListener {
 		try {
 			factoria = FactoriaDAO.getInstancia();
 		} catch (DAOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		cancionDAO = factoria.getCancionDAO();
 		listaCancionesDAO = factoria.getListaCancionesDAO();
@@ -110,9 +129,9 @@ public class AppMusic implements ICancionesListener {
 	
 	public void actualizarListaCanciones(ListaCanciones lista) {
 		listaCancionesDAO.modificarListaCanciones(lista);
-		cUsuarios.removeUsuario(usuarioActual);
+		//cUsuarios.removeUsuario(usuarioActual);
 		usuarioActual.actualizarListaCanciones(lista);
-		cUsuarios.addUsuario(usuarioActual);
+		//cUsuarios.addUsuario(usuarioActual);
 		//usuarioDAO.modificarUsuario(usuarioActual);
 		
 		
@@ -190,5 +209,76 @@ public class AppMusic implements ICancionesListener {
 		cUsuarios.addUsuario(usuarioActual);
 		usuarioDAO.addListaUsuario(usuarioActual);
 		
+	}
+
+	public void reproducir(Cancion cancion) {
+		if (mediaPlayer!=null) {
+			pararCancionActual();
+		}
+		URL uri = null;
+		try {
+			com.sun.javafx.application.PlatformImpl.startup(() -> {
+			});
+			uri = new URL(cancion.getUrl());
+			System.setProperty("java.io.tmpdir", tempPath);
+			Path mp3 = Files.createTempFile("now-playing", ".mp3");
+			System.out.println(mp3.getFileName());
+			try (InputStream stream = uri.openStream()) {
+				Files.copy(stream, mp3, StandardCopyOption.REPLACE_EXISTING);
+			}
+			System.out.println("finished-copy: " + mp3.getFileName());
+			Media media = new Media(mp3.toFile().toURI().toString());
+			mediaPlayer = new MediaPlayer(media);
+			mediaPlayer.play();
+			System.out.println("///////////Reproduciendo///////////");
+			System.out.println("Cancion: "+cancion.getTitulo()+ " Reproducciones: "+cancion.getNumReproducciones());
+			cancion.reproducirCancion();
+			usuarioActual.addCancionReciente(cancion);
+			usuarioDAO.actualizarCancionesRecientesUsuario(usuarioActual);
+			cancionDAO.actualizarReproduccionesCancion(cancion);
+			System.out.println("Cancion: "+cancion.getTitulo()+ " Reproducciones: "+cancion.getNumReproducciones());
+			System.out.println("///////////Reproduciendo///////////");
+			System.out.println();
+			getCancionesMasReproducidas();
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	private void pararCancionActual() {
+		mediaPlayer.stop();
+		File directorio = new File(tempPath);
+		String[] files = directorio.list();
+		for (String archivo : files) {
+			File fichero = new File(tempPath + File.separator + archivo);
+			System.out.println(fichero.getAbsolutePath());
+			fichero.delete();
+		}
+		
+	}
+
+	public void pausar() {
+		if (mediaPlayer != null)
+			mediaPlayer.pause();
+	}
+	
+	
+	public void reanudar() {
+		if (mediaPlayer!=null && mediaPlayer.getStatus().equals(Status.PAUSED)){
+			mediaPlayer.play();
+		}
+	}
+	
+	public void getCancionesMasReproducidas() {
+		System.out.println("//////////Canciones mas Reproducidas//////");
+		List<Cancion> canciones = cancionDAO.recuperarTodasCanciones();
+		List<Cancion> cancionOrdenadas = canciones.stream()
+		        .sorted(Comparator.comparingInt(Cancion::getNumReproducciones).reversed())
+		        .collect(Collectors.toList());
+		for(int i=0; i<cancionOrdenadas.size();i++) {
+			System.out.println("Posicion:"+i+" Cancion: "+ cancionOrdenadas.get(i).getTitulo() +" Reproducciones: "+cancionOrdenadas.get(i).getNumReproducciones());
+		}
 	}
 }

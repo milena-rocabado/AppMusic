@@ -13,13 +13,14 @@ import modelo.ListaCanciones;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.LinkedList;
+import java.util.List;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class PanelMisListas extends JPanel {
 	private JTable table;
-	private ListaCanciones lista;
+	private List<Cancion> lista;
 	private JPanel botonera;
 
 	/**
@@ -34,7 +35,7 @@ public class PanelMisListas extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
+		 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -60,7 +61,7 @@ public class PanelMisListas extends JPanel {
 		String[] titulos = {"Intérprete", "Título"};
 		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 		String[] contenido = new String[2];
-		for (Cancion c : lista.getCanciones()) {
+		for (Cancion c : lista) {
 			contenido[0] = c.getInterprete();
 			contenido[1] = c.getTitulo();
 			modelo.addRow(contenido);
@@ -68,9 +69,9 @@ public class PanelMisListas extends JPanel {
 		return modelo;
 	}
 	
-	public void setModeloTabla(ListaCanciones lista) {
+	public void setModeloTabla(List<Cancion> lista) {
 		this.lista = lista;
-		((PanelBotonera) botonera).actualizarPanelBotonera(table, lista.getCanciones());
+		((PanelBotonera) botonera).actualizarPanelBotonera(table, lista);
 		table.setModel(actualizarTabla());
 	}
 }

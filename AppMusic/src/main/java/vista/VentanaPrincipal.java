@@ -159,6 +159,7 @@ public class VentanaPrincipal {
 		
 		panelMListas = new PanelMisListas();
 		panelReciente = new PanelMisListas();
+		panelReciente.setModeloTabla(AppMusic.getInstancia().getUsuarioActual().getCancionesRecientes());
 		panelReciente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		mainPanel = panelReciente;
 		
@@ -231,6 +232,7 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				
 				frame.getContentPane().remove(mainPanel);
+				panelReciente.setModeloTabla(AppMusic.getInstancia().getUsuarioActual().getCancionesRecientes());
 				mainPanel = panelReciente;
 				frame.getContentPane().add(panelReciente, BorderLayout.CENTER);
 				frame.pack();
@@ -297,7 +299,7 @@ public class VentanaPrincipal {
 		listas.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				ListaCanciones lc = AppMusic.getInstancia().getListaCanciones(listas.getSelectedValue());
-				if (lc != null) panelMListas.setModeloTabla(lc);
+				if (lc != null) panelMListas.setModeloTabla(lc.getCanciones());
 				panelMListas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 				frame.getContentPane().remove(mainPanel);
 				mainPanel = panelMListas;

@@ -78,7 +78,7 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		this.repaint();
 	}
 	
-	private DefaultTableModel modeloTabla(List<Cancion> lista) {
+	private DefaultTableModel modeloTabla() {
 		String[] titulos = {"Intérprete", "Título"};
 		DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 		String[] contenido = new String[2];
@@ -94,7 +94,7 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 	public void handleBusqueda(List<Cancion> busqueda) {
 		this.lista= busqueda;
 		scrollPane.setVisible(true);		
-		table.setModel(modeloTabla(busqueda));
+		table.setModel(modeloTabla());
 		scrollPane.setViewportView(table);
 		table.setVisible(true);
 		btnPanel.setVisible(true);

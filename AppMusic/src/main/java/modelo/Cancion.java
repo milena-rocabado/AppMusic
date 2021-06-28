@@ -72,8 +72,8 @@ public final class Cancion {
 	}
 
 	public void reproducirCancion() {
-		numReproducciones++;
-	}
+		numReproducciones++; 
+	} 
 
 	public boolean esInterpretadaPor(String nombre) {
 		return this.interprete.toLowerCase().contains(nombre.toLowerCase());

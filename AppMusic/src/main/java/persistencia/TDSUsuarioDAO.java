@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 import beans.Entidad;
 import beans.Propiedad;
+import modelo.Cancion;
 import modelo.ListaCanciones;
 import modelo.Usuario;
 import tds.driver.FactoriaServicioPersistencia;
@@ -26,6 +28,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String APELLIDOS = "apellidos";
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 	private static final String LISTAS = "listas";
+	private static final String CANCIONESRECIENTES = "cancionesRecientes";
 	
 	private TDSUsuarioDAO() {
 		sPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
@@ -47,10 +50,16 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		List<ListaCanciones> lista;
 		
 		lista = obtenerListasDesdeCodigos(sPersistencia.recuperarPropiedadEntidad(eUsuario, LISTAS));
+		
+		Vector<Cancion> cancionesRecientes;
+		cancionesRecientes = obtenerCancionesRecientesDesdeCodigos(sPersistencia.recuperarPropiedadEntidad(eUsuario, CANCIONESRECIENTES));
+		
 
 		Usuario usuario = new Usuario(login, password, email, nombre, apellidos, fecha);
 		if (lista !=null)
 			usuario.setListas(lista);
+		if (cancionesRecientes !=null)
+			usuario.setCancionesRecientes(cancionesRecientes);
 		usuario.setId(eUsuario.getId());
 		
 		return usuario;
@@ -67,6 +76,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 				new Propiedad(LOGIN, usuario.getUsuario()), 
 				new Propiedad(PASSWORD, usuario.getPassword()),
 				new Propiedad(LISTAS, obtenerCodigosListas(usuario.getListas())),
+				new Propiedad(CANCIONESRECIENTES,obtenerCodigosCancionesRecientes(usuario.getCancionesRecientes())),
 				new Propiedad(FECHA_NACIMIENTO, usuario.getFechaNacimientoStr()))));
 		return eUsuario;
 	}
@@ -119,6 +129,8 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		sPersistencia.anadirPropiedadEntidad(eUsuario, EMAIL, usuario.getEmail());
 	}
 	
+
+	
 	@Override
 	public void addListaUsuario(Usuario usuario) {
 		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
@@ -164,5 +176,31 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 			return listaDeListaCanciones;
 		}
 	
-	
+		private String obtenerCodigosCancionesRecientes(Vector<Cancion> cancionesRecientes) {
+			String linea = "";
+			for (Cancion cancion : cancionesRecientes) {
+				linea += cancion.getId() + " ";
+			}
+			return linea.trim();
+		}
+		
+		private Vector<Cancion> obtenerCancionesRecientesDesdeCodigos(String cadena){
+			if (cadena == null) return null;
+			Vector<Cancion> cancionesRecientes = new Vector<Cancion>();
+			StringTokenizer strTok = new StringTokenizer(cadena, " ");
+			TDSCancionDAO adaptadorCanciones = TDSCancionDAO.getInstancia();
+			while (strTok.hasMoreTokens()) {
+				cancionesRecientes.add(adaptadorCanciones.recuperarCancion(Integer.valueOf((String) strTok.nextElement())));
+			}
+			return cancionesRecientes;
+			
+		}
+
+		@Override
+		public void actualizarCancionesRecientesUsuario(Usuario usuario) {
+			Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
+			sPersistencia.eliminarPropiedadEntidad(eUsuario, CANCIONESRECIENTES);
+			sPersistencia.anadirPropiedadEntidad(eUsuario, CANCIONESRECIENTES, obtenerCodigosCancionesRecientes(usuario.getCancionesRecientes()));
+		}
+
 }

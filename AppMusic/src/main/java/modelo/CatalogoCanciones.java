@@ -29,6 +29,7 @@ public class CatalogoCanciones {
 			for (Cancion c : lCanciones) {
 				System.out.println("El id de la cancion " + i + " es " + c.getId());
 				System.out.println("El titulo de la cancion " + i + " es " + c.getInterprete());
+				System.out.println("El Num de reproducciones " + i + " es " + c.getNumReproducciones());
 				System.out.println();
 				canciones.put(c.getId(), c);
 				i++;

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import beans.Entidad;
 import beans.Propiedad;
 import modelo.Cancion;
+import modelo.ListaCanciones;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
@@ -101,6 +103,13 @@ public final class TDSCancionDAO implements CancionDAO {
 			canciones.add(entidadToCancion(eCancion));
 		
 		return canciones;
+	}
+
+	@Override
+	public void actualizarReproduccionesCancion(Cancion cancion) {
+		Entidad eCancion = sPersistencia.recuperarEntidad(cancion.getId());
+		sPersistencia.eliminarPropiedadEntidad(eCancion, NREPRODUCCIONES);
+		sPersistencia.anadirPropiedadEntidad(eCancion, NREPRODUCCIONES, cancion.getNumReproduccionesStr());		
 	}
 	
 }

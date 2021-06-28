@@ -113,7 +113,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		addBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = busqueda.getSelectedRow();
-				if (index > -1) {
+				if (index > -1) { 
 					Cancion c = bc.get(index);
 					listaAux.addCancion(c);
 					modeloTablaLC.addRow(new String[] { c.getInterprete(), c.getTitulo() });

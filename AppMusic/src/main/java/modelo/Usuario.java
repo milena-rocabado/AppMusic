@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 public class Usuario {
 	private int id;
@@ -16,6 +18,7 @@ public class Usuario {
 	private boolean premium;
 	private Descuento descuento;
 	private List<ListaCanciones> listas;
+	private Vector<Cancion> cancionesRecientes;
 
 	public Usuario(String usuario, String clave, String email, String nombre, String apellidos, String fecha) {
 		this.id = -1;
@@ -27,6 +30,8 @@ public class Usuario {
 		this.fecha = LocalDate.parse(fecha);
 		this.premium = false;
 		this.listas = new LinkedList<>();
+		this.cancionesRecientes = new Vector<>();
+		
 	}
 	
 	public Usuario(String usuario, String clave, String email, String nombre, String apellidos, LocalDate fecha) {
@@ -152,4 +157,44 @@ public class Usuario {
 		listas.remove(lista);
 		listas.add(lista);
 	}
+
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+
+	public Vector<Cancion> getCancionesRecientes() {
+		return cancionesRecientes;
+	}
+
+	public void setCancionesRecientes(Vector<Cancion> cancionesRecientes) {
+		this.cancionesRecientes = cancionesRecientes;
+	}
+	
+	public void addCancionReciente(Cancion cancion) {
+		int orden=0;
+		for (Cancion c: cancionesRecientes) {
+			System.out.println("Cancion: "+c.getTitulo() +" posicion: "+orden);
+			orden++;
+		}
+		if (cancionesRecientes.contains(cancion)) {
+				cancionesRecientes.remove(cancion);
+				cancionesRecientes.add(cancion);
+		}else {
+			if(cancionesRecientes.size()==10) {
+				cancionesRecientes.remove(0);
+				cancionesRecientes.add(cancion);
+			}else {
+				cancionesRecientes.add(cancion);
+			}
+		}
+		int contador=0;
+		for (Cancion c: cancionesRecientes) {
+			contador++;
+		}
+	}
+	
 }
