@@ -16,6 +16,7 @@ import controlador.AppMusic;
 import modelo.Cancion;
 import modelo.ListaCanciones;
 import umu.tds.componente.CancionComponente;
+import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class PanelBotonera extends JPanel {
@@ -27,6 +28,7 @@ public class PanelBotonera extends JPanel {
 	private JTable table;
 	private List<Cancion> lista;
 	private int numCancionActual=-1;
+	private JTextField txtHola;
 
 	/**
 	 * Create the panel.
@@ -99,6 +101,13 @@ public class PanelBotonera extends JPanel {
 			}
 		});
 		this.add(nxtBtn);
+		
+		txtHola = new JTextField();
+		txtHola.setText("hola\r\n");
+		add(txtHola);
+		txtHola.setColumns(30);
+		txtHola.setVisible(true);
+		txtHola.setEditable(false);
 	}
 
 	public void actualizarPanelBotonera(JTable table, List<Cancion> lista) {

@@ -32,9 +32,9 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{10, 0, 0, 15, 0, 0, 15, 15, 0, 10, 0};
-		gridBagLayout.rowHeights = new int[]{10, 0, 15, 0, 0, 10, 0};
+		gridBagLayout.rowHeights = new int[]{10, 0, 15, 0, 0, 0, 0, 10, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		//
@@ -51,6 +51,7 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 3;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridwidth = 6;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
@@ -68,7 +69,7 @@ public class PanelExplora extends JPanel implements BusquedaListener {
 		gbc_panel.gridwidth = 6;
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 4;
+		gbc_panel.gridy = 6;
 		add(btnPanel, gbc_panel);
 		btnPanel.setVisible(false);
 	}

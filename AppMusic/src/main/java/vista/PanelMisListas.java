@@ -31,13 +31,14 @@ public class PanelMisListas extends JPanel {
 		setBackground(new Color(240, 255, 255));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{15, 0, 15, 0};
-		gridBagLayout.rowHeights = new int[]{15, 0, 0, 10, 0};
+		gridBagLayout.rowHeights = new int[]{15, 0, 0, 0, 0, 0, 0, 10, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 5;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.gridx = 1;
@@ -53,7 +54,7 @@ public class PanelMisListas extends JPanel {
 		gbc_botonera.insets = new Insets(0, 0, 5, 5);
 		gbc_botonera.fill = GridBagConstraints.BOTH;
 		gbc_botonera.gridx = 1;
-		gbc_botonera.gridy = 2;
+		gbc_botonera.gridy = 6;
 		add(botonera, gbc_botonera);
 	}
 	
