@@ -130,6 +130,7 @@ public class AppMusic implements ICancionesListener {
 	public void actualizarListaCanciones(ListaCanciones lista) {
 		listaCancionesDAO.modificarListaCanciones(lista);
 		//cUsuarios.removeUsuario(usuarioActual);
+		
 		usuarioActual.actualizarListaCanciones(lista);
 		//cUsuarios.addUsuario(usuarioActual);
 		//usuarioDAO.modificarUsuario(usuarioActual);
@@ -204,10 +205,10 @@ public class AppMusic implements ICancionesListener {
 
 	public void crearListaCanciones(ListaCanciones listaAux) {
 		listaCancionesDAO.registrarListaCanciones(listaAux);
-		cUsuarios.removeUsuario(usuarioActual);
+		//cUsuarios.removeUsuario(usuarioActual);
 		usuarioActual.addListaCanciones(listaAux);
-		cUsuarios.addUsuario(usuarioActual);
-		usuarioDAO.addListaUsuario(usuarioActual);
+		//cUsuarios.addUsuario(usuarioActual);
+		usuarioDAO.actualizarListasUsuario(usuarioActual);
 		
 	}
 

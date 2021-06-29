@@ -132,7 +132,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
 	
 	@Override
-	public void addListaUsuario(Usuario usuario) {
+	public void actualizarListasUsuario(Usuario usuario) {
 		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
 		sPersistencia.eliminarPropiedadEntidad(eUsuario, LISTAS);
 		sPersistencia.anadirPropiedadEntidad(eUsuario, LISTAS, obtenerCodigosListas(usuario.getListas()));
