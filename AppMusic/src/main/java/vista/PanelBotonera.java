@@ -17,6 +17,7 @@ import modelo.Cancion;
 import modelo.ListaCanciones;
 import umu.tds.componente.CancionComponente;
 import javax.swing.JTextField;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class PanelBotonera extends JPanel {
@@ -49,7 +50,9 @@ public class PanelBotonera extends JPanel {
 					else
 						numCancionActual--;
 					Cancion cancion = lista.get(numCancionActual);
-					System.out.println("Numero de la lista: "+numCancionActual);
+					txtHola.setVisible(true);
+					txtHola.setText("Reproduciendo: "+ cancion.getTitulo());
+					actualizarPanel();
 					AppMusic.getInstancia().reproducir(cancion);
 				}
 			}
@@ -68,6 +71,9 @@ public class PanelBotonera extends JPanel {
 					table.clearSelection();
 					Cancion cancion = lista.get(numCancionActual);
 					System.out.println("URL: "+cancion.getUrl());
+					txtHola.setVisible(true);
+					txtHola.setText("Reproduciendo: "+ cancion.getTitulo());
+					actualizarPanel();;
 					AppMusic.getInstancia().reproducir(cancion);
 				}
 
@@ -95,7 +101,9 @@ public class PanelBotonera extends JPanel {
 					else
 						numCancionActual++;
 					Cancion cancion = lista.get(numCancionActual);
-					System.out.println("Numero de la lista: "+numCancionActual);
+					txtHola.setVisible(true);
+					txtHola.setText("Reproduciendo: "+ cancion.getTitulo());
+					actualizarPanel();
 					AppMusic.getInstancia().reproducir(cancion);
 				}
 			}
@@ -103,15 +111,22 @@ public class PanelBotonera extends JPanel {
 		this.add(nxtBtn);
 		
 		txtHola = new JTextField();
-		txtHola.setText("hola\r\n");
-		add(txtHola);
-		txtHola.setColumns(30);
-		txtHola.setVisible(true);
+		txtHola.setToolTipText("");
+		txtHola.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		txtHola.setText("");
 		txtHola.setEditable(false);
+		txtHola.setColumns(30);
+		txtHola.setVisible(false);
+		add(txtHola);
 	}
 
 	public void actualizarPanelBotonera(JTable table, List<Cancion> lista) {
 		this.table = table;
 		this.lista = lista;
+	}
+	
+	private void actualizarPanel() {
+		this.revalidate();
+		this.repaint();
 	}
 }
