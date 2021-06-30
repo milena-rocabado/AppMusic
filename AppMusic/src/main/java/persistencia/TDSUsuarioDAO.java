@@ -118,23 +118,38 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	}
 
 	@Override
-	public void modificarUsuario(Usuario usuario) {
+	public void modificarUsuario(Usuario usuario) {//Esto no se utiliza
 		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
-		sPersistencia.eliminarPropiedadEntidad(eUsuario, PASSWORD);
-		sPersistencia.anadirPropiedadEntidad(eUsuario, PASSWORD, usuario.getPassword());
-		sPersistencia.eliminarPropiedadEntidad(eUsuario, EMAIL);
-		sPersistencia.anadirPropiedadEntidad(eUsuario, EMAIL, usuario.getEmail());
+		for (Propiedad prop : eUsuario.getPropiedades()) {
+			if (prop.getNombre().equals(PASSWORD)) {
+				prop.setValor(usuario.getPassword());
+			}
+			if (prop.getNombre().equals(EMAIL)) {
+				prop.setValor(usuario.getEmail());
+			}
+			sPersistencia.modificarPropiedad(prop);
+		}
 	}
 
 	@Override
 	public void actualizarListasUsuario(Usuario usuario) {
 		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
-//		sPersistencia.eliminarPropiedadEntidad(eUsuario, LISTAS);
-//		sPersistencia.anadirPropiedadEntidad(eUsuario, LISTAS, obtenerCodigosListas(usuario.getListas()));
-
 		for (Propiedad prop : eUsuario.getPropiedades()) {
 			if (prop.getNombre().equals(LISTAS)) {
 				prop.setValor(obtenerCodigosListas(usuario.getListas()));
+			}
+
+			sPersistencia.modificarPropiedad(prop);
+		}
+	}
+	
+	@Override
+	public void actualizarCancionesRecientesUsuario(Usuario usuario) {
+		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
+		
+		for (Propiedad prop : eUsuario.getPropiedades()) {
+			if (prop.getNombre().equals(CANCIONESRECIENTES)) {
+				prop.setValor(obtenerCodigosCancionesRecientes(usuario.getCancionesRecientes()));
 			}
 
 			sPersistencia.modificarPropiedad(prop);
@@ -202,12 +217,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
 	}
 
-	@Override
-	public void actualizarCancionesRecientesUsuario(Usuario usuario) {
-		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
-		sPersistencia.eliminarPropiedadEntidad(eUsuario, CANCIONESRECIENTES);
-		sPersistencia.anadirPropiedadEntidad(eUsuario, CANCIONESRECIENTES,
-				obtenerCodigosCancionesRecientes(usuario.getCancionesRecientes()));
-	}
+	
 
 }

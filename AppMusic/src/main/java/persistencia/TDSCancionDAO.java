@@ -96,7 +96,6 @@ public final class TDSCancionDAO implements CancionDAO {
 	@Override
 	public List<Cancion> recuperarTodasCanciones() {
 		List<Entidad> entidades = sPersistencia.recuperarEntidades(CANCION);
-		
 		List<Cancion> canciones = new LinkedList<>();
 		System.out.println("Hay en la base de datos: "+ entidades.size()+" canciones");
 		for (Entidad eCancion : entidades)
@@ -108,8 +107,13 @@ public final class TDSCancionDAO implements CancionDAO {
 	@Override
 	public void actualizarReproduccionesCancion(Cancion cancion) {
 		Entidad eCancion = sPersistencia.recuperarEntidad(cancion.getId());
-		sPersistencia.eliminarPropiedadEntidad(eCancion, NREPRODUCCIONES);
-		sPersistencia.anadirPropiedadEntidad(eCancion, NREPRODUCCIONES, cancion.getNumReproduccionesStr());		
+		for (Propiedad prop : eCancion.getPropiedades()) {
+			if (prop.getNombre().equals(NREPRODUCCIONES)) {
+				prop.setValor(cancion.getNumReproduccionesStr());
+			}
+
+			sPersistencia.modificarPropiedad(prop);
+		}
 	}
 	
 }

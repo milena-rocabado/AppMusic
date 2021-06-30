@@ -72,12 +72,15 @@ public class TDSListaCancionesDAO implements ListaCancionesDAO{
 	@Override
 	public void modificarListaCanciones(ListaCanciones listaCanciones) {
 		Entidad eListaCanciones = sPersistencia.recuperarEntidad(listaCanciones.getCodigo());
-		
-		sPersistencia.eliminarPropiedadEntidad(eListaCanciones, NOMBRE);
-		sPersistencia.anadirPropiedadEntidad(eListaCanciones, NOMBRE, listaCanciones.getNombre());
-		sPersistencia.eliminarPropiedadEntidad(eListaCanciones, CANCIONES);
-		sPersistencia.anadirPropiedadEntidad(eListaCanciones, CANCIONES, obtenerCodigosCanciones(listaCanciones.getCanciones()));
-		
+		for (Propiedad prop : eListaCanciones.getPropiedades()) {
+			if (prop.getNombre().equals(NOMBRE)) {
+				prop.setValor(listaCanciones.getNombre());
+			}
+			if (prop.getNombre().equals(CANCIONES)) {
+				prop.setValor(obtenerCodigosCanciones(listaCanciones.getCanciones()));
+			}
+			sPersistencia.modificarPropiedad(prop);
+		}
 	}
 
 	@Override

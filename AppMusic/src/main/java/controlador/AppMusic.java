@@ -224,11 +224,13 @@ public class AppMusic implements ICancionesListener {
 			System.setProperty("java.io.tmpdir", tempPath);
 			Path mp3 = Files.createTempFile("now-playing", ".mp3");
 			System.out.println(mp3.getFileName());
-			try (InputStream stream = uri.openStream()) {
-				Files.copy(stream, mp3, StandardCopyOption.REPLACE_EXISTING);
-			}
-			System.out.println("finished-copy: " + mp3.getFileName());
-			Media media = new Media(mp3.toFile().toURI().toString());
+//			try (InputStream stream = uri.openStream()) {
+//				Files.copy(stream, mp3, StandardCopyOption.REPLACE_EXISTING);
+//			}
+//			System.out.println("finished-copy: " + mp3.getFileName());
+			
+			//Media media = new Media(mp3.toFile().toURI().toString());
+			Media media = new Media(uri.toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaPlayer.play();
 			System.out.println("///////////Reproduciendo///////////");
