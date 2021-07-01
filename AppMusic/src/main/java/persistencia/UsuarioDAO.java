@@ -2,7 +2,6 @@ package persistencia;
 
 import java.util.List;
 
-import modelo.ListaCanciones;
 import modelo.Usuario;
 
 public interface UsuarioDAO {

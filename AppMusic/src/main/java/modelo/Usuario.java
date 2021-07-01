@@ -190,10 +190,6 @@ public class Usuario {
 				cancionesRecientes.add(cancion);
 			}
 		}
-		int contador=0;
-		for (Cancion c: cancionesRecientes) {
-			contador++;
-		}
 	}
 	
 }
