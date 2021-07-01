@@ -6,8 +6,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JLabel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -190,10 +188,7 @@ public class VentanaPrincipal {
 				panelMReproducidas = new PanelMisListas();
 				panelMReproducidas.setModeloTabla(AppMusic.getInstancia().getCancionesMasReproducidas());
 				panelMReproducidas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-				frame.getContentPane().remove(mainPanel);
-				mainPanel = panelMReproducidas;
-				frame.getContentPane().add(panelMReproducidas, BorderLayout.CENTER);
-				frame.pack();
+				setMainPanel(panelMReproducidas);
 				listaScrollPane.setVisible(false);
 				actualizarVentana();
 			}
@@ -228,10 +223,7 @@ public class VentanaPrincipal {
 				
 				panelExplora = new PanelExplora();
 				panelExplora.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-				frame.getContentPane().remove(mainPanel);
-				mainPanel = panelExplora;
-				frame.getContentPane().add(panelExplora, BorderLayout.CENTER);
-				frame.pack();
+				setMainPanel(panelExplora);
 				listaScrollPane.setVisible(false);
 				actualizarVentana();
 			}
@@ -243,9 +235,7 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				panelNLista = new PanelNuevaLista();
 				panelNLista.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-				frame.getContentPane().remove(mainPanel);
-				mainPanel = panelNLista;
-				frame.getContentPane().add(panelNLista, BorderLayout.CENTER);
+				setMainPanel(panelNLista);
 				frame.setSize(900, 500);
 				listaScrollPane.setVisible(false);
 				actualizarVentana();
@@ -257,11 +247,8 @@ public class VentanaPrincipal {
 		recienteBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				frame.getContentPane().remove(mainPanel);
 				panelReciente.setModeloTabla(AppMusic.getInstancia().getUsuarioActual().getCancionesRecientes());
-				mainPanel = panelReciente;
-				frame.getContentPane().add(panelReciente, BorderLayout.CENTER);
-				frame.pack();
+				setMainPanel(panelReciente);
 				listaScrollPane.setVisible(false);
 				actualizarVentana();
 			}
@@ -327,11 +314,7 @@ public class VentanaPrincipal {
 				ListaCanciones lc = AppMusic.getInstancia().getListaCanciones(listas.getSelectedValue());
 				if (lc != null) panelMListas.setModeloTabla(lc.getCanciones());
 				panelMListas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-				frame.getContentPane().remove(mainPanel);
-				mainPanel = panelMListas;
-				frame.getContentPane().add(panelMListas, BorderLayout.CENTER);
-				frame.pack();
-				actualizarVentana();
+				setMainPanel(panelMListas);
 			}
 		});
 		listaScrollPane.setViewportView(listas);
@@ -344,6 +327,14 @@ public class VentanaPrincipal {
 			modelo.addElement(lc.getNombre());
 		}
 		listas.setModel(modelo);
+	}
+	
+	private void setMainPanel(JPanel panel) {
+		frame.getContentPane().remove(mainPanel);
+		mainPanel = panel;
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		frame.pack();
+		actualizarVentana();
 	}
 	
 	private void actualizarVentana() {

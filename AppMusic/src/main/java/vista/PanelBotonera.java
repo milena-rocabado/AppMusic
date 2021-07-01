@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -14,8 +12,6 @@ import javax.swing.JTable;
 
 import controlador.AppMusic;
 import modelo.Cancion;
-import modelo.ListaCanciones;
-import umu.tds.componente.CancionComponente;
 import javax.swing.JTextField;
 import java.awt.Font;
 

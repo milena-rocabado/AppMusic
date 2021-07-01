@@ -8,11 +8,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Cancion;
-import modelo.ListaCanciones;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.util.LinkedList;
 import java.util.List;
 import java.awt.Dimension;
 import javax.swing.JScrollPane;

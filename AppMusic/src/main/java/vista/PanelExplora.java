@@ -13,7 +13,6 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Cancion;
-import modelo.ListaCanciones;
 
 @SuppressWarnings("serial")
 public class PanelExplora extends JPanel implements BusquedaListener {
