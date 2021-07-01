@@ -57,6 +57,7 @@ public class VentanaPrincipal {
 	private PanelNuevaLista panelNLista;
 	private PanelMisListas panelMListas;
 	private PanelMisListas panelReciente;
+	private PanelMisListas panelMReproducidas;
 	private JList<String> listas;
 	private JScrollPane listaScrollPane;
 	
@@ -95,13 +96,6 @@ public class VentanaPrincipal {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.mint.MintLookAndFeel");
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		// ^no
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(240, 255, 255));
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -119,10 +113,9 @@ public class VentanaPrincipal {
 		holaLabel.setFont(new Font("Cooper Black", Font.PLAIN, 19));
 		headerPanel.add(holaLabel);
 		
-		AppMusic.getInstancia().getUsuarioActual().setPremium(true);
+		//AppMusic.getInstancia().getUsuarioActual().setPremium(true);
 		if (! AppMusic.getInstancia().getUsuarioActual().isPremium()) {
-			premiumBtn = new JButton("Hazte Premium");
-			headerPanel.add(premiumBtn);
+			botonesBasico();
 		} else botonesPremium();
 		
 		logoutBtn = new JButton("Log Out");
@@ -190,9 +183,42 @@ public class VentanaPrincipal {
 				}
 			}
 		});
-		estadisticaBtn = new JButton("Estadísticas AppMusic");
+		estadisticaBtn = new JButton("Canciones más reproducidas");
+		estadisticaBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				panelMReproducidas = new PanelMisListas();
+				panelMReproducidas.setModeloTabla(AppMusic.getInstancia().getCancionesMasReproducidas());
+				panelMReproducidas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				frame.getContentPane().remove(mainPanel);
+				mainPanel = panelMReproducidas;
+				frame.getContentPane().add(panelMReproducidas, BorderLayout.CENTER);
+				frame.pack();
+				listaScrollPane.setVisible(false);
+				actualizarVentana();
+			}
+		});
+		
 		headerPanel.add(descargaBtn);
 		headerPanel.add(estadisticaBtn);
+	}
+	
+	private void botonesBasico() {
+		premiumBtn = new JButton("Hazte Premium");
+		premiumBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (AppMusic.getInstancia().hacerPremium()) {
+					JOptionPane.showMessageDialog(premiumBtn, "Bienvenido a AppMusic Premium");
+				} else JOptionPane.showMessageDialog(descargaBtn, "Error realizando el pago", "Error", JOptionPane.ERROR_MESSAGE);
+				
+				headerPanel.remove(premiumBtn);
+				headerPanel.remove(logoutBtn);
+				botonesPremium();
+				headerPanel.add(logoutBtn);
+				actualizarVentana();
+			}
+		});
+		headerPanel.add(premiumBtn);
 	}
 
 	private void creaBotonesSidebar() {

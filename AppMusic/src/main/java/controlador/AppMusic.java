@@ -65,8 +65,6 @@ public class AppMusic implements ICancionesListener {
 		if (canciones == null)
 			canciones = new Canciones();
 		canciones.addCancionesListener(this);
-		// para que no falle por ahora
-		usuarioActual = new Usuario("milena", "1234", "", "Milena", "asfdsa", "2020-05-06");
 	}
 
 	public static AppMusic getInstancia() {
@@ -123,29 +121,21 @@ public class AppMusic implements ICancionesListener {
 		cancion.reproducirCancion();
 	}
 
-	public ListaCanciones crearLista(String nombre) {
-		return usuarioActual.crearLista(nombre);
+	public void crearListaCanciones(ListaCanciones listaAux) {
+		listaCancionesDAO.registrarListaCanciones(listaAux);
+		//cUsuarios.removeUsuario(usuarioActual);
+		usuarioActual.addListaCanciones(listaAux);
+		//cUsuarios.addUsuario(usuarioActual);
+		usuarioDAO.actualizarListasUsuario(usuarioActual);
+		
 	}
 	
 	public void actualizarListaCanciones(ListaCanciones lista) {
 		listaCancionesDAO.modificarListaCanciones(lista);
-		//cUsuarios.removeUsuario(usuarioActual);
-		
 		usuarioActual.actualizarListaCanciones(lista);
-		//cUsuarios.addUsuario(usuarioActual);
-		//usuarioDAO.modificarUsuario(usuarioActual);
-		
-		
-	}
+		}
 
 	public List<Cancion> buscarCanciones(String interprete, String titulo, String estilo) {
-//		List<Cancion> lista = new LinkedList<>();
-//		lista = cCanciones.getCancionesInterprete(lista,interprete); // el catalogo se encarga de comprobar
-//																					// si los strings estan vacios
-//		lista = cCanciones.getCancionesTitulo(lista,titulo);
-//		lista = cCanciones.getCancionesEstilo(lista,estilo);
-//		// interseccion de las listas
-//		return lista;
 		return cCanciones.filtrarCanciones(interprete, titulo, estilo);
 	}
 
@@ -158,7 +148,7 @@ public class AppMusic implements ICancionesListener {
 	}
 
 	public void cargarCanciones(File fichero) {
-		/*boolean correcto = */canciones.setArchivoCanciones(fichero.getAbsolutePath());
+		canciones.setArchivoCanciones(fichero.getAbsolutePath());
 	}
 
 	@Override
@@ -201,15 +191,6 @@ public class AppMusic implements ICancionesListener {
 			documento.add(new Paragraph(lc.toString()));
 		}
 		documento.close();
-	}
-
-	public void crearListaCanciones(ListaCanciones listaAux) {
-		listaCancionesDAO.registrarListaCanciones(listaAux);
-		//cUsuarios.removeUsuario(usuarioActual);
-		usuarioActual.addListaCanciones(listaAux);
-		//cUsuarios.addUsuario(usuarioActual);
-		usuarioDAO.actualizarListasUsuario(usuarioActual);
-		
 	}
 
 	public void reproducir(Cancion cancion) {
@@ -274,7 +255,7 @@ public class AppMusic implements ICancionesListener {
 		}
 	}
 	
-	public void getCancionesMasReproducidas() {
+	public List<Cancion> getCancionesMasReproducidas() {
 		System.out.println("//////////Canciones mas Reproducidas//////");
 		List<Cancion> canciones = cancionDAO.recuperarTodasCanciones();
 		List<Cancion> cancionOrdenadas = canciones.stream()
@@ -283,5 +264,11 @@ public class AppMusic implements ICancionesListener {
 		for(int i=0; i<cancionOrdenadas.size();i++) {
 			System.out.println("Posicion:"+i+" Cancion: "+ cancionOrdenadas.get(i).getTitulo() +" Reproducciones: "+cancionOrdenadas.get(i).getNumReproducciones());
 		}
+		return cancionOrdenadas;
+	}
+	
+	public boolean hacerPremium() {
+		usuarioActual.realizarPago(9.99);
+		return true;
 	}
 }
