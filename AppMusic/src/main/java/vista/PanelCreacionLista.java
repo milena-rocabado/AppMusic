@@ -49,9 +49,7 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		else {
 			crear=false;
 			this.listaAux = new ListaCanciones(original);
-			//this.listaAux.setCodigo(original.getCodigo());
 		}
-			
 
 		inicializarPanel(crear);
 	}
@@ -167,17 +165,16 @@ public class PanelCreacionLista extends JPanel implements BusquedaListener {
 		JButton aceptarBtn = new JButton("Aceptar");
 		aceptarBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(crear) {
+				if (crear) {
 					System.out.println(listaAux.getNombre());
 					for(Cancion c:listaAux.getCanciones())
 						System.out.println("Id Cancion "+c.getId()+" Titulo: "+c.getTitulo());
 					AppMusic.getInstancia().crearListaCanciones(listaAux);
 					JOptionPane.showMessageDialog(aceptarBtn, "La lista ha sido creada correctamente");
-				}else {
+				} else {
 					AppMusic.getInstancia().actualizarListaCanciones(listaAux);
-					JOptionPane.showMessageDialog(aceptarBtn, "Tu lista de musica ha sido editada");
+					JOptionPane.showMessageDialog(aceptarBtn, "Tu lista de canciones ha sido editada");
 				}
-				
 				
 				invocador.resetearPanel();
 			}

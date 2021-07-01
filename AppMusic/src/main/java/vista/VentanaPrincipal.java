@@ -111,7 +111,6 @@ public class VentanaPrincipal {
 		holaLabel.setFont(new Font("Cooper Black", Font.PLAIN, 19));
 		headerPanel.add(holaLabel);
 		
-		//AppMusic.getInstancia().getUsuarioActual().setPremium(true);
 		if (! AppMusic.getInstancia().getUsuarioActual().isPremium()) {
 			botonesBasico();
 		} else botonesPremium();
@@ -142,7 +141,7 @@ public class VentanaPrincipal {
 		gbl_sidebarPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		sidebarPanel.setLayout(gbl_sidebarPanel);
 		
-		creaBotonesSidebar();
+		crearBotonesSidebar();
 		
 		addBotonesSidebar();
 		addListasSidebar();
@@ -216,7 +215,7 @@ public class VentanaPrincipal {
 		headerPanel.add(premiumBtn);
 	}
 
-	private void creaBotonesSidebar() {
+	private void crearBotonesSidebar() {
 		descubreBtn = new JButton("Descubre");
 		descubreBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

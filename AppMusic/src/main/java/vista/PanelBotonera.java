@@ -1,7 +1,6 @@
 package vista;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -14,6 +13,8 @@ import controlador.AppMusic;
 import modelo.Cancion;
 import javax.swing.JTextField;
 import java.awt.Font;
+import javax.swing.ImageIcon;
+import java.awt.Cursor;
 
 @SuppressWarnings("serial")
 public class PanelBotonera extends JPanel {
@@ -25,7 +26,7 @@ public class PanelBotonera extends JPanel {
 	private JTable table;
 	private List<Cancion> lista;
 	private int numCancionActual=-1;
-	private JTextField txtHola;
+	private JTextField cancionTxt;
 
 	/**
 	 * Create the panel.
@@ -35,8 +36,8 @@ public class PanelBotonera extends JPanel {
 	 */
 	public PanelBotonera() {
 		setBackground(new Color(240, 255, 255));
-		prevBtn = new JButton("prev");
-		prevBtn.setPreferredSize(new Dimension(61, 23));
+		prevBtn = new JButton("");
+		prevBtn.setIcon(new ImageIcon(PanelBotonera.class.getResource("/imagenes/previous-24.png")));
 		prevBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -46,8 +47,8 @@ public class PanelBotonera extends JPanel {
 					else
 						numCancionActual--;
 					Cancion cancion = lista.get(numCancionActual);
-					txtHola.setVisible(true);
-					txtHola.setText("Reproduciendo: "+ cancion.getTitulo());
+					cancionTxt.setVisible(true);
+					cancionTxt.setText("Reproduciendo: "+ cancion.getTitulo());
 					actualizarPanel();
 					AppMusic.getInstancia().reproducir(cancion);
 				}
@@ -55,8 +56,9 @@ public class PanelBotonera extends JPanel {
 		});
 		this.add(prevBtn);
 
-		playBtn = new JButton("play");
-		playBtn.setPreferredSize(new Dimension(61, 23));
+		playBtn = new JButton("");
+		playBtn.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		playBtn.setIcon(new ImageIcon(PanelBotonera.class.getResource("/imagenes/play-24.png")));
 		playBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -67,8 +69,8 @@ public class PanelBotonera extends JPanel {
 					table.clearSelection();
 					Cancion cancion = lista.get(numCancionActual);
 					System.out.println("URL: "+cancion.getUrl());
-					txtHola.setVisible(true);
-					txtHola.setText("Reproduciendo: "+ cancion.getTitulo());
+					cancionTxt.setVisible(true);
+					cancionTxt.setText("Reproduciendo: "+ cancion.getTitulo());
 					actualizarPanel();;
 					AppMusic.getInstancia().reproducir(cancion);
 				}
@@ -77,7 +79,8 @@ public class PanelBotonera extends JPanel {
 		});
 		this.add(playBtn);
 
-		pauseBtn = new JButton("pause");
+		pauseBtn = new JButton("");
+		pauseBtn.setIcon(new ImageIcon(PanelBotonera.class.getResource("/imagenes/pause-24.png")));
 		pauseBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -86,8 +89,8 @@ public class PanelBotonera extends JPanel {
 		});
 		this.add(pauseBtn);
 
-		nxtBtn = new JButton("nxt");
-		nxtBtn.setPreferredSize(new Dimension(61, 23));
+		nxtBtn = new JButton("");
+		nxtBtn.setIcon(new ImageIcon(PanelBotonera.class.getResource("/imagenes/next-24.png")));
 		nxtBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -97,8 +100,8 @@ public class PanelBotonera extends JPanel {
 					else
 						numCancionActual++;
 					Cancion cancion = lista.get(numCancionActual);
-					txtHola.setVisible(true);
-					txtHola.setText("Reproduciendo: "+ cancion.getTitulo());
+					cancionTxt.setVisible(true);
+					cancionTxt.setText("Reproduciendo: "+ cancion.getTitulo());
 					actualizarPanel();
 					AppMusic.getInstancia().reproducir(cancion);
 				}
@@ -106,14 +109,14 @@ public class PanelBotonera extends JPanel {
 		});
 		this.add(nxtBtn);
 		
-		txtHola = new JTextField();
-		txtHola.setToolTipText("");
-		txtHola.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		txtHola.setText("");
-		txtHola.setEditable(false);
-		txtHola.setColumns(30);
-		txtHola.setVisible(false);
-		add(txtHola);
+		cancionTxt = new JTextField();
+		cancionTxt.setToolTipText("");
+		cancionTxt.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		cancionTxt.setText("");
+		cancionTxt.setEditable(false);
+		cancionTxt.setColumns(30);
+		cancionTxt.setVisible(false);
+		add(cancionTxt);
 	}
 
 	public void actualizarPanelBotonera(JTable table, List<Cancion> lista) {
