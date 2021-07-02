@@ -26,6 +26,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	private static final String EMAIL = "email";
 	private static final String NOMBRE = "nombre";
 	private static final String APELLIDOS = "apellidos";
+	private static final String PREMIUM = "premium";
 	private static final String FECHA_NACIMIENTO = "fechaNacimiento";
 	private static final String LISTAS = "listas";
 	private static final String CANCIONESRECIENTES = "cancionesRecientes";
@@ -47,6 +48,12 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String nombre = sPersistencia.recuperarPropiedadEntidad(eUsuario, NOMBRE);
 		String apellidos = sPersistencia.recuperarPropiedadEntidad(eUsuario, APELLIDOS);
 		String fecha = sPersistencia.recuperarPropiedadEntidad(eUsuario, FECHA_NACIMIENTO);
+		String premium = sPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM);
+		
+		Usuario usuario = new Usuario(login, password, email, nombre, apellidos, fecha);
+		Boolean probando=	Boolean.parseBoolean(premium);
+		System.out.println("QUe boolean es:" +probando);
+		usuario.setPremium(probando);
 
 		List<ListaCanciones> lista;
 
@@ -56,7 +63,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		cancionesRecientes = obtenerCancionesRecientesDesdeCodigos(
 				sPersistencia.recuperarPropiedadEntidad(eUsuario, CANCIONESRECIENTES));
 
-		Usuario usuario = new Usuario(login, password, email, nombre, apellidos, fecha);
+		
 		if (lista != null)
 			usuario.setListas(lista);
 		if (cancionesRecientes != null)
@@ -73,6 +80,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		eUsuario.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad(NOMBRE, usuario.getNombre()),
 				new Propiedad(APELLIDOS, usuario.getApellidos()), new Propiedad(EMAIL, usuario.getEmail()),
 				new Propiedad(LOGIN, usuario.getUsuario()), new Propiedad(PASSWORD, usuario.getPassword()),
+				new Propiedad(PREMIUM, Boolean.toString(usuario.isPremium())),
 				new Propiedad(LISTAS, obtenerCodigosListas(usuario.getListas())),
 				new Propiedad(CANCIONESRECIENTES, obtenerCodigosCancionesRecientes(usuario.getCancionesRecientes())),
 				new Propiedad(FECHA_NACIMIENTO, usuario.getFechaNacimientoStr()))));
@@ -82,33 +90,43 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	@Override
 	public void registrarUsuario(Usuario usuario) {
 		Entidad eUsuario = null;
-		boolean existe = true;
-
-		try {
-			eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
-			if (eUsuario == null) {// ESTO DEBERIA DE COGERLO EN EL CATCH PERO NO FUNCIONA
-				existe = false;
-			}
-		} catch (NullPointerException e) {
-			existe = false;
-		}
-
-		if (existe || eUsuario != null) {
-			System.out.println("Entra en el return");
-			System.out.println("Existe es: " + existe);
-			System.out.println("eUsuario es: " + eUsuario);
-			return;
-		}
-
-		// registrar canciones en playlists
-		// crear entidad usuario
 		eUsuario = usuarioToEntidad(usuario);
-
-		// registar entidad usuario
 		eUsuario = sPersistencia.registrarEntidad(eUsuario);
 		usuario.setId(eUsuario.getId());
 
 	}
+	
+//	@Override
+//	public void registrarUsuario(Usuario usuario) {
+//		Entidad eUsuario = null;
+//		boolean existe = true;
+//		eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
+//
+//		try {
+//			
+//			if (eUsuario == null) {
+//				existe = false;
+//			}
+//		} catch (NullPointerException e) {
+//			existe = false;
+//		}
+//
+//		if (existe || eUsuario != null) {
+//			System.out.println("Entra en el return");
+//			System.out.println("Existe es: " + existe);
+//			System.out.println("eUsuario es: " + eUsuario);
+//			return;
+//		}
+//
+//		// registrar canciones en playlists
+//		// crear entidad usuario
+//		eUsuario = usuarioToEntidad(usuario);
+//
+//		// registar entidad usuario
+//		eUsuario = sPersistencia.registrarEntidad(eUsuario);
+//		usuario.setId(eUsuario.getId());
+//
+//	}
 
 	@Override
 	public void borrarUsuario(Usuario usuario) {
@@ -154,6 +172,20 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
 			sPersistencia.modificarPropiedad(prop);
 		}
+	}
+	
+	@Override
+	public void modificarPremium(Usuario usuario) {
+		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
+		
+		for (Propiedad prop : eUsuario.getPropiedades()) {
+			if (prop.getNombre().equals(PREMIUM)) {
+				prop.setValor(Boolean.toString(usuario.isPremium()));
+			}
+
+			sPersistencia.modificarPropiedad(prop);
+		}
+		
 	}
 
 	@Override
@@ -216,6 +248,8 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		return cancionesRecientes;
 
 	}
+
+	
 
 	
 

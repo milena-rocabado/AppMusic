@@ -120,6 +120,7 @@ public class VentanaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				int salida = JOptionPane.showConfirmDialog(logoutBtn,"¿Seguro que quiere salir de tu cuenta?","Exit",JOptionPane.YES_NO_OPTION);
 				if (salida==0) {
+					AppMusic.getInstancia().pararCancionActual();
 					VentanaLogin vs = new VentanaLogin();
 					vs.mostrarVentana();
 					frame.setVisible(false);

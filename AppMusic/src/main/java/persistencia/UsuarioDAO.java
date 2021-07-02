@@ -13,4 +13,5 @@ public interface UsuarioDAO {
 	public Usuario recuperarUsuario(int id);
 	List<Usuario> recuperarTodosUsuarios();
 	void actualizarListasUsuario(Usuario usuario);
+	public void modificarPremium(Usuario usuario);
 }

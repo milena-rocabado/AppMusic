@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -211,15 +212,9 @@ public class AppMusic implements ICancionesListener {
 		}
 	}
 	
-	private void pararCancionActual() {
-		mediaPlayer.stop();
-		File directorio = new File(tempPath);
-		String[] files = directorio.list();
-		for (String archivo : files) {
-			File fichero = new File(tempPath + File.separator + archivo);
-			System.out.println(fichero.getAbsolutePath());
-			fichero.delete();
-		}
+	public void pararCancionActual() {
+		if (mediaPlayer != null)
+			mediaPlayer.stop();
 	}
 
 	public void pausar() {
@@ -240,14 +235,18 @@ public class AppMusic implements ICancionesListener {
 		List<Cancion> cancionOrdenadas = canciones.stream()
 		        .sorted(Comparator.comparingInt(Cancion::getNumReproducciones).reversed())
 		        .collect(Collectors.toList());
-		for(int i=0; i<cancionOrdenadas.size();i++) {
-			System.out.println("Posición:"+i+" Cancion: "+ cancionOrdenadas.get(i).getTitulo() +" Reproducciones: "+cancionOrdenadas.get(i).getNumReproducciones());
+		List<Cancion> devolver10Primeras = new ArrayList<Cancion>();
+		for(int i=0; i<cancionOrdenadas.size() && i<10;i++) {
+			if (cancionOrdenadas.get(i).getNumReproducciones()==0)
+				break;
+			devolver10Primeras.add(cancionOrdenadas.get(i));
 		}
-		return cancionOrdenadas;
+		return devolver10Primeras;
 	}
 	
 	public boolean hacerPremium() {
 		usuarioActual.realizarPago(9.99);
+		usuarioDAO.modificarPremium(usuarioActual);
 		return true;
 	}
 }
