@@ -82,13 +82,12 @@ public class Canciones implements Serializable {
 		return this.cancion;
 	}
 
-	public boolean setArchivoCanciones(String file) {
-		boolean correcto = true;
+	public void setArchivoCanciones(String file) {
 		List<CancionComponente> cancionesOld;
 		List<CancionComponente> cancionesFile;
 		cancionesFile = MapperCancionesXMLtoJava.cargarCanciones(file).getCancion();
 		if (cancionesFile == null) {
-			return false;
+			return;
 		}
 		synchronized (this.cancion) {
 			cancionesOld = new ArrayList<>(this.cancion);
@@ -98,7 +97,6 @@ public class Canciones implements Serializable {
 			CancionesEvent evento = new CancionesEvent(this, cancionesOld, cancionesNew);
 			notificarCambioCanciones(evento);
 		}
-		return correcto;
 	}
 
 	public synchronized void addCancionesListener(ICancionesListener listener) {
@@ -124,19 +122,11 @@ public class Canciones implements Serializable {
 		List<CancionComponente> cancionesNew = new ArrayList<>();
 		List<CancionComponente> cancionesActualizada = new ArrayList<>(listaVieja);
 		for(int i =0;  i<listaNueva.size();i++) {
-			boolean introducir=true;
 			CancionComponente c1 = listaNueva.get(i);
-			for(int j =0;  j<listaVieja.size();j++) {
-				CancionComponente c2 = listaVieja.get(j);
-				if (c1.equals(c2)) {
-					introducir=false;
-					break;
-				}
-			}
-			if (introducir) {
+			if(!listaVieja.contains(c1)) {
 				cancionesNew.add(listaNueva.get(i));
 				cancionesActualizada.add(listaNueva.get(i));
-			}			
+			}		
 		}
 		synchronized (this.cancion) {
 			this.cancion = cancionesActualizada;
