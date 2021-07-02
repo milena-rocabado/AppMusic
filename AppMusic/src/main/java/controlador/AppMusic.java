@@ -41,8 +41,6 @@ public class AppMusic implements ICancionesListener {
 	private CatalogoUsuarios cUsuarios;
 	private CatalogoCanciones cCanciones;
 	private MediaPlayer mediaPlayer;
-	private String tempPath;
-	private String binPath;
 	private UsuarioDAO usuarioDAO;
 	private CancionDAO cancionDAO;
 	private ListaCancionesDAO listaCancionesDAO;
@@ -51,10 +49,6 @@ public class AppMusic implements ICancionesListener {
 	private Usuario usuarioActual;
 
 	private AppMusic() {
-		binPath = AppMusic.class.getClassLoader().getResource(".").getPath();
-		binPath = binPath.replaceFirst("/", "");
-		// quitar "/" añadida al inicio del path en plataforma Windows
-		tempPath = binPath.replace("/bin", "/temp");
 		
 		inicializarAdaptadores();
 		inicializarCatalogos();
@@ -150,18 +144,12 @@ public class AppMusic implements ICancionesListener {
 		List<Cancion> cancionesEnCatalogo = cCanciones.getAllCanciones();
 		for (CancionComponente cancion : canciones) {
 			Cancion c1 = new Cancion(cancion.getTitulo(), cancion.getInterprete(), cancion.getEstilo(), cancion.getURL());
-			boolean introducir = true;
-			for (Cancion c2 : cancionesEnCatalogo) {
-				if (c1.equals(c2)) {
-					introducir = false;
-					break;
-				}
-			}
-			if (introducir)
+			if (!cancionesEnCatalogo.contains(c1))
 				registrarCancion(c1);
 		}
 
 	}
+	
 
 	public void registrarCancion(Cancion cancion) {
 		cancionDAO.registrarCancion(cancion);
@@ -197,15 +185,11 @@ public class AppMusic implements ICancionesListener {
 			Media media = new Media(uri.toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaPlayer.play();
-			System.out.println("///////////Reproduciendo///////////");
-			System.out.println("Cancion: "+cancion.getTitulo()+ " Reproducciones: "+cancion.getNumReproducciones());
 			cancion.reproducirCancion();
 			usuarioActual.addCancionReciente(cancion);
 			usuarioDAO.actualizarCancionesRecientesUsuario(usuarioActual);
 			cancionDAO.actualizarReproduccionesCancion(cancion);
-			System.out.println("Cancion: "+cancion.getTitulo()+ " Reproducciones: "+cancion.getNumReproducciones());
-			System.out.println("///////////Reproduciendo///////////");
-			System.out.println();
+
 			getCancionesMasReproducidas();
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
@@ -230,7 +214,6 @@ public class AppMusic implements ICancionesListener {
 	}
 	
 	public List<Cancion> getCancionesMasReproducidas() {
-		System.out.println("//////////Canciones más Reproducidas//////");
 		List<Cancion> canciones = cancionDAO.recuperarTodasCanciones();
 		List<Cancion> cancionOrdenadas = canciones.stream()
 		        .sorted(Comparator.comparingInt(Cancion::getNumReproducciones).reversed())
@@ -249,4 +232,6 @@ public class AppMusic implements ICancionesListener {
 		usuarioDAO.modificarPremium(usuarioActual);
 		return true;
 	}
+
+	
 }

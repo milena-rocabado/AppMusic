@@ -97,11 +97,14 @@ public final class Cancion {
 			return false;
 		Cancion other = (Cancion) obj;
 		return Objects.equals(estilo, other.estilo) && Objects.equals(interprete, other.interprete)
-				 && Objects.equals(titulo, other.titulo);
-	}			//&& Objects.equals(url, other.url)
-	
+				 && Objects.equals(titulo, other.titulo) && Objects.equals(url, other.url);
+	}
+
 	@Override
 	public String toString() {
-		return new String(titulo + " - " + interprete);
-	}
+		return "Cancion [id=" + id + ", titulo=" + titulo + ", interprete=" + interprete + ", url=" + url
+				+ ", numReproducciones=" + numReproducciones + ", estilo=" + estilo + "]";
+	}		
+	
+	
 }

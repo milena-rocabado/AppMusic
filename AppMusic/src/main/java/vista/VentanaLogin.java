@@ -203,36 +203,7 @@ public class VentanaLogin {
 		file.showOpenDialog(luz);
 		/** abrimos el archivo seleccionado */
 		abre = file.getSelectedFile();
-		return abre;// El texto se almacena en el JTextArea
+		return abre;
 	}
-	
-	
-	/*private File abrirArchivo() {
-		//String aux = "";
-		//String texto = "";
-		File abre = null;
-		try {
-			/llamamos el metodo que permite cargar la ventana 
-			JFileChooser file = new JFileChooser();
-			file.showOpenDialog(luz);
-			// abrimos el archivo seleccionado
-			abre = file.getSelectedFile();
-
-			
-			//recorremos el archivo, lo leemos para plasmarlo en el area de texto
-			if (abre != null) {
-				FileReader archivos = new FileReader(abre);
-				BufferedReader lee = new BufferedReader(archivos);
-				while ((aux = lee.readLine()) != null) {
-					texto += aux + "\n";
-				}
-				lee.close();
-			}
-		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(null, ex + "" + "\nNo se ha encontrado el archivo", "ADVERTENCIA!!!",
-					JOptionPane.WARNING_MESSAGE);
-		}
-		return abre;// El texto se almacena en el JTextArea
-	}*/
 
 }
