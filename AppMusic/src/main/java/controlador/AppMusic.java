@@ -154,6 +154,7 @@ public class AppMusic implements ICancionesListener {
 
 	public void registrarCancion(Cancion cancion) {
 		cancionDAO.registrarCancion(cancion);
+		System.out.println("Cancion añadida: "+cancion.toString() );
 		cCanciones.addCancion(cancion);
 	}
 	
