@@ -30,12 +30,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
-
 import javax.swing.JCheckBox;
 
 import umu.tds.componente.CancionComponente;

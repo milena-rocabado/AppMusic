@@ -9,7 +9,6 @@ package umu.tds.componente;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -40,12 +39,13 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
+@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Canciones", propOrder = { "cancion", "cancionesListeners" })
 @XmlRootElement(name = "canciones")
 public class Canciones implements Serializable {
 
-	protected Vector cancionesListeners = new Vector();
+	protected Vector<ICancionesListener> cancionesListeners = new Vector<ICancionesListener>();
 
 	protected List<CancionComponente> cancion;
 
@@ -107,10 +107,11 @@ public class Canciones implements Serializable {
 		cancionesListeners.removeElement(listener);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void notificarCambioCanciones(CancionesEvent evento) {
-		Vector lista;
+		Vector<ICancionesListener> lista;
 		synchronized (this) {
-			lista = (Vector) cancionesListeners.clone();
+			lista =  (Vector<ICancionesListener>) cancionesListeners.clone();
 		}
 		for (int i = 0; i < lista.size(); i++) {
 			ICancionesListener listener = (ICancionesListener) lista.elementAt(i);
