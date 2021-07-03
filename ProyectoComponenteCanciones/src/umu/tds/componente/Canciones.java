@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "canciones")
 public class Canciones implements Serializable {
 
-	protected Vector<ICancionesListener> cancionesListeners = new Vector<ICancionesListener>();
+	protected Vector cancionesListeners = new Vector();
 
 	protected List<CancionComponente> cancion;
 
@@ -107,11 +107,10 @@ public class Canciones implements Serializable {
 		cancionesListeners.removeElement(listener);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void notificarCambioCanciones(CancionesEvent evento) {
-		Vector<ICancionesListener> lista;
+		Vector lista;
 		synchronized (this) {
-			lista =  (Vector<ICancionesListener>) cancionesListeners.clone();
+			lista =  (Vector) cancionesListeners.clone();
 		}
 		for (int i = 0; i < lista.size(); i++) {
 			ICancionesListener listener = (ICancionesListener) lista.elementAt(i);
