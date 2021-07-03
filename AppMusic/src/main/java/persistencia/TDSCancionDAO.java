@@ -33,26 +33,16 @@ public final class TDSCancionDAO implements CancionDAO {
 	}
 	
 	private Cancion entidadToCancion(Entidad eCancion) {
+
 		String titulo = sPersistencia.recuperarPropiedadEntidad(eCancion, TITULO);
 		String interprete = sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE);
 		String estilo = sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO);
 		String url = sPersistencia.recuperarPropiedadEntidad(eCancion, URL);
 		String nreproducciones = sPersistencia.recuperarPropiedadEntidad(eCancion, NREPRODUCCIONES);
-		/*
-		Interprete interprete;
-		Estilo estilo;
-		// Para recuperar el producto se lo solicita al adaptador producto
-		TDSInterpreteDAO adaptadorInterprete = TDSInterpreteDAO.getInstancia();
-		TDSEstiloDAO adaptadorEstilo = TDSEstiloDAO.getInstancia();
-		interprete = adaptadorInterprete.recuperarInterprete(
-				Integer.parseInt(sPersistencia.recuperarPropiedadEntidad(eCancion, INTERPRETE)));
-		
-		estilo = adaptadorEstilo.recuperarEstilo(
-				Integer.parseInt(sPersistencia.recuperarPropiedadEntidad(eCancion, ESTILO)));
-		*/
 		
 		Cancion cancion = new Cancion(titulo, interprete, estilo, url, nreproducciones);
 		cancion.setId(eCancion.getId());
+		PoolDAO.getUnicaInstancia().addObjeto(cancion.getId(), cancion); 
 		return cancion;
 	}
 	
@@ -65,8 +55,6 @@ public final class TDSCancionDAO implements CancionDAO {
 				new Propiedad(INTERPRETE, cancion.getInterprete()),
 				new Propiedad(ESTILO, cancion.getEstilo()),
 				new Propiedad(URL, cancion.getUrl()),
-				//new Propiedad(INTERPRETE, String.valueOf(cancion.getInterprete().getCodigo())),
-				//new Propiedad(ESTILO, String.valueOf(cancion.getEstilo().getCodigo())),
 				new Propiedad(NREPRODUCCIONES, cancion.getNumReproduccionesStr())
 				)));
 		return eCancion;
@@ -87,6 +75,8 @@ public final class TDSCancionDAO implements CancionDAO {
 
 	@Override
 	public Cancion recuperarCancion(int id) {
+		if (PoolDAO.getUnicaInstancia().contiene(id))
+			 return (Cancion) PoolDAO.getUnicaInstancia().getObjeto(id);
 		Entidad eCancion = sPersistencia.recuperarEntidad(id);
 		return entidadToCancion(eCancion);
 	}
@@ -95,9 +85,11 @@ public final class TDSCancionDAO implements CancionDAO {
 	public List<Cancion> recuperarTodasCanciones() {
 		List<Entidad> entidades = sPersistencia.recuperarEntidades(CANCION);
 		List<Cancion> canciones = new LinkedList<>();
-		System.out.println("Hay en la base de datos: "+ entidades.size()+" canciones");
-		for (Entidad eCancion : entidades)
+		
+		for (Entidad eCancion : entidades) {
+			
 			canciones.add(entidadToCancion(eCancion));
+		}
 		
 		return canciones;
 	}

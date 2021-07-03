@@ -45,9 +45,6 @@ public final class Cancion {
 		return interprete;
 	}
 
-	public String getRutaFichero() {
-		return ""+interprete+" - "+titulo+".mp3"; // se construye con estilo, interpretes y titulo
-	}
 
 	public int getNumReproducciones() {
 		return numReproducciones;
@@ -102,9 +99,13 @@ public final class Cancion {
 
 	@Override
 	public String toString() {
-		return "Cancion [id=" + id + ", titulo=" + titulo + ", interprete=" + interprete + ", url=" + url
-				+ ", numReproducciones=" + numReproducciones + ", estilo=" + estilo + "]";
-	}		
+		return "Cancion [id=" + id + ", titulo=" + titulo + ", interprete=" + interprete + ", numReproducciones="
+				+ numReproducciones + ", estilo=" + estilo + "]";
+	}
+
+	public String toStringImprimirPDF() {
+		return "Cancion [id=" + id + ", titulo=" + titulo + ", interprete=" + interprete + ", estilo=" + estilo + "]";
+	}
 	
 	
 }

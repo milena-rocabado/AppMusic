@@ -51,9 +51,7 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 		String premium = sPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM);
 		
 		Usuario usuario = new Usuario(login, password, email, nombre, apellidos, fecha);
-		Boolean probando=	Boolean.parseBoolean(premium);
-		System.out.println("QUe boolean es:" +probando);
-		usuario.setPremium(probando);
+		usuario.setPremium(Boolean.parseBoolean(premium));
 
 		List<ListaCanciones> lista;
 
@@ -96,57 +94,12 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 
 	}
 	
-//	@Override
-//	public void registrarUsuario(Usuario usuario) {
-//		Entidad eUsuario = null;
-//		boolean existe = true;
-//		eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
-//
-//		try {
-//			
-//			if (eUsuario == null) {
-//				existe = false;
-//			}
-//		} catch (NullPointerException e) {
-//			existe = false;
-//		}
-//
-//		if (existe || eUsuario != null) {
-//			System.out.println("Entra en el return");
-//			System.out.println("Existe es: " + existe);
-//			System.out.println("eUsuario es: " + eUsuario);
-//			return;
-//		}
-//
-//		// registrar canciones en playlists
-//		// crear entidad usuario
-//		eUsuario = usuarioToEntidad(usuario);
-//
-//		// registar entidad usuario
-//		eUsuario = sPersistencia.registrarEntidad(eUsuario);
-//		usuario.setId(eUsuario.getId());
-//
-//	}
 
 	@Override
 	public void borrarUsuario(Usuario usuario) {
 		Entidad eUsuario;
 		eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
 		sPersistencia.borrarEntidad(eUsuario);
-	}
-
-	@Override
-	public void modificarUsuario(Usuario usuario) {//Esto no se utiliza
-		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
-		for (Propiedad prop : eUsuario.getPropiedades()) {
-			if (prop.getNombre().equals(PASSWORD)) {
-				prop.setValor(usuario.getPassword());
-			}
-			if (prop.getNombre().equals(EMAIL)) {
-				prop.setValor(usuario.getEmail());
-			}
-			sPersistencia.modificarPropiedad(prop);
-		}
 	}
 
 	@Override
@@ -177,7 +130,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	@Override
 	public void modificarPremium(Usuario usuario) {
 		Entidad eUsuario = sPersistencia.recuperarEntidad(usuario.getId());
-		
 		for (Propiedad prop : eUsuario.getPropiedades()) {
 			if (prop.getNombre().equals(PREMIUM)) {
 				prop.setValor(Boolean.toString(usuario.isPremium()));
@@ -197,7 +149,6 @@ public final class TDSUsuarioDAO implements UsuarioDAO {
 	@Override
 	public List<Usuario> recuperarTodosUsuarios() {
 		List<Entidad> entidades = sPersistencia.recuperarEntidades(USUARIO);
-		System.out.println("Hay en la base de datos: " + entidades.size() + " usuarios");
 		List<Usuario> usuarios = new LinkedList<Usuario>();
 		for (Entidad eUsuario : entidades) {
 			usuarios.add(recuperarUsuario(eUsuario.getId()));

@@ -45,7 +45,7 @@ public class PanelMisListas extends JPanel {
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
+	
 		table.setModel(new DefaultTableModel(null, new String[] {"Intérprete", "Título"}));
 		botonera = new PanelBotonera();
 		GridBagConstraints gbc_botonera = new GridBagConstraints();

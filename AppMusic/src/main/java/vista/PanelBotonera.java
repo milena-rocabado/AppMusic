@@ -68,7 +68,6 @@ public class PanelBotonera extends JPanel {
 				else {
 					table.clearSelection();
 					Cancion cancion = lista.get(numCancionActual);
-					System.out.println("URL: "+cancion.getUrl());
 					cancionTxt.setVisible(true);
 					cancionTxt.setText("Reproduciendo: "+ cancion.getTitulo());
 					actualizarPanel();;

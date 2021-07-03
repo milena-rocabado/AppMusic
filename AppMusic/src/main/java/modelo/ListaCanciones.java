@@ -40,13 +40,11 @@ public class ListaCanciones {
 
 	public void addCancion(Cancion cancion) {
 		canciones.add(cancion);
-		System.out.println("[" + nombre + "] Canción añadida:   " + 
-					cancion.getTitulo() + " - " + cancion.getInterprete());
+		
 	}
 	
 	public void removeCancion(Cancion cancion) {
 		canciones.remove(cancion);
-		System.out.println("[" + nombre + "] Canción eliminada: " + cancion.getTitulo() + " - " + cancion.getInterprete());
 	}
 
 	public int getCodigo() {
@@ -85,10 +83,23 @@ public class ListaCanciones {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(nombre + "\n");
-		for (Cancion c : canciones)
-			sb.append("\t" + c + "\n");
-		sb.append("\n");
+		sb.append("Nombre="+nombre + ", id="+codigo+"\n");
+		for (Cancion c : canciones) {
+			sb.append("\t");
+			sb.append(c.toString());
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+	
+	public String toStringImprimirPDF() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Nombre="+nombre + "\n");
+		for (Cancion c : canciones) {
+			sb.append("\t");
+			sb.append(c.toStringImprimirPDF());
+			sb.append("\n");
+		}
 		return sb.toString();
 	}
 }

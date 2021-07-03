@@ -174,11 +174,6 @@ public class Usuario {
 	}
 	
 	public void addCancionReciente(Cancion cancion) {
-		int orden=0;
-		for (Cancion c: cancionesRecientes) {
-			System.out.println("Cancion: "+c.getTitulo() +" posicion: "+orden);
-			orden++;
-		}
 		if (cancionesRecientes.contains(cancion)) {
 				cancionesRecientes.remove(cancion);
 				cancionesRecientes.add(cancion);
@@ -191,5 +186,13 @@ public class Usuario {
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", usuario=" + usuario + ", password=" + password + ", premium=" + premium
+				+ ", listas=" + listas.toString() + "]";
+	}
+	
+	
 	
 }

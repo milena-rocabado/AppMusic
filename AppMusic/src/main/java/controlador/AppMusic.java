@@ -34,6 +34,7 @@ import umu.tds.componente.ICancionesListener;
 import umu.tds.componente.CancionesEvent;
 import umu.tds.componente.CancionComponente;
 
+@SuppressWarnings("restriction")
 public class AppMusic implements ICancionesListener {
 
 	private static AppMusic unicaInstancia = null;
@@ -167,9 +168,9 @@ public class AppMusic implements ICancionesListener {
 		PdfWriter.getInstance(documento, output);
 		documento.open();
 		documento.add(new Paragraph("Listas de Canciones de " + usuarioActual.getNombre()
-									+ " (" + usuarioActual.getUsuario() + ")"));
+									+ " (" + usuarioActual.getUsuario() + ")\n\n"));
 		for (ListaCanciones lc : usuarioActual.getListas()) {
-			documento.add(new Paragraph(lc.toString()));
+			documento.add(new Paragraph(lc.toStringImprimirPDF()+"\n"));
 		}
 		documento.close();
 	}
@@ -186,11 +187,10 @@ public class AppMusic implements ICancionesListener {
 			mediaPlayer = new MediaPlayer(media);
 			mediaPlayer.play();
 			cancion.reproducirCancion();
+			System.out.println("Reproduciendo:"+cancion.toString());
 			usuarioActual.addCancionReciente(cancion);
 			usuarioDAO.actualizarCancionesRecientesUsuario(usuarioActual);
 			cancionDAO.actualizarReproduccionesCancion(cancion);
-
-			getCancionesMasReproducidas();
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}
@@ -214,7 +214,7 @@ public class AppMusic implements ICancionesListener {
 	}
 	
 	public List<Cancion> getCancionesMasReproducidas() {
-		List<Cancion> canciones = cancionDAO.recuperarTodasCanciones();
+		List<Cancion> canciones = cCanciones.getAllCanciones();
 		List<Cancion> cancionOrdenadas = canciones.stream()
 		        .sorted(Comparator.comparingInt(Cancion::getNumReproducciones).reversed())
 		        .collect(Collectors.toList());

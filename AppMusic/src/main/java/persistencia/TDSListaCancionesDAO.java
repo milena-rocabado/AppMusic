@@ -60,14 +60,8 @@ public class TDSListaCancionesDAO implements ListaCancionesDAO{
 		Entidad eListaCanciones = listaCancionesToEntidad(listaCanciones); 
 		eListaCanciones = sPersistencia.registrarEntidad(eListaCanciones);
 		listaCanciones.setCodigo(eListaCanciones.getId());
-		System.out.println("Lista de canciones "+listaCanciones.getNombre()+" añadida con codigo:"+ listaCanciones.getCodigo());
 	}
 
-	@Override
-	public void borrarListaCanciones(ListaCanciones listaCanciones) {
-		Entidad eListaCanciones = sPersistencia.recuperarEntidad(listaCanciones.getCodigo());
-		sPersistencia.borrarEntidad(eListaCanciones);
-	}
 
 	@Override
 	public void modificarListaCanciones(ListaCanciones listaCanciones) {
@@ -89,17 +83,6 @@ public class TDSListaCancionesDAO implements ListaCancionesDAO{
 		return entidadToListaCanciones(eListaCanciones);
 	}
 
-	@Override
-	public List<ListaCanciones> recuperarTodasListaCanciones() {
-		List<Entidad> entidades = sPersistencia.recuperarEntidades(LISTACANCIONES);
-		System.out.println("Hay en la base de datos: "+ entidades.size()+" LISTAS de canciones");
-		List<ListaCanciones> listasDeCanciones = new LinkedList<>();
-		for (Entidad eListaCanciones : entidades)
-			listasDeCanciones.add(entidadToListaCanciones(eListaCanciones));
-		
-		return listasDeCanciones;
-	}
-	
 	//-------------------Funciones auxiliares-------------------------------
 	
 	private String obtenerCodigosCanciones(List<Cancion> listaCanciones) {

@@ -3,7 +3,6 @@ package vista;
 
 import javax.swing.JFrame;
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -62,21 +61,6 @@ public class VentanaPrincipal {
 	private JButton descargaBtn;
 	private JButton estadisticaBtn;
 	
-	/*
-	 * SACAR DESPUES
-	 * */
-	public static void main(final String[] args){
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPrincipal vp = new VentanaPrincipal();
-					vp.mostrarVentana();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public void mostrarVentana() {
 		frame.setLocationRelativeTo(null);
@@ -184,7 +168,6 @@ public class VentanaPrincipal {
 		estadisticaBtn = new JButton("Canciones más reproducidas");
 		estadisticaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO
 				panelMReproducidas = new PanelMisListas();
 				panelMReproducidas.setModeloTabla(AppMusic.getInstancia().getCancionesMasReproducidas());
 				panelMReproducidas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));

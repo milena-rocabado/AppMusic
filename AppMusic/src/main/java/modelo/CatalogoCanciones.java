@@ -21,18 +21,12 @@ public class CatalogoCanciones {
 		this.canciones = new HashMap<>();
 		try {
 			factoria = FactoriaDAO.getInstancia();
-
 			List<Cancion> lCanciones = factoria.getCancionDAO().recuperarTodasCanciones();
-			int i = 0;
 			System.out.println("-----------------------Canciones-------------------------");
 			System.out.println("El tamaño de las canciones es: " + lCanciones.size());
 			for (Cancion c : lCanciones) {
-				System.out.println("El id de la cancion " + i + " es " + c.getId());
-				System.out.println("El titulo de la cancion " + i + " es " + c.getInterprete());
-				System.out.println("El Num de reproducciones " + i + " es " + c.getNumReproducciones());
-				System.out.println();
+				System.out.println(c.toString());
 				canciones.put(c.getId(), c);
-				i++;
 			}
 		} catch (DAOException e) {
 			e.printStackTrace();

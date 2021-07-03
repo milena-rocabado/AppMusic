@@ -60,9 +60,6 @@ public class PanelBusqueda extends JPanel {
 				String estilo = (String) estiloCBox.getSelectedItem();
 				if (estilo.equals("Estilo"))
 					estilo = "";
-				System.out.println("Titulo: " + titulo);
-				System.out.println("Interprete: " + interprete);
-				System.out.println("Estilo: " + estilo);
 				List<Cancion> lista = AppMusic.getInstancia().buscarCanciones(interprete, titulo, estilo);
 
 				listener.handleBusqueda(lista);
